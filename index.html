@@ -13,6 +13,10 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- API Đăng nhập Google thật & Giải mã Token -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+
     <style>
         body { font-family: 'Inter', sans-serif; }
         .font-logo { font-family: 'Nunito', sans-serif; }
@@ -77,10 +81,6 @@
             transform: translateY(-2px);
         }
 
-        .pdf-toolbar-btn {
-            @apply text-gray-500 hover:text-blue-600 hover:bg-blue-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer;
-        }
-        
         .folder-list-scroll::-webkit-scrollbar { height: 4px; }
     </style>
 </head>
@@ -97,14 +97,14 @@
                     <span class="font-logo font-extrabold text-2xl tracking-tight text-blue-900">Thanh Xuân Hóa Học</span>
                 </div>
                 <div class="flex items-center gap-4">
-                    <!-- Nút đăng nhập đã được sửa để mở Modal -->
                     <button id="btn-login" onclick="openLoginModal()" class="bg-white border-2 border-gray-200 rounded-full px-5 py-2 flex items-center gap-2 hover:bg-gray-50 transition shadow-sm font-bold text-sm text-gray-700">
                         Đăng nhập
                     </button>
+                    <!-- Thông tin Profile đã được cấp ID để thay đổi động -->
                     <div id="user-profile" onclick="openDashboard()" class="hidden bg-white border border-gray-200 rounded-full px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-blue-50 transition shadow-sm">
-                        <img src="https://ui-avatars.com/api/?name=Hoc+Sinh&background=0D8ABC&color=fff" class="w-8 h-8 rounded-full" alt="Avatar">
+                        <img id="nav-avatar" src="" class="w-8 h-8 rounded-full" alt="Avatar">
                         <div class="text-xs text-left hidden md:block">
-                            <div class="font-bold text-gray-800">Anh Phương</div>
+                            <div id="nav-name" class="font-bold text-gray-800">Tên Người Dùng</div>
                             <div class="text-blue-600 font-semibold" style="font-size: 0.6rem;">TRANG CÁ NHÂN <i class="fa-solid fa-chevron-right ml-1"></i></div>
                         </div>
                     </div>
@@ -123,7 +123,6 @@
                     </p>
                     <div class="space-y-4">
                         <div class="flex flex-wrap gap-4 mt-6">
-                            <!-- Nút bắt đầu học cũng mở Modal -->
                             <button onclick="openLoginModal()" class="bg-blue-600 text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-blue-700 transition shadow-lg shadow-blue-200">
                                 Bắt đầu học ngay <i class="fa-solid fa-arrow-right"></i>
                             </button>
@@ -190,7 +189,6 @@
         </footer>
     </div>
 
-
     <!-- ================= VIEW 2: TRANG NỘI DUNG MÔN HỌC (SUBJECT VIEW) ================= -->
     <div id="subject-view" class="hidden-layout bg-white min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
@@ -218,7 +216,6 @@
             <p class="text-gray-500 max-w-lg mx-auto">Nơi hiển thị bài giảng, bài tập trắc nghiệm và kiến thức thuộc chuyên đề bạn vừa chọn. Thời gian học tại đây vẫn đang được tính vào Chuỗi ngày học của bạn.</p>
         </div>
     </div>
-
 
     <!-- ================= VIEW 3: MAIN DASHBOARD ================= -->
     <div id="dashboard-view" class="hidden-layout bg-[#eff6ff] min-h-screen text-gray-800 flex font-inter">
@@ -248,6 +245,7 @@
                 </button>
             </div>
 
+            <!-- Khối chuỗi học tập nhỏ ở dưới Sidebar -->
             <div class="p-4 mx-4 mb-6 bg-gray-900 rounded-2xl text-white flex items-center gap-4 relative overflow-hidden">
                 <div class="bg-gray-800 p-2 rounded-xl text-orange-500"><i class="fa-solid fa-fire text-xl"></i></div>
                 <div>
@@ -263,6 +261,7 @@
 
         <!-- Nội dung chính Dashboard -->
         <main class="flex-1 flex flex-col h-screen overflow-y-auto relative">
+            
             <header class="bg-white/80 backdrop-blur-md border-b border-blue-100 px-8 py-4 flex justify-between items-center sticky top-0 z-40">
                 <div class="relative hidden md:block w-72">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -283,35 +282,61 @@
                         <div class="flex items-center gap-1 text-sm font-semibold text-blue-800 bg-blue-50 px-2 py-1 rounded">
                             <i class="fa-solid fa-crosshairs text-blue-500"></i> <span class="nav-target-score">Mục tiêu</span>
                         </div>
+                        <div class="flex items-center gap-1 text-sm font-semibold text-purple-800 bg-purple-50 px-2 py-1 rounded">
+                            <i class="fa-regular fa-clock text-purple-500"></i> <span id="nav-countdown-days">Ngày thi</span>
+                        </div>
                     </div>
 
                     <div class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 cursor-pointer pl-1 pr-3 py-1 rounded-full transition border border-gray-200">
-                        <div class="w-7 h-7 rounded-full bg-[#8b5cf6] text-white flex items-center justify-center font-bold text-xs">A</div>
-                        <span class="font-semibold text-sm text-gray-700">Anh Phương</span>
+                        <img id="dash-avatar" src="" class="w-7 h-7 rounded-full bg-blue-500 object-cover">
+                        <span id="dash-name" class="font-semibold text-sm text-gray-700">Tên Người Dùng</span>
                     </div>
                 </div>
             </header>
 
             <div class="p-8 pb-20">
-                <!-- NỘI DUNG TỔNG QUAN -->
+                <!-- ================= TAB 1: TỔNG QUAN ================= -->
                 <div id="tab-content-tong-quan" class="block">
                     <h2 class="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">Tổng quan · Tiến độ luyện đề</h2>
-                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Chào Phương, hôm nay luyện đề nhé!</h1>
+                    <h1 id="dash-welcome" class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Chào bạn, hôm nay luyện đề nhé!</h1>
 
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- 1. Manifest Điểm -->
                         <div class="lg:col-span-5 starry-card rounded-3xl p-6 text-white shadow-xl flex flex-col justify-between min-h-[220px]">
+                            <div class="shooting-star" style="top: 20%; left: 30%;"></div>
+                            <div class="shooting-star" style="top: 60%; left: 80%; animation-delay: 2s;"></div>
+                            
+                            <div class="absolute top-[-20px] right-[-20px] w-32 h-32 bg-white rounded-full opacity-90 shadow-[0_0_40px_rgba(255,255,255,0.4)] flex items-center justify-center">
+                                <div class="w-16 h-16 mr-4 mt-4 opacity-50 relative">
+                                    <div class="absolute w-2 h-2 bg-gray-800 rounded-full top-4 left-2"></div>
+                                    <div class="absolute w-2 h-2 bg-gray-800 rounded-full top-4 right-2"></div>
+                                    <div class="absolute w-6 h-2 border-b-2 border-gray-800 rounded-full bottom-4 left-5"></div>
+                                </div>
+                            </div>
+
                             <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-2 z-10">Manifest Điểm</h3>
+                            
                             <div class="flex items-end gap-2 z-10 mb-2 mt-2">
                                 <span id="display-target-score" class="text-7xl font-black text-white leading-none tracking-tighter">?</span>
                                 <span id="target-score-plus" class="text-2xl font-bold text-[#facc15] mb-2 hidden">+</span>
                             </div>
+
                             <div class="w-full z-10 relative mt-4 mb-2 pr-8">
-                                <input type="range" id="score-slider" min="0" max="10" step="0.25" value="0" class="w-full h-2.5 bg-[#0f172a]/80 rounded-lg appearance-none cursor-pointer accent-[#facc15]" oninput="updateTargetScore(this.value)">
+                                <input type="range" id="score-slider" min="0" max="10" step="0.25" value="0" class="w-full h-2.5 bg-[#0f172a]/80 rounded-lg appearance-none cursor-pointer accent-[#facc15] shadow-inner" oninput="updateTargetScore(this.value)">
+                                <div class="flex justify-between text-[10px] font-bold text-blue-200 mt-2">
+                                    <span>0</span>
+                                    <span>5</span>
+                                    <span>10</span>
+                                </div>
                             </div>
+                            
+                            <p class="text-sm text-blue-100 opacity-80 z-10 max-w-[80%] mt-2">Kéo thanh trượt để đặt mục tiêu và để hệ thống đồng hành cùng bạn mỗi ngày 🌱</p>
                         </div>
 
+                        <!-- 2. Chuỗi Ngày Học -->
                         <div class="lg:col-span-7 starry-card rounded-3xl p-6 text-white shadow-xl min-h-[220px]">
-                            <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-6 flex items-center gap-2">Chuỗi ngày học <i class="fa-solid fa-fire text-orange-400"></i></h3>
+                            <div class="shooting-star" style="top: 40%; left: 50%; animation-delay: 1s;"></div>
+                            <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-6 flex items-center gap-2">Chuỗi ngày học <i class="fa-solid fa-fire text-orange-400"></i> (Cần học 30p/ngày)</h3>
                             <div class="flex items-center gap-4 mb-6">
                                 <i class="fa-solid fa-fire text-5xl text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]"></i>
                                 <div>
@@ -694,7 +719,7 @@
         </div>
     </div>
 
-    <!-- ================= LOGIN MODAL (MỚI) ================= -->
+    <!-- ================= LOGIN MODAL ================= -->
     <div id="login-modal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[24px] w-full max-w-[460px] overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col" id="login-modal-content">
             
@@ -733,7 +758,7 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-300">
                                 <i class="fa-regular fa-envelope text-lg"></i>
                             </div>
-                            <input type="email" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="email@example.com">
+                            <input type="email" id="login-email" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="email@example.com">
                         </div>
                     </div>
 
@@ -750,6 +775,7 @@
                         </div>
                     </div>
 
+                    <!-- GỌI HÀM mockLoginProcess KHI BẤM NÚT NÀY -->
                     <button onclick="mockLoginProcess()" class="w-full text-white bg-[#5a7035] hover:bg-[#4b5e2b] active:scale-[0.98] font-bold rounded-2xl text-[15px] px-5 py-4 text-center transition-all shadow-md flex justify-center items-center gap-3 mt-4 tracking-wider">
                         ĐĂNG NHẬP NGAY <i class="fa-solid fa-arrow-right"></i>
                     </button>
@@ -810,17 +836,68 @@
             }
         });
 
-        function mockLoginProcess() {
-            loginGoogle(); 
+        // HÀM QUAN TRỌNG: Cập nhật giao diện toàn hệ thống với thông tin người dùng truyền vào
+        function updateUIWithUserData(name, email, avatarUrl) {
+            // Cập nhật ở Landing Page
+            document.getElementById('nav-avatar').src = avatarUrl;
+            document.getElementById('nav-name').innerText = name;
+            
+            // Cập nhật ở Dashboard Nav
+            document.getElementById('dash-avatar').src = avatarUrl;
+            document.getElementById('dash-name').innerText = name;
+
+            // Đổi lời chào mừng
+            const firstName = name.split(' ')[0] || name; // Lấy chữ đầu làm tên gọi
+            const dashWelcome = document.getElementById('dash-welcome');
+            if (dashWelcome) {
+                dashWelcome.innerText = `Chào ${firstName}, hôm nay luyện đề nhé!`;
+            }
         }
 
-        function loginGoogle() {
+        // ================= CÁCH 1: GIẢ LẬP ĐĂNG NHẬP BẰNG EMAIL NGƯỜI DÙNG TỰ NHẬP =================
+        function mockLoginProcess() {
+            const emailInput = document.getElementById('login-email').value.trim();
+            
+            if(!emailInput || !emailInput.includes('@')) {
+                alert("Vui lòng nhập một email hợp lệ để đăng nhập!");
+                return;
+            }
+
+            // Tự động trích xuất "Tên" từ phần đầu của Email (VD: nguyenvanA@gmail -> Tên: NguyenvanA)
+            let username = emailInput.split('@')[0];
+            username = username.charAt(0).toUpperCase() + username.slice(1); // Viết hoa chữ cái đầu
+
+            // Tự động tạo Avatar mang chữ cái đầu của Tên
+            const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=5a7035&color=fff&bold=true`;
+
+            // Cập nhật giao diện
+            updateUIWithUserData(username, emailInput, avatarUrl);
+
+            // Xử lý chuyển đổi UI
             closeLoginModal();
             document.getElementById('btn-login').classList.add('hidden');
             document.getElementById('user-profile').classList.remove('hidden');
             isLoggedIn = true;
             
-            alert("Đăng nhập thành công! Thời gian học tập của bạn bắt đầu được tính.");
+            alert(`Đăng nhập thành công với tài khoản: ${emailInput}\nThời gian học tập của bạn bắt đầu được tính.`);
+            startStudyTimer();
+        }
+
+        // ================= CÁCH 2: GIẢ LẬP ĐĂNG NHẬP GOOGLE =================
+        function loginGoogle() {
+            // Giả lập lấy được thông tin từ Google
+            const googleName = "Tài khoản Google";
+            const googleEmail = "google.user@gmail.com";
+            const googleAvatarUrl = "https://ui-avatars.com/api/?name=Google+User&background=4285F4&color=fff&bold=true";
+
+            updateUIWithUserData(googleName, googleEmail, googleAvatarUrl);
+
+            closeLoginModal();
+            document.getElementById('btn-login').classList.add('hidden');
+            document.getElementById('user-profile').classList.remove('hidden');
+            isLoggedIn = true;
+            
+            alert("Đăng nhập Google thành công! Thời gian học tập của bạn bắt đầu được tính.");
             startStudyTimer();
         }
 
