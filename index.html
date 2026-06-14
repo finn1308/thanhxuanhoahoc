@@ -588,146 +588,160 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 5: TRÌNH XEM PDF (PDF VIEWER) ================= -->
-    <div id="pdf-viewer-view" class="hidden-layout bg-gray-100 min-h-screen font-inter flex flex-col h-screen overflow-hidden">
-        <!-- Header -->
+    <!-- ================= VIEW 5: TRÌNH XEM PDF (PDF VIEWER - THIẾT KẾ MỚI) ================= -->
+    <div id="pdf-viewer-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col h-screen overflow-hidden">
+        <!-- Header / Breadcrumb -->
         <nav class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center z-50 shadow-sm flex-shrink-0">
-            <div class="flex items-center gap-4">
-                <button onclick="closeToDashboard()" class="text-gray-500 hover:text-blue-600"><i class="fa-solid fa-house"></i></button>
+            <div class="flex items-center gap-3 text-sm font-semibold text-gray-500">
+                <button onclick="closeToDashboard()" class="hover:text-blue-600 flex items-center gap-2"><i class="fa-solid fa-house"></i></button>
                 <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-                <span class="text-sm font-semibold text-gray-500" id="pdf-breadcrumb-folder">Tài liệu</span>
+                <span id="pdf-breadcrumb-folder" class="cursor-pointer hover:text-blue-600 transition">Hóa Hữu Cơ</span>
                 <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-                <h1 class="text-sm font-bold text-blue-900 truncate w-96" id="pdf-header-title">Tên tài liệu PDF</h1>
+                <h1 class="text-blue-900 font-bold truncate max-w-lg" id="pdf-header-title">Tuyển tập 50 bài tập VDC đồ thị Peptit và Este (Giải chi tiết)</h1>
             </div>
             
-            <div class="flex items-center gap-3">
-                <div class="flex flex-col items-end mr-2">
-                    <span class="study-timer-display text-[10px] font-bold text-gray-400">00:00 / 30:00</span>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 text-xs font-bold text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <span class="study-timer-display">Hôm nay: 00:00 / 30:00</span>
                 </div>
-                <button onclick="closeToDashboard()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-1.5 rounded-lg text-sm font-semibold transition">Đóng</button>
+                <button onclick="closeToDashboard()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-1.5 rounded-lg text-sm font-bold transition shadow-sm border border-gray-200">Đóng</button>
             </div>
         </nav>
 
         <!-- Main Content -->
         <div class="flex flex-1 overflow-hidden">
-            <!-- Trái: Khung hiển thị PDF -->
-            <div class="flex-1 flex flex-col items-center bg-gray-100 relative overflow-y-auto pt-4 pb-20">
-                <!-- Toolbar giả lập -->
-                <div class="sticky top-0 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full px-4 py-2 flex items-center gap-2 shadow-md z-10 mb-6">
-                    <div class="pdf-toolbar-btn"><i class="fa-solid fa-magnifying-glass-minus"></i></div>
-                    <span class="text-sm font-semibold text-gray-600 px-2 border-x border-gray-200">100%</span>
-                    <div class="pdf-toolbar-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                    <div class="w-[1px] h-4 bg-gray-300 mx-2"></div>
-                    <div class="pdf-toolbar-btn" title="Tải xuống"><i class="fa-solid fa-download"></i></div>
-                    <div class="pdf-toolbar-btn" title="In"><i class="fa-solid fa-print"></i></div>
+            
+            <!-- CỘT TRÁI: KHUNG HIỂN THỊ PDF -->
+            <div class="flex-1 flex flex-col items-center bg-[#f1f5f9] relative overflow-y-auto pt-6 pb-20">
+                
+                <!-- Toolbar điều khiển PDF -->
+                <div class="sticky top-0 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-full px-5 py-2.5 flex items-center gap-4 shadow-md z-10 mb-8 transition-all hover:shadow-lg">
+                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Thu nhỏ"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <div class="flex items-center gap-1 border-x border-gray-300 px-3">
+                        <span class="text-sm font-bold text-gray-700 w-12 text-center">100%</span>
+                    </div>
+                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Phóng to"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <div class="w-[1px] h-5 bg-gray-300 mx-1"></div>
+                    <!-- Nút Tải xuống và In ấn cho người dùng thật -->
+                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Tải xuống PDF" onclick="alert('Đang tải file PDF xuống máy của bạn...')"><i class="fa-solid fa-download"></i></button>
+                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="In tài liệu" onclick="window.print()"><i class="fa-solid fa-print"></i></button>
                 </div>
 
-                <!-- Trang PDF giả lập -->
-                <div class="bg-white w-[800px] min-h-[1100px] shadow-xl border border-gray-300 mb-8 p-12 text-center relative">
-                    <div class="border-b-2 border-blue-800 pb-4 mb-8">
-                        <h2 class="text-2xl font-bold text-blue-900 mb-2 uppercase" id="pdf-page-title">ĐỀ THI MÔN HÓA HỌC</h2>
-                        <p class="text-sm text-gray-600">Thời gian làm bài: 50 phút</p>
-                    </div>
+                <!-- Trang giấy PDF giả lập (Nội dung bám sát Ảnh 1) -->
+                <div class="bg-white w-[850px] max-w-[95%] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200 mb-8 flex flex-col">
+                    <!-- Bìa viền trang trí -->
+                    <div class="h-2 w-full bg-blue-800"></div>
                     
-                    <div class="text-left space-y-6 text-gray-800 font-serif">
-                        <div class="flex gap-4">
-                            <span class="font-bold whitespace-nowrap">Câu 1:</span>
-                            <div>
-                                Phản ứng nào sau đây là phản ứng oxi hóa - khử?
-                                <div class="grid grid-cols-2 gap-4 mt-2">
-                                    <label><input type="radio" name="q1"> A. CaCO3 → CaO + CO2</label>
-                                    <label><input type="radio" name="q1"> B. 2H2 + O2 → 2H2O</label>
-                                    <label><input type="radio" name="q1"> C. NaOH + HCl → NaCl + H2O</label>
-                                    <label><input type="radio" name="q1"> D. Cu(OH)2 → CuO + H2O</label>
-                                </div>
-                            </div>
+                    <div class="p-16 text-center relative flex-grow">
+                        <!-- Tiêu đề đề thi -->
+                        <div class="border-b-2 border-blue-900 pb-6 mb-10">
+                            <h2 class="text-3xl font-bold text-blue-900 mb-4 uppercase leading-tight" id="pdf-page-title">TUYỂN TẬP 50 BÀI TẬP VDC ĐỒ THỊ PEPTIT VÀ ESTE (GIẢI CHI TIẾT)</h2>
+                            <p class="text-gray-600 font-medium">Thời gian làm bài: 50 phút</p>
                         </div>
                         
-                        <div class="flex gap-4">
-                            <span class="font-bold whitespace-nowrap">Câu 2:</span>
-                            <div>
-                                Chất nào sau đây thuộc loại đisaccarit?
-                                <div class="grid grid-cols-2 gap-4 mt-2">
-                                    <label><input type="radio" name="q2"> A. Glucozo</label>
-                                    <label><input type="radio" name="q2"> B. Saccarozo</label>
-                                    <label><input type="radio" name="q2"> C. Tinh bột</label>
-                                    <label><input type="radio" name="q2"> D. Xenlulozo</label>
+                        <!-- Nội dung câu hỏi (Dạng trắc nghiệm) -->
+                        <div class="text-left space-y-8 text-gray-800 font-serif text-lg">
+                            
+                            <!-- Câu 1 -->
+                            <div class="flex gap-4">
+                                <span class="font-bold whitespace-nowrap">Câu 1:</span>
+                                <div>
+                                    Phản ứng nào sau đây là phản ứng oxi hóa - khử?
+                                    <div class="grid grid-cols-2 gap-x-8 gap-y-4 mt-4 text-base">
+                                        <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="q1" class="w-4 h-4 accent-blue-600"> A. CaCO<sub>3</sub> &rarr; CaO + CO<sub>2</sub></label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="q1" class="w-4 h-4 accent-blue-600"> B. 2H<sub>2</sub> + O<sub>2</sub> &rarr; 2H<sub>2</sub>O</label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="q1" class="w-4 h-4 accent-blue-600"> C. NaOH + HCl &rarr; NaCl + H<sub>2</sub>O</label>
+                                        <!-- Checked giả lập -->
+                                        <label class="flex items-center gap-2 cursor-pointer text-blue-700 font-medium"><input type="radio" name="q1" class="w-4 h-4 accent-blue-600" checked> D. Cu(OH)<sub>2</sub> &rarr; CuO + H<sub>2</sub>O</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            
+                            <!-- Câu 2 -->
+                            <div class="flex gap-4 border-t border-gray-100 pt-8">
+                                <span class="font-bold whitespace-nowrap">Câu 2:</span>
+                                <div>
+                                    Chất nào sau đây thuộc loại đisaccarit?
+                                    <div class="grid grid-cols-2 gap-x-8 gap-y-4 mt-4 text-base">
+                                        <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="q2" class="w-4 h-4 accent-blue-600"> A. Glucozơ</label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="q2" class="w-4 h-4 accent-blue-600"> B. Saccarozơ</label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="q2" class="w-4 h-4 accent-blue-600"> C. Tinh bột</label>
+                                        <label class="flex items-center gap-2 cursor-pointer text-blue-700 font-medium"><input type="radio" name="q2" class="w-4 h-4 accent-blue-600" checked> D. Xenlulozơ</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <!-- Khối mờ hiển thị content tiếp theo -->
-                        <div class="mt-20 pt-20 border-t border-dashed border-gray-300 text-gray-400 flex flex-col items-center justify-center">
-                            <i class="fa-solid fa-lock text-4xl mb-4"></i>
-                            <p>Cuộn xuống để xem tiếp tài liệu...</p>
+                            <!-- Khối khóa nội dung bên dưới -->
+                            <div class="mt-20 pt-16 border-t border-dashed border-gray-300 text-gray-400 flex flex-col items-center justify-center">
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-2xl shadow-inner">
+                                    <i class="fa-solid fa-lock text-gray-400"></i>
+                                </div>
+                                <p class="font-medium text-sm">Cuộn xuống để xem tiếp 48 câu hỏi còn lại...</p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Phải: Sidebar Đánh giá & Bình luận -->
-            <div class="w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-4px_0_15px_rgba(0,0,0,0.03)] flex-shrink-0 z-20">
-                <!-- Đánh giá -->
-                <div class="p-5 border-b border-gray-100">
-                    <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-regular fa-thumbs-up text-blue-500"></i> Đánh giá tài liệu</h3>
-                    <div class="flex gap-3 justify-between bg-gray-50 p-2 rounded-xl border border-gray-100">
-                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group">
-                            <span class="text-xl group-hover:scale-125 transition-transform">❤️</span>
-                            <span class="text-xs text-gray-500 font-bold mt-1">12</span>
+            <!-- CỘT PHẢI: SIDEBAR ĐÁNH GIÁ & BÌNH LUẬN (ĐÃ RESET DỮ LIỆU) -->
+            <div class="w-[350px] bg-white border-l border-gray-200 flex flex-col shadow-[-4px_0_15px_rgba(0,0,0,0.03)] flex-shrink-0 z-20">
+                
+                <!-- Đánh giá (Reset về 0) -->
+                <div class="p-6 border-b border-gray-100">
+                    <h3 class="font-bold text-gray-800 text-base mb-4 flex items-center gap-2">
+                        <i class="fa-regular fa-thumbs-up text-blue-600"></i> Đánh giá tài liệu
+                    </h3>
+                    <!-- Các nút cảm xúc -->
+                    <div class="flex gap-2 justify-between bg-[#f8fafc] p-3 rounded-2xl border border-gray-100">
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
+                            <span class="text-2xl group-hover:scale-110 transition-transform">❤️</span>
+                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
                         </button>
-                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group">
-                            <span class="text-xl group-hover:scale-125 transition-transform">😂</span>
-                            <span class="text-xs text-gray-500 font-bold mt-1">0</span>
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
+                            <span class="text-2xl group-hover:scale-110 transition-transform">😂</span>
+                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
                         </button>
-                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group">
-                            <span class="text-xl group-hover:scale-125 transition-transform">👍</span>
-                            <span class="text-xs text-gray-500 font-bold mt-1">45</span>
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
+                            <span class="text-2xl group-hover:scale-110 transition-transform">👍</span>
+                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
                         </button>
-                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group opacity-50">
-                            <span class="text-xl group-hover:scale-125 transition-transform">👎</span>
-                            <span class="text-xs text-gray-500 font-bold mt-1">0</span>
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
+                            <span class="text-2xl group-hover:scale-110 transition-transform grayscale opacity-70">👎</span>
+                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Bình luận -->
-                <div class="p-5 flex-1 flex flex-col overflow-hidden">
-                    <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-regular fa-comment-dots text-blue-500"></i> Bình luận</h3>
+                <!-- Khu vực Bình luận -->
+                <div class="p-6 flex-1 flex flex-col overflow-hidden bg-white">
+                    <h3 class="font-bold text-gray-800 text-base mb-4 flex items-center gap-2">
+                        <i class="fa-regular fa-comment-dots text-blue-600"></i> Bình luận
+                    </h3>
                     
-                    <!-- Khung nhập -->
-                    <div class="mb-4">
-                        <textarea class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-blue-400 focus:bg-white transition resize-none h-24" placeholder="Nhập bình luận của bạn..."></textarea>
-                        <div class="flex justify-between items-center mt-2">
-                            <div class="flex gap-2 text-gray-400">
-                                <button class="hover:text-blue-500"><i class="fa-solid fa-image"></i></button>
-                                <button class="hover:text-blue-500"><i class="fa-solid fa-paperclip"></i></button>
+                    <!-- Khung nhập bình luận thật -->
+                    <div class="mb-6 relative">
+                        <textarea class="w-full bg-[#f8fafc] border border-gray-200 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition resize-none h-32" placeholder="Nhập bình luận của bạn về tài liệu này..."></textarea>
+                        
+                        <!-- Thanh công cụ dưới khung nhập -->
+                        <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center bg-transparent">
+                            <div class="flex gap-3 text-gray-400 px-2">
+                                <button class="hover:text-blue-600 transition" title="Chèn ảnh"><i class="fa-regular fa-image"></i></button>
+                                <button class="hover:text-blue-600 transition" title="Đính kèm file"><i class="fa-solid fa-paperclip"></i></button>
                             </div>
-                            <button class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-blue-700">Gửi <i class="fa-solid fa-paper-plane"></i></button>
+                            <button class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-blue-700 shadow-sm transition-colors">
+                                Gửi <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- List Comment -->
-                    <div class="flex-1 overflow-y-auto space-y-4 pr-2">
-                        <div class="flex gap-3 text-sm">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold flex-shrink-0">H</div>
-                            <div>
-                                <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-none">
-                                    <div class="font-bold text-gray-800 text-xs mb-1">Hoàng Tuấn</div>
-                                    <p class="text-gray-600 text-xs">Đề khó quá admin ơi, câu 35 giải chi tiết hộ em với ạ.</p>
-                                </div>
-                                <div class="text-[10px] text-gray-400 mt-1 ml-2 font-semibold cursor-pointer">Thích · Phản hồi · 2 giờ trước</div>
-                            </div>
+                    <!-- Hiển thị danh sách comment trống -->
+                    <div class="flex-1 flex flex-col items-center justify-center text-center px-4">
+                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-3">
+                            <i class="fa-regular fa-comments text-3xl text-gray-300"></i>
                         </div>
-                        <div class="flex gap-3 text-sm">
-                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold flex-shrink-0">M</div>
-                            <div>
-                                <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-none">
-                                    <div class="font-bold text-gray-800 text-xs mb-1">Mai Linh</div>
-                                    <p class="text-gray-600 text-xs">Tài liệu hay lắm, cảm ơn ad!</p>
-                                </div>
-                                <div class="text-[10px] text-gray-400 mt-1 ml-2 font-semibold cursor-pointer">Thích · Phản hồi · 1 ngày trước</div>
-                            </div>
-                        </div>
+                        <h4 class="font-bold text-gray-800 text-sm mb-1">Chưa có bình luận nào.</h4>
+                        <p class="text-xs text-gray-500">Hãy là người đầu tiên đặt câu hỏi hoặc chia sẻ ý kiến về tài liệu này!</p>
                     </div>
                 </div>
             </div>
