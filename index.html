@@ -305,7 +305,7 @@
                     <!-- Grid Layout Chính -->
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                         
-                        <!-- 1. Manifest Điểm (Starry Card) -->
+                        <!-- 1. Manifest Điểm (Starry Card - Đã Cập Nhật Thanh Trượt) -->
                         <div class="lg:col-span-5 starry-card rounded-3xl p-6 text-white shadow-xl flex flex-col justify-between min-h-[220px]">
                             <div class="shooting-star" style="top: 20%; left: 30%;"></div>
                             <div class="shooting-star" style="top: 60%; left: 80%; animation-delay: 2s;"></div>
@@ -320,11 +320,24 @@
                             </div>
 
                             <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-2 z-10">Manifest Điểm</h3>
-                            <div class="flex items-end gap-4 z-10 mb-4">
+                            
+                            <!-- Khu vực hiển thị điểm (Cập nhật) -->
+                            <div class="flex items-end gap-2 z-10 mb-2 mt-2">
                                 <span id="display-target-score" class="text-7xl font-black text-white leading-none tracking-tighter">?</span>
-                                <button onclick="setTargetScore()" class="bg-[#facc15] text-[#854d0e] text-sm font-bold px-4 py-2 rounded-xl mb-2 hover:bg-yellow-300 transition shadow-lg">Chọn mục tiêu <i class="fa-solid fa-chevron-down ml-1 text-xs"></i></button>
+                                <span id="target-score-plus" class="text-2xl font-bold text-[#facc15] mb-2 hidden">+</span>
                             </div>
-                            <p class="text-sm text-blue-100 opacity-80 z-10 max-w-[70%]">Đặt mục tiêu điểm và để hệ thống đồng hành cùng bạn mỗi ngày 🌱</p>
+
+                            <!-- Thanh trượt điểm (Mới) -->
+                            <div class="w-full z-10 relative mt-4 mb-2 pr-8">
+                                <input type="range" id="score-slider" min="0" max="10" step="0.25" value="0" class="w-full h-2.5 bg-[#0f172a]/80 rounded-lg appearance-none cursor-pointer accent-[#facc15] shadow-inner" oninput="updateTargetScore(this.value)">
+                                <div class="flex justify-between text-[10px] font-bold text-blue-200 mt-2">
+                                    <span>0</span>
+                                    <span>5</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-sm text-blue-100 opacity-80 z-10 max-w-[80%] mt-2">Kéo thanh trượt để đặt mục tiêu và để hệ thống đồng hành cùng bạn mỗi ngày 🌱</p>
                         </div>
 
                         <!-- 2. Chuỗi Ngày Học (Starry Card) -->
@@ -623,25 +636,23 @@
             dashboardView.classList.remove('hidden-layout');
         }
 
-        // ---- LOGIC MỤC TIÊU ĐIỂM ----
-        function setTargetScore() {
-            let input = prompt("Nhập mục tiêu điểm THPT của bạn (VD: 75, 80, 95):");
-            if (input) {
-                // Xử lý chuỗi: Nếu người dùng nhập 75 -> 7.5+
-                let formattedScore = input;
-                // Nếu nhập số nguyên 2 chữ số (VD: 75)
-                if (input.length === 2 && !isNaN(input)) {
-                    formattedScore = input.charAt(0) + '.' + input.charAt(1) + '+';
-                } else if (input.length === 1 && !isNaN(input)) {
-                    // Nhập 8 -> 8.0+
-                    formattedScore = input + '.0+';
-                } else if (!input.includes('+')) {
-                    // Thêm dấu + nếu chưa có
-                    formattedScore += '+';
-                }
+        // ---- LOGIC MỤC TIÊU ĐIỂM (CẬP NHẬT THANH TRƯỢT) ----
+        function updateTargetScore(val) {
+            let num = parseFloat(val);
+            let displayScore = document.getElementById('display-target-score');
+            let plusSign = document.getElementById('target-score-plus');
+            let navScore = document.getElementById('nav-target-score');
 
-                document.getElementById('display-target-score').innerText = formattedScore;
-                document.getElementById('nav-target-score').innerText = "Mục tiêu: " + formattedScore;
+            if (num > 0) {
+                // Hiển thị số điểm chính thức
+                displayScore.innerText = num;
+                plusSign.classList.remove('hidden');
+                navScore.innerText = "Mục tiêu: " + num + "+";
+            } else {
+                // Nếu điểm bằng 0
+                displayScore.innerText = '?';
+                plusSign.classList.add('hidden');
+                navScore.innerText = "Mục tiêu";
             }
         }
 
@@ -726,10 +737,6 @@
                 }
             }, 1000); // Đếm mỗi 1 giây
         }
-
-        // Dành cho việc test nhanh (Giả lập tăng tốc độ thời gian)
-        // Trong thực tế, hãy comment lại hàm này.
-        // window.testCompleteTimer = function() { studySeconds = 29 * 60 + 55; }
 
 
         // ---- LOGIC BẢO MẬT ADMIN 4 LỚP ----
