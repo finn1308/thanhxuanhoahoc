@@ -12,10 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- API Đăng nhập Google thật & Giải mã Token -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -245,7 +241,6 @@
                 </button>
             </div>
 
-            <!-- Khối chuỗi học tập nhỏ ở dưới Sidebar -->
             <div class="p-4 mx-4 mb-6 bg-gray-900 rounded-2xl text-white flex items-center gap-4 relative overflow-hidden">
                 <div class="bg-gray-800 p-2 rounded-xl text-orange-500"><i class="fa-solid fa-fire text-xl"></i></div>
                 <div>
@@ -259,9 +254,7 @@
             </div>
         </aside>
 
-        <!-- Nội dung chính Dashboard -->
         <main class="flex-1 flex flex-col h-screen overflow-y-auto relative">
-            
             <header class="bg-white/80 backdrop-blur-md border-b border-blue-100 px-8 py-4 flex justify-between items-center sticky top-0 z-40">
                 <div class="relative hidden md:block w-72">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -344,7 +337,6 @@
                                     <span class="text-sm text-blue-200 ml-1">ngày liên tiếp</span>
                                 </div>
                             </div>
-                            <!-- Tracking 7 ngày -->
                             <div class="flex justify-between items-center w-full mt-4 px-2">
                                 <div class="flex flex-col items-center gap-2 relative">
                                     <div class="w-10 h-10 rounded-full bg-[#0f172a] shadow-inner flex items-center justify-center text-gray-600"><i class="fa-solid fa-check"></i></div>
@@ -406,9 +398,7 @@
                     <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo" id="doc-section-title">Tất cả tài liệu</h1>
                     
                     <div class="flex flex-col lg:flex-row gap-8">
-                        <!-- Lọc và Danh sách (Trái) -->
                         <div class="flex-1 flex flex-col">
-                            <!-- Nút Lọc -->
                             <div class="flex gap-2 mb-6 border-b border-gray-200 pb-2 overflow-x-auto whitespace-nowrap scrollbar-hide folder-list-scroll">
                                 <button onclick="filterDocuments('Tất cả')" id="btn-filter-Tất cả" class="filter-btn px-4 py-1.5 text-sm font-bold text-blue-600 border-b-2 border-blue-600 transition-colors">Tất cả</button>
                                 <button onclick="filterDocuments('Lớp 12')" id="btn-filter-Lớp 12" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 12</button>
@@ -416,21 +406,15 @@
                                 <button onclick="filterDocuments('Lớp 10')" id="btn-filter-Lớp 10" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 10</button>
                                 <button onclick="filterDocuments('ĐGNL')" id="btn-filter-ĐGNL" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">ĐGNL</button>
                             </div>
-
-                            <!-- Vùng chứa List -->
-                            <div id="document-list-container" class="space-y-4 flex-1">
-                                <!-- JS sẽ render item vào đây -->
-                            </div>
+                            <div id="document-list-container" class="space-y-4 flex-1"></div>
                         </div>
 
-                        <!-- Cột Kho Tài Liệu (Phải) -->
                         <div class="w-full lg:w-80 flex-shrink-0">
                             <div class="sticky top-24">
                                 <div class="flex justify-between items-center mb-4">
                                     <h3 class="font-bold text-gray-800 text-lg">Kho tài liệu</h3>
                                     <button onclick="openAllFoldersView()" class="text-xs font-bold text-blue-600 hover:underline">Xem tất cả <i class="fa-solid fa-angles-right text-[10px]"></i></button>
                                 </div>
-                                
                                 <div class="space-y-3">
                                     <div onclick="selectFolder('Đề thi thử 2026')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
                                         <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
@@ -577,16 +561,15 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 5: TRÌNH XEM PDF (PDF VIEWER - THIẾT KẾ MỚI) ================= -->
+    <!-- ================= VIEW 5: TRÌNH XEM PDF (PDF VIEWER) ================= -->
     <div id="pdf-viewer-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col h-screen overflow-hidden">
-        <!-- Header / Breadcrumb -->
         <nav class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center z-50 shadow-sm flex-shrink-0">
             <div class="flex items-center gap-3 text-sm font-semibold text-gray-500">
                 <button onclick="closeToDashboard()" class="hover:text-blue-600 flex items-center gap-2"><i class="fa-solid fa-house"></i></button>
                 <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
                 <span id="pdf-breadcrumb-folder" class="cursor-pointer hover:text-blue-600 transition">Hóa Hữu Cơ</span>
                 <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-                <h1 class="text-blue-900 font-bold truncate max-w-lg" id="pdf-header-title">Tuyển tập 50 bài tập VDC đồ thị Peptit và Este (Giải chi tiết)</h1>
+                <h1 class="text-blue-900 font-bold truncate max-w-lg" id="pdf-header-title">Tuyển tập 50 bài tập VDC đồ thị Peptit và Este</h1>
             </div>
             
             <div class="flex items-center gap-4">
@@ -597,13 +580,8 @@
             </div>
         </nav>
 
-        <!-- Main Content -->
         <div class="flex flex-1 overflow-hidden">
-            
-            <!-- CỘT TRÁI: KHUNG HIỂN THỊ PDF -->
             <div class="flex-1 flex flex-col items-center bg-[#f1f5f9] relative overflow-y-auto pt-6 pb-20">
-                
-                <!-- Toolbar điều khiển PDF -->
                 <div class="sticky top-0 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-full px-5 py-2.5 flex items-center gap-4 shadow-md z-10 mb-8 transition-all hover:shadow-lg">
                     <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Thu nhỏ"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
                     <div class="flex items-center gap-1 border-x border-gray-300 px-3">
@@ -611,19 +589,17 @@
                     </div>
                     <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Phóng to"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
                     <div class="w-[1px] h-5 bg-gray-300 mx-1"></div>
-                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Tải xuống PDF" onclick="alert('Đang tải file PDF xuống máy của bạn...')"><i class="fa-solid fa-download"></i></button>
+                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Tải xuống PDF" onclick="showMessage('Thông báo', 'Đang tải file PDF xuống máy của bạn...')"><i class="fa-solid fa-download"></i></button>
                     <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="In tài liệu" onclick="window.print()"><i class="fa-solid fa-print"></i></button>
                 </div>
 
-                <!-- Trang giấy PDF giả lập -->
                 <div class="bg-white w-[850px] max-w-[95%] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200 mb-8 flex flex-col">
                     <div class="h-2 w-full bg-blue-800"></div>
                     <div class="p-16 text-center relative flex-grow">
                         <div class="border-b-2 border-blue-900 pb-6 mb-10">
-                            <h2 class="text-3xl font-bold text-blue-900 mb-4 uppercase leading-tight" id="pdf-page-title">TUYỂN TẬP 50 BÀI TẬP VDC ĐỒ THỊ PEPTIT VÀ ESTE (GIẢI CHI TIẾT)</h2>
+                            <h2 class="text-3xl font-bold text-blue-900 mb-4 uppercase leading-tight" id="pdf-page-title">TUYỂN TẬP 50 BÀI TẬP VDC ĐỒ THỊ PEPTIT VÀ ESTE</h2>
                             <p class="text-gray-600 font-medium">Thời gian làm bài: 50 phút</p>
                         </div>
-                        
                         <div class="text-left space-y-8 text-gray-800 font-serif text-lg">
                             <div class="flex gap-4">
                                 <span class="font-bold whitespace-nowrap">Câu 1:</span>
@@ -637,7 +613,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="flex gap-4 border-t border-gray-100 pt-8">
                                 <span class="font-bold whitespace-nowrap">Câu 2:</span>
                                 <div>
@@ -650,7 +625,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="mt-20 pt-16 border-t border-dashed border-gray-300 text-gray-400 flex flex-col items-center justify-center">
                                 <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-2xl shadow-inner">
                                     <i class="fa-solid fa-lock text-gray-400"></i>
@@ -662,7 +636,6 @@
                 </div>
             </div>
 
-            <!-- CỘT PHẢI: SIDEBAR ĐÁNH GIÁ & BÌNH LUẬN -->
             <div class="w-[350px] bg-white border-l border-gray-200 flex flex-col shadow-[-4px_0_15px_rgba(0,0,0,0.03)] flex-shrink-0 z-20">
                 <div class="p-6 border-b border-gray-100">
                     <h3 class="font-bold text-gray-800 text-base mb-4 flex items-center gap-2">
@@ -692,10 +665,8 @@
                     <h3 class="font-bold text-gray-800 text-base mb-4 flex items-center gap-2">
                         <i class="fa-regular fa-comment-dots text-blue-600"></i> Bình luận
                     </h3>
-                    
                     <div class="mb-6 relative">
                         <textarea class="w-full bg-[#f8fafc] border border-gray-200 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition resize-none h-32" placeholder="Nhập bình luận của bạn về tài liệu này..."></textarea>
-                        
                         <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center bg-transparent">
                             <div class="flex gap-3 text-gray-400 px-2">
                                 <button class="hover:text-blue-600 transition" title="Chèn ảnh"><i class="fa-regular fa-image"></i></button>
@@ -706,7 +677,6 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="flex-1 flex flex-col items-center justify-center text-center px-4">
                         <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-3">
                             <i class="fa-regular fa-comments text-3xl text-gray-300"></i>
@@ -743,7 +713,6 @@
             </div>
 
             <div class="px-10 py-8 relative bg-white">
-                
                 <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-300 hover:text-gray-600 transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
@@ -771,12 +740,11 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-300">
                                 <i class="fa-solid fa-lock text-base"></i>
                             </div>
-                            <input type="password" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="••••••••">
+                            <input type="password" id="login-password" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="••••••••">
                         </div>
                     </div>
 
-                    <!-- GỌI HÀM mockLoginProcess KHI BẤM NÚT NÀY -->
-                    <button onclick="mockLoginProcess()" class="w-full text-white bg-[#5a7035] hover:bg-[#4b5e2b] active:scale-[0.98] font-bold rounded-2xl text-[15px] px-5 py-4 text-center transition-all shadow-md flex justify-center items-center gap-3 mt-4 tracking-wider">
+                    <button onclick="processEmailLogin()" class="w-full text-white bg-[#5a7035] hover:bg-[#4b5e2b] active:scale-[0.98] font-bold rounded-2xl text-[15px] px-5 py-4 text-center transition-all shadow-md flex justify-center items-center gap-3 mt-4 tracking-wider">
                         ĐĂNG NHẬP NGAY <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
@@ -787,7 +755,7 @@
                     <div class="flex-1 h-[1px] bg-gray-100"></div>
                 </div>
 
-                <button onclick="loginGoogle()" class="w-full bg-white border-2 border-gray-100 hover:bg-gray-50 active:scale-[0.98] text-[#111827] font-bold rounded-2xl text-[15px] px-5 py-3.5 text-center transition-all flex justify-center items-center gap-3">
+                <button onclick="processGoogleLogin()" class="w-full bg-white border-2 border-gray-100 hover:bg-gray-50 active:scale-[0.98] text-[#111827] font-bold rounded-2xl text-[15px] px-5 py-3.5 text-center transition-all flex justify-center items-center gap-3">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5">
                     Google
                 </button>
@@ -799,6 +767,19 @@
         </div>
     </div>
 
+    <!-- ================= CUSTOM MESSAGE BOX (Thay thế cho Alert) ================= -->
+    <div id="custom-msg-box" class="fixed inset-0 bg-black/50 z-[200] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl transform scale-95 transition-transform duration-300" id="custom-msg-content">
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2" id="custom-msg-title">Thông báo</h3>
+            <p class="text-gray-500 mb-6 text-sm" id="custom-msg-text">Nội dung thông báo...</p>
+            <div class="flex gap-3 justify-center w-full" id="custom-msg-buttons">
+                <!-- Nút sẽ được chèn qua JS -->
+            </div>
+        </div>
+    </div>
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
@@ -808,7 +789,52 @@
         const allFoldersView = document.getElementById('all-folders-view');
         const pdfViewerView = document.getElementById('pdf-viewer-view');
         
-        // --- LOGIC CHO LOGIN MODAL ---
+        // --- CUSTOM MESSAGE BOX LOGIC ---
+        function showMessage(title, text, isConfirm = false, confirmCallback = null) {
+            const box = document.getElementById('custom-msg-box');
+            const content = document.getElementById('custom-msg-content');
+            document.getElementById('custom-msg-title').innerText = title;
+            document.getElementById('custom-msg-text').innerText = text;
+            
+            const btnContainer = document.getElementById('custom-msg-buttons');
+            if (isConfirm) {
+                btnContainer.innerHTML = `
+                    <button onclick="closeMsgBox()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-xl transition flex-1">Hủy</button>
+                    <button id="msg-confirm-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl transition flex-1">Đồng ý</button>
+                `;
+                document.getElementById('msg-confirm-btn').onclick = () => {
+                    closeMsgBox();
+                    if(confirmCallback) confirmCallback();
+                };
+                content.querySelector('.fa-bell')?.classList.replace('fa-bell', 'fa-triangle-exclamation');
+                content.querySelector('.bg-blue-100')?.classList.replace('text-blue-600', 'text-red-600');
+                content.querySelector('.bg-blue-100')?.classList.replace('bg-blue-100', 'bg-red-100');
+            } else {
+                btnContainer.innerHTML = `<button onclick="closeMsgBox()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition w-full">Đã hiểu</button>`;
+                content.querySelector('.fa-triangle-exclamation')?.classList.replace('fa-triangle-exclamation', 'fa-bell');
+                content.querySelector('.text-red-600')?.classList.replace('text-red-600', 'text-blue-600');
+                content.querySelector('.bg-red-100')?.classList.replace('bg-red-100', 'bg-blue-100');
+            }
+
+            box.classList.remove('hidden');
+            box.classList.add('flex');
+            void box.offsetWidth;
+            box.classList.remove('opacity-0');
+            content.classList.remove('scale-95');
+        }
+
+        function closeMsgBox() {
+            const box = document.getElementById('custom-msg-box');
+            const content = document.getElementById('custom-msg-content');
+            box.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                box.classList.add('hidden');
+                box.classList.remove('flex');
+            }, 300);
+        }
+
+        // --- LÝ LOGIC ĐĂNG NHẬP & UPDATE UI (HOÀN THIỆN ĐÚNG NGƯỜI DÙNG) ---
         const loginModal = document.getElementById('login-modal');
         const loginModalContent = document.getElementById('login-modal-content');
         let isLoggedIn = false;
@@ -831,74 +857,85 @@
         }
 
         loginModal.addEventListener('click', function(e) {
-            if (e.target === loginModal) {
-                closeLoginModal();
-            }
+            if (e.target === loginModal) closeLoginModal();
         });
 
-        // HÀM QUAN TRỌNG: Cập nhật giao diện toàn hệ thống với thông tin người dùng truyền vào
+        // Hàm lõi cập nhật tên và avatar trên toàn màn hình
         function updateUIWithUserData(name, email, avatarUrl) {
-            // Cập nhật ở Landing Page
+            // Thay đổi ở Header Trang chủ
             document.getElementById('nav-avatar').src = avatarUrl;
             document.getElementById('nav-name').innerText = name;
             
-            // Cập nhật ở Dashboard Nav
+            // Thay đổi ở Header Dashboard
             document.getElementById('dash-avatar').src = avatarUrl;
             document.getElementById('dash-name').innerText = name;
 
-            // Đổi lời chào mừng
-            const firstName = name.split(' ')[0] || name; // Lấy chữ đầu làm tên gọi
+            // Thay đổi ở dòng chào mừng
+            const firstName = name.split(' ')[0] || name; 
             const dashWelcome = document.getElementById('dash-welcome');
             if (dashWelcome) {
                 dashWelcome.innerText = `Chào ${firstName}, hôm nay luyện đề nhé!`;
             }
         }
 
-        // ================= CÁCH 1: GIẢ LẬP ĐĂNG NHẬP BẰNG EMAIL NGƯỜI DÙNG TỰ NHẬP =================
-        function mockLoginProcess() {
+        // Khi bấm nút ĐĂNG NHẬP NGAY bằng Email
+        function processEmailLogin() {
             const emailInput = document.getElementById('login-email').value.trim();
+            const passInput = document.getElementById('login-password').value.trim();
             
             if(!emailInput || !emailInput.includes('@')) {
-                alert("Vui lòng nhập một email hợp lệ để đăng nhập!");
+                showMessage("Lỗi đăng nhập", "Vui lòng nhập một địa chỉ email hợp lệ (có chứa @) để đăng nhập.");
+                return;
+            }
+            if(!passInput) {
+                showMessage("Lỗi đăng nhập", "Vui lòng nhập mật khẩu.");
                 return;
             }
 
-            // Tự động trích xuất "Tên" từ phần đầu của Email (VD: nguyenvanA@gmail -> Tên: NguyenvanA)
-            let username = emailInput.split('@')[0];
-            username = username.charAt(0).toUpperCase() + username.slice(1); // Viết hoa chữ cái đầu
-
-            // Tự động tạo Avatar mang chữ cái đầu của Tên
+            // Tự động phân tách tên từ email (abc@gmail.com -> Tên: Abc)
+            let rawName = emailInput.split('@')[0];
+            let username = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+            
+            // Tự động tạo ảnh đại diện (avatar) từ chữ cái đầu của Tên
             const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=5a7035&color=fff&bold=true`;
 
-            // Cập nhật giao diện
+            // Gọi hàm cập nhật toàn diện
             updateUIWithUserData(username, emailInput, avatarUrl);
-
-            // Xử lý chuyển đổi UI
+            
+            // Chuyển đổi trạng thái đăng nhập
             closeLoginModal();
             document.getElementById('btn-login').classList.add('hidden');
             document.getElementById('user-profile').classList.remove('hidden');
             isLoggedIn = true;
             
-            alert(`Đăng nhập thành công với tài khoản: ${emailInput}\nThời gian học tập của bạn bắt đầu được tính.`);
+            showMessage("Đăng nhập thành công", `Chào mừng ${username}!\nThời gian học tập của bạn bắt đầu được tính.`);
             startStudyTimer();
+            openDashboard(); // Chuyển thẳng vào Dashboard
         }
 
-        // ================= CÁCH 2: GIẢ LẬP ĐĂNG NHẬP GOOGLE =================
-        function loginGoogle() {
-            // Giả lập lấy được thông tin từ Google
-            const googleName = "Tài khoản Google";
-            const googleEmail = "google.user@gmail.com";
-            const googleAvatarUrl = "https://ui-avatars.com/api/?name=Google+User&background=4285F4&color=fff&bold=true";
+        // Khi bấm nút Google
+        function processGoogleLogin() {
+            // Vì chỉ là giao diện Front-end, ta dùng Prompt để hỏi tên giả lập
+            let inputName = prompt("Hệ thống Demo: Vui lòng nhập Tên hoặc Biệt danh của bạn để mô phỏng đăng nhập bằng Google:");
+            
+            if (!inputName || inputName.trim() === "") {
+                return; // Người dùng bấm Hủy
+            }
 
-            updateUIWithUserData(googleName, googleEmail, googleAvatarUrl);
+            let username = inputName.trim();
+            const avatarUrl = `https://ui-avatars.com/api/?name=${username}&background=4285F4&color=fff&bold=true`;
+            const fakeEmail = `${username.toLowerCase().replace(/\s/g, '')}@gmail.com`;
+
+            updateUIWithUserData(username, fakeEmail, avatarUrl);
 
             closeLoginModal();
             document.getElementById('btn-login').classList.add('hidden');
             document.getElementById('user-profile').classList.remove('hidden');
             isLoggedIn = true;
             
-            alert("Đăng nhập Google thành công! Thời gian học tập của bạn bắt đầu được tính.");
+            showMessage("Đăng nhập Google thành công!", `Xin chào ${username}. Thời gian học của bạn bắt đầu được tính.`);
             startStudyTimer();
+            openDashboard();
         }
 
         // --- CÁC LOGIC CHUYỂN TRANG ---
@@ -1120,7 +1157,6 @@
             selectFolder(folderName);
         }
 
-        // ================= XEM PDF (PDF VIEWER) =================
         function openPDFViewer(id, title, folder) {
             hideAllViews();
             pdfViewerView.classList.remove('hidden-layout');
@@ -1287,33 +1323,37 @@
 
         function simulateQuitTest() {
             if(!chartInitialized) return;
-            let confirmQuit = confirm("Hành động này mô phỏng việc bạn đang làm bài thi nhưng thoát ra giữa chừng. Hệ thống sẽ tự động chấm điểm thấp và LƯU VĨNH VIỄN vào biểu đồ. Chắc chắn bỏ cuộc?");
             
-            if (confirmQuit) {
-                quitCount++;
-                let newTestNumber = testScores.length + 1;
-                let quitScore = (Math.random() * 2 + 1).toFixed(1); 
+            showMessage(
+                "Xác nhận bỏ cuộc", 
+                "Hành động này mô phỏng việc bạn đang làm bài thi nhưng thoát ra giữa chừng. Hệ thống sẽ tự động chấm điểm thấp và LƯU VĨNH VIỄN vào biểu đồ. Chắc chắn bỏ cuộc?", 
+                true, 
+                () => {
+                    quitCount++;
+                    let newTestNumber = testScores.length + 1;
+                    let quitScore = (Math.random() * 2 + 1).toFixed(1); 
 
-                testLabels.push('Bài ' + newTestNumber + '\n(Bỏ cuộc)');
-                testScores.push(parseFloat(quitScore));
+                    testLabels.push('Bài ' + newTestNumber + '\n(Bỏ cuộc)');
+                    testScores.push(parseFloat(quitScore));
 
-                let pointColors = scoreChartInstance.data.datasets[0].pointBackgroundColor;
-                let borderColors = scoreChartInstance.data.datasets[0].pointBorderColor;
-                
-                if (!Array.isArray(pointColors)) {
-                    pointColors = new Array(testScores.length - 1).fill('#ffffff');
-                    borderColors = new Array(testScores.length - 1).fill('#3b82f6');
+                    let pointColors = scoreChartInstance.data.datasets[0].pointBackgroundColor;
+                    let borderColors = scoreChartInstance.data.datasets[0].pointBorderColor;
+                    
+                    if (!Array.isArray(pointColors)) {
+                        pointColors = new Array(testScores.length - 1).fill('#ffffff');
+                        borderColors = new Array(testScores.length - 1).fill('#3b82f6');
+                    }
+                    
+                    pointColors.push('#ef4444'); 
+                    borderColors.push('#b91c1c'); 
+
+                    scoreChartInstance.data.datasets[0].pointBackgroundColor = pointColors;
+                    scoreChartInstance.data.datasets[0].pointBorderColor = borderColors;
+
+                    scoreChartInstance.update();
+                    updateStats();
                 }
-                
-                pointColors.push('#ef4444'); 
-                borderColors.push('#b91c1c'); 
-
-                scoreChartInstance.data.datasets[0].pointBackgroundColor = pointColors;
-                scoreChartInstance.data.datasets[0].pointBorderColor = borderColors;
-
-                scoreChartInstance.update();
-                updateStats();
-            }
+            );
         }
     </script>
 </body>
