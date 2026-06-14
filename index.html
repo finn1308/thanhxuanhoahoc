@@ -1790,200 +1790,43 @@
             }
         }
 
-        // ================= GIAO DIỆN LÀM ĐỀ THI & CHẤM ĐIỂM =================
-        window.updateTargetScore = function(val) {
-            let num = parseFloat(val);
-            const displayEl = document.getElementById('display-target-score');
-            const plusEl = document.getElementById('target-score-plus');
-            if(displayEl) displayEl.innerText = num > 0 ? num : '?';
-            if(plusEl) plusEl.classList.toggle('hidden', num <= 0);
-            document.querySelectorAll('.nav-target-score').forEach(el => el.innerText = num > 0 ? `Mục tiêu: ${num}+` : "Mục tiêu");
-        }
-
-        window.saveTargetScoreToDB = async function(val) {
-            if(currentUserUid && db) {
-                await updateDoc(getProfileRef(), { targetScore: parseFloat(val) }).catch(e=>console.log(e));
-            }
-        }
-
-        window.calculateAndSaveCountdown = async function(dateString, shouldSaveToDB = true) {
-            if(!dateString) return;
-            const targetDate = new Date(dateString);
-            const diffDays = Math.ceil((targetDate - new Date()) / (1000 * 60 * 60 * 24)); 
-            
-            const displayEl = document.getElementById('countdown-display');
-            const navEl = document.getElementById('nav-countdown-days');
-            if(displayEl && navEl) {
-                if(diffDays > 0) {
-                    displayEl.innerHTML = `<div class="text-7xl font-black text-white leading-none">${diffDays}</div><div class="text-lg font-bold text-blue-200 mt-2">Ngày nữa</div>`;
-                    navEl.innerText = `Còn ${diffDays} ngày`;
-                } else if (diffDays === 0) {
-                    displayEl.innerHTML = `<div class="text-5xl font-black text-yellow-300">Hôm nay thi!</div>`;
-                    navEl.innerText = `Hôm nay thi!`;
-                } else {
-                    displayEl.innerHTML = `<div class="text-3xl font-bold text-gray-300">Đã qua ngày thi</div>`;
-                    navEl.innerText = `Đã qua`;
-                }
-            }
-            if(shouldSaveToDB && currentUserUid && db) {
-                await updateDoc(getProfileRef(), { targetDate: dateString }).catch(e=>console.log(e));
-            }
-        }
-
-        let studySeconds = 0;
-        const targetSeconds = 30 * 60; 
-        let studyInterval, streakEarnedToday = false;
-
-        function startStudyTimer() {
-            if(studyInterval) clearInterval(studyInterval);
-            studyInterval = setInterval(async () => {
-                if(streakEarnedToday) return;
-                studySeconds++;
-                let min = Math.floor(studySeconds / 60).toString().padStart(2, '0');
-                let sec = (studySeconds % 60).toString().padStart(2, '0');
-                document.querySelectorAll('.study-timer-display').forEach(el => el.innerText = `Hôm nay: ${min}:${sec} / 30:00`);
-
-                if (studySeconds >= targetSeconds) {
-                    streakEarnedToday = true;
-                    document.querySelectorAll('.study-timer-display').forEach(el => { el.innerText = `Đã học đủ 30 phút 🔥`; el.classList.replace('text-gray-400', 'text-orange-500'); });
-                    document.querySelectorAll('.nav-fire-icon').forEach(el => el.classList.replace('text-gray-300', 'text-orange-500'));
-                    
-                    const todayCircle = document.getElementById('today-circle');
-                    if(todayCircle) { todayCircle.classList.replace('bg-blue-500', 'bg-orange-500'); todayCircle.classList.replace('ring-blue-500/30', 'ring-orange-500/30'); }
-
-                    if(currentUserUid && db && currentStats) {
-                        await updateDoc(getStatsRef(), { currentStreak: (currentStats.currentStreak || 0) + 1, totalStudySeconds: (currentStats.totalStudySeconds || 0) + studySeconds }).catch(e=>console.log(e));
-                    }
-                }
-            }, 1000); 
-        }
-
-        let scoreChartInstance = null;
-        function initChart() {
-            const ctx = document.getElementById('scoreChart');
-            if(!ctx) return;
-            let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
-
-            scoreChartInstance = new Chart(ctx.getContext('2d'), {
-                type: 'line',
-                data: { labels: [], datasets: [{ label: 'Điểm số', data: [], borderColor: '#3b82f6', backgroundColor: gradient, borderWidth: 3, pointBackgroundColor: '#ffffff', pointBorderColor: '#3b82f6', pointBorderWidth: 2, pointRadius: 5, fill: true, tension: 0.3 }] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 10, grid: { color: '#f1f5f9' }, ticks: { stepSize: 2 } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
-            });
-            if(currentStats) updateStatsUI(currentStats);
-        }
-
-        window.simulateQuitTest = function() {
-            if(!chartInitialized || !currentStats || !currentUserUid) return;
-            window.showMessage("Xác nhận bỏ cuộc", "Hệ thống sẽ chấm điểm 1.0 và LƯU TRÊN CLOUD. Chắc chắn bỏ cuộc?", true, async () => {
-                let labels = currentStats.testLabels || [], scores = currentStats.testScores || [], qCount = currentStats.quitCount || 0;
-                labels.push('Bài ' + (labels.length + 1) + '\n(Bỏ cuộc)');
-                scores.push(1.0);
-                qCount++;
-                try {
-                    await updateDoc(getStatsRef(), { testLabels: labels, testScores: scores, quitCount: qCount });
-                    window.showMessage("Đã lưu kết quả", "Bạn vừa thoát bài thi. Dữ liệu đã lưu vĩnh viễn trên máy chủ.");
-                } catch (e) { console.error(e); }
-            });
-        }
-
-        const views = {
-            landing: document.getElementById('landing-view'),
-            subject: document.getElementById('subject-view'),
-            dashboard: document.getElementById('dashboard-view'),
-            allFolders: document.getElementById('all-folders-view'),
-            pdfViewer: document.getElementById('pdf-viewer-view'),
-            documentLibrary: document.getElementById('document-library-view'),
-            eventDiscovery: document.getElementById('event-discovery-view'),
-            eventRoom: document.getElementById('event-room-view'),
-            mockExams: document.getElementById('mock-exams-view'),
-            examTaking: document.getElementById('exam-taking-view')
-        };
-        
-        function hideAllViews() { Object.values(views).forEach(v => { if(v) v.classList.add('hidden-layout') }); }
-
-        window.openDashboard = function() {
-            if(!isLoggedIn) { window.openLoginModal(); return; }
-            hideAllViews(); views.dashboard.classList.remove('hidden-layout');
-            if (!chartInitialized && document.getElementById('tab-content-thong-ke').classList.contains('block')) {
-                 initChart(); chartInitialized = true;
-            }
-        }
-        window.backToHome = function() { hideAllViews(); views.landing.classList.remove('hidden-layout'); }
-        window.closeToDashboard = function() { hideAllViews(); views.dashboard.classList.remove('hidden-layout'); }
-        window.openAllFoldersView = function() { hideAllViews(); views.allFolders.classList.remove('hidden-layout'); }
-        
-        window.openSubjectPage = function(subjectName) {
-            if(!isLoggedIn) { window.openLoginModal(); return; }
-            if(document.getElementById('subject-title')) document.getElementById('subject-title').innerText = subjectName;
-            hideAllViews(); views.subject.classList.remove('hidden-layout'); window.scrollTo(0,0);
-        }
-
-        window.openDocumentLibrary = function() {
-            if(!isLoggedIn) { window.openLoginModal(); return; }
-            hideAllViews(); views.documentLibrary.classList.remove('hidden-layout');
-            window.filterDocuments('Tất cả'); 
-        }
-
-        let chartInitialized = false;
-        window.switchDashboardTab = function(tabId) {
-            if (tabId === 'admin-panel' && !isAdmin()) return; 
-
-            const tabs = ['tong-quan', 'su-kien', 'thong-ke', 'admin-panel']; 
-            tabs.forEach(t => {
-                const btn = document.getElementById(`tab-${t}`);
-                const content = document.getElementById(`tab-content-${t}`);
-                if (!btn || !content) return;
-                
-                if(t === tabId) {
-                    if (t === 'admin-panel') {
-                        btn.className = "show-admin w-full flex items-center gap-3 bg-red-600 text-white font-bold px-4 py-3 rounded-xl shadow-sm transition mt-4";
-                    } else {
-                        btn.className = "w-full flex items-center gap-3 bg-[#facc15] text-[#854d0e] font-bold px-4 py-3 rounded-xl shadow-sm transition";
-                    }
-                    content.classList.remove('hidden-layout'); content.classList.add('block');
-                } else {
-                    if (t === 'admin-panel') {
-                        btn.className = isAdmin() ? "show-admin w-full flex items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100" : "admin-only";
-                    } else {
-                        btn.className = "w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition";
-                    }
-                    content.classList.add('hidden-layout'); content.classList.remove('block');
-                }
-            });
-            
-            hideAllViews(); views.dashboard.classList.remove('hidden-layout');
-            
-            const adminTabBtn = document.getElementById('tab-admin-panel');
-            if (adminTabBtn) {
-                adminTabBtn.style.display = isAdmin() ? 'flex' : 'none';
-            }
-            
-            if (tabId === 'thong-ke' && !chartInitialized) { initChart(); chartInitialized = true; if(currentStats) updateStatsUI(currentStats); }
-            if (tabId === 'admin-panel' && isAdmin()) { 
-                window.loadAdminUsersList();
-                loadAdminEventsList();
-                loadAdminDocsList(); 
-            }
-        }
-
         // ================= GIAO DIỆN LÀM ĐỀ THI (THI THỬ CHUẨN CẤU TRÚC MỚI) =================
         let examTimerInterval;
         let examSeconds = 0;
         let currentExamPart = 1;
 
-        // Dữ liệu mô phỏng bài thi ảo chuẩn form 2025
+        // DỮ LIỆU ĐƯỢC CHUẨN HÓA THEO FORMAT BẠN CUNG CẤP ĐỂ AI LỌC ĐỀ:
+        // Đã bổ sung trường "image" ở tất cả các cấp để hỗ trợ nhúng link ảnh từ AI.
         const sampleExamData = {
             part1: Array.from({length: 18}, (_, i) => ({
-                id: i+1, type: 'mcq', q: `Tên gọi theo danh pháp thay thế của chất có công thức cấu tạo CH3-NH2 là:`, opts: ['ethylamine', 'methanamine', 'methylamine', 'ethanamine'], ans: null 
+                id: i + 1, // Tương ứng STT 1 đến 18 trong Excel
+                type: 'mcq', 
+                q: `Câu ${i+1}: Tên gọi theo danh pháp thay thế của chất có công thức cấu tạo CH3-NH2 là:`, 
+                image: '', // URL ảnh nếu có (cột A)
+                opts: ['ethylamine', 'methanamine', 'methylamine', 'ethanamine'], // B,C,D,E trong Excel
+                realAns: 'A', // Đáp án đúng ở cột F
+                ans: null 
             })),
             part2: Array.from({length: 4}, (_, i) => ({
-                id: i+1, type: 'tf', q: `Tơ capron là loại tơ có tính dai, độ đàn hồi và độ bóng cao. Phát biểu nào sau đây đúng/sai?`,
-                stmts: ['Tơ capron là tơ bán tổng hợp.', 'Do tơ capron và tơ nylon-6,6 đều có các nhóm -CO-NH- nên hai loại tơ này đều bền với dung dịch kiềm mạnh.', 'Do tơ capron có các nhóm -CO-NH- nên tơ capron là peptide.', 'Trong phản ứng (1), các phân tử monome bị mở vòng.'], 
-                userAns: [null, null, null, null], realAns: ['false', 'false', 'false', 'true']
+                id: i + 1, // Hiển thị là Câu 1,2,3,4 (Tương ứng dòng 19, 24, 29, 34 trong Excel)
+                type: 'tf', 
+                q: `Câu ${i+1}: Tơ capron là loại tơ có tính dai, độ đàn hồi và độ bóng cao. Phát biểu nào sau đây đúng hay sai?`,
+                image: '', // URL ảnh câu hỏi chính nếu có
+                stmts: [
+                    { id: 'a', text: 'Tơ capron là tơ bán tổng hợp.', image: '', realAns: 'S' }, // STT 20, 25, 30, 35
+                    { id: 'b', text: 'Hai loại tơ này đều bền với dung dịch kiềm mạnh.', image: '', realAns: 'S' }, // STT 21, 26, 31, 36
+                    { id: 'c', text: 'Tơ capron là peptide do có liên kết CO-NH.', image: '', realAns: 'S' }, // STT 22, 27, 32, 37
+                    { id: 'd', text: 'Trong phản ứng, các phân tử monome bị mở vòng.', image: '', realAns: 'Đ' } // STT 23, 28, 33, 38
+                ], 
+                userAns: [null, null, null, null]
             })),
             part3: Array.from({length: 6}, (_, i) => ({
-                id: i+1, type: 'sa', q: `Trong phân tử peptide cho dưới đây có bao nhiêu liên kết peptit?`, ans: '', realAns: '3'
+                id: i + 1, // Hiển thị Câu 1-6 (Tương ứng STT 39 đến 44 trong Excel)
+                type: 'sa', 
+                q: `Câu ${i+1}: Trong phân tử peptide cho dưới đây có bao nhiêu liên kết peptit?`, 
+                image: '', // URL ảnh nếu có
+                realAns: '3', // Đáp án cột B
+                ans: '' 
             }))
         };
 
@@ -2059,8 +1902,10 @@
             if(!qContainer) return;
             let qhtml = '';
 
+            // RENDER CÓ HỖ TRỢ HIỂN THỊ HÌNH ẢNH
             if (partNum === 1) {
                 sampleExamData.part1.forEach(q => {
+                    let imgHtml = q.image && q.image.trim() !== '' ? `<img src="${q.image}" class="max-w-full h-auto rounded-lg mt-3 mb-4 border border-gray-200" alt="Hình ảnh câu hỏi">` : '';
                     qhtml += `
                         <div id="q-card-${q.id}" class="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
                             <div class="flex justify-between items-start mb-4">
@@ -2068,12 +1913,15 @@
                                     <div class="w-8 h-8 bg-gray-800 text-white font-bold rounded flex items-center justify-center">${q.id}</div>
                                     <span class="text-sm font-semibold text-gray-500 uppercase">CÂU ${q.id}</span>
                                 </div>
-                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fa-regular fa-bookmark"></i> Đánh dấu để xem lại</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fa-regular fa-bookmark"></i> Đánh dấu</button>
                             </div>
-                            <div class="text-gray-800 font-medium text-base mb-6">${q.q}</div>
+                            <div class="text-gray-800 font-medium text-base mb-6">
+                                ${q.q}
+                                ${imgHtml}
+                            </div>
                             <div class="space-y-3">
                                 ${q.opts.map((opt, i) => {
-                                    const letter = String.fromCharCode(65 + i);
+                                    const letter = String.fromCharCode(65 + i); // A, B, C, D
                                     return `
                                     <label class="block cursor-pointer relative">
                                         <input type="radio" name="p1q${q.id}" value="${letter}" class="exam-radio absolute opacity-0 w-0 h-0" onchange="window.updateExamProgress(1, ${q.id}, this.value)">
@@ -2090,6 +1938,7 @@
                 });
             } else if (partNum === 2) {
                 sampleExamData.part2.forEach(q => {
+                    let mainImgHtml = q.image && q.image.trim() !== '' ? `<img src="${q.image}" class="max-w-full h-auto rounded-lg mt-3 mb-4 border border-gray-200" alt="Hình ảnh câu hỏi chính">` : '';
                     qhtml += `
                         <div id="q-card-${q.id}" class="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
                             <div class="flex justify-between items-start mb-4">
@@ -2097,9 +1946,12 @@
                                     <div class="w-8 h-8 bg-gray-800 text-white font-bold rounded flex items-center justify-center">${q.id}</div>
                                     <span class="text-sm font-semibold text-gray-500 uppercase">CÂU ${q.id}</span>
                                 </div>
-                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fa-regular fa-bookmark"></i> Đánh dấu để xem lại</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fa-regular fa-bookmark"></i> Đánh dấu</button>
                             </div>
-                            <div class="text-gray-800 font-medium text-base mb-6">${q.q}</div>
+                            <div class="text-gray-800 font-medium text-base mb-6">
+                                ${q.q}
+                                ${mainImgHtml}
+                            </div>
                             
                             <div class="border border-gray-200 rounded-xl overflow-hidden">
                                 <div class="grid grid-cols-12 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-500 p-3">
@@ -2108,23 +1960,27 @@
                                     <div class="col-span-2 text-center">SAI</div>
                                 </div>
                                 ${q.stmts.map((stmt, i) => {
-                                    const letter = String.fromCharCode(65 + i);
+                                    const letter = stmt.id; // a, b, c, d
+                                    let stmtImgHtml = stmt.image && stmt.image.trim() !== '' ? `<img src="${stmt.image}" class="max-w-xs h-auto rounded mt-2 border border-gray-200" alt="Hình ảnh ý ${letter}">` : '';
                                     return `
                                     <div class="grid grid-cols-12 border-b border-gray-100 p-3 items-center hover:bg-gray-50">
                                         <div class="col-span-8 flex gap-3 text-sm text-gray-700">
                                             <span class="w-6 h-6 bg-gray-200 rounded font-bold flex items-center justify-center flex-shrink-0 text-xs">${letter}</span>
-                                            ${stmt}
+                                            <div>
+                                                ${stmt.text}
+                                                ${stmtImgHtml}
+                                            </div>
                                         </div>
                                         <div class="col-span-2 flex justify-center">
                                             <label class="cursor-pointer">
-                                                <input type="radio" name="p2q${q.id}s${i}" value="true" class="tf-radio absolute opacity-0 w-0 h-0" onchange="window.updateExamProgress(2, ${q.id}, this.value, ${i})">
-                                                <div class="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-white transition"><i class="fa-solid fa-check hidden text-xs"></i></div>
+                                                <input type="radio" name="p2q${q.id}s${i}" value="Đ" class="tf-radio absolute opacity-0 w-0 h-0" onchange="window.updateExamProgress(2, ${q.id}, this.value, ${i})">
+                                                <div class="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-white transition bg-gray-100 font-bold text-[10px] hover:border-blue-500">Đ<i class="fa-solid fa-check hidden text-xs absolute"></i></div>
                                             </label>
                                         </div>
                                         <div class="col-span-2 flex justify-center">
                                             <label class="cursor-pointer">
-                                                <input type="radio" name="p2q${q.id}s${i}" value="false" class="tf-radio absolute opacity-0 w-0 h-0" onchange="window.updateExamProgress(2, ${q.id}, this.value, ${i})">
-                                                <div class="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-white transition"><i class="fa-solid fa-check hidden text-xs"></i></div>
+                                                <input type="radio" name="p2q${q.id}s${i}" value="S" class="tf-radio absolute opacity-0 w-0 h-0" onchange="window.updateExamProgress(2, ${q.id}, this.value, ${i})">
+                                                <div class="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-white transition bg-gray-100 font-bold text-[10px] hover:border-blue-500">S<i class="fa-solid fa-xmark hidden text-xs absolute"></i></div>
                                             </label>
                                         </div>
                                     </div>
@@ -2136,6 +1992,7 @@
                 });
             } else if (partNum === 3) {
                 sampleExamData.part3.forEach(q => {
+                    let imgHtml = q.image && q.image.trim() !== '' ? `<img src="${q.image}" class="max-w-full h-auto rounded-lg mt-3 mb-4 border border-gray-200" alt="Hình ảnh câu hỏi">` : '';
                     qhtml += `
                         <div id="q-card-${q.id}" class="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
                             <div class="flex justify-between items-start mb-4">
@@ -2143,11 +2000,14 @@
                                     <div class="w-8 h-8 bg-gray-800 text-white font-bold rounded flex items-center justify-center">${q.id}</div>
                                     <span class="text-sm font-semibold text-gray-500 uppercase">CÂU ${q.id}</span>
                                 </div>
-                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fa-regular fa-bookmark"></i> Đánh dấu để xem lại</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fa-regular fa-bookmark"></i> Đánh dấu</button>
                             </div>
-                            <div class="text-gray-800 font-medium text-base mb-6">${q.q}</div>
+                            <div class="text-gray-800 font-medium text-base mb-6">
+                                ${q.q}
+                                ${imgHtml}
+                            </div>
                             <div>
-                                <input type="text" class="border border-gray-300 rounded-xl px-4 py-3 w-64 text-lg font-bold text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" oninput="window.updateExamProgress(3, ${q.id}, this.value)">
+                                <input type="text" placeholder="Nhập đáp án của bạn..." class="border border-gray-300 rounded-xl px-4 py-3 w-64 text-lg font-bold text-gray-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" oninput="window.updateExamProgress(3, ${q.id}, this.value)">
                             </div>
                         </div>
                     `;
@@ -2165,7 +2025,7 @@
                 if(q) q.ans = val;
             } else if (part === 2) {
                 const q = sampleExamData.part2.find(x => x.id === qId);
-                if(q && stmtIdx !== null) q.userAns[stmtIdx] = val;
+                if(q && stmtIdx !== null) q.userAns[stmtIdx] = val; // val sẽ là 'Đ' hoặc 'S'
             } else if (part === 3) {
                 const q = sampleExamData.part3.find(x => x.id === qId);
                 if(q) q.ans = val;
@@ -2181,34 +2041,47 @@
             const pro3 = document.getElementById('progress-p3'); if(pro3) pro3.innerText = `${p3Done}/6`;
         }
 
+        // HỆ THỐNG CHẤM ĐIỂM CHUẨN XÁC DỰA VÀO CẤU TRÚC MỚI
         window.submitExam = function() {
-            window.showMessage("Nộp bài", "Hệ thống sẽ chấm điểm theo cấu trúc: Phần 1 (0.25đ/câu), Phần 2 (Tối đa 1đ/câu), Phần 3 (0.25đ/câu). Xác nhận nộp bài?", true, async () => {
+            window.showMessage("Nộp bài", "Hệ thống sẽ chấm điểm theo cấu trúc Bộ GD: Phần 1 (0.25đ/câu), Phần 2 (Tối đa 1đ/câu), Phần 3 (0.25đ/câu). Xác nhận nộp bài?", true, async () => {
                 if(examTimerInterval) clearInterval(examTimerInterval);
                 
                 let score = 0;
-                // Chấm Phần 1 (0.25 / câu) - Đang tính random đúng 70% vì chưa có đáp án thật
-                let p1Correct = Math.floor(Math.random() * 18);
-                score += p1Correct * 0.25;
+                
+                // 1. Chấm Phần 1 (18 câu x 0.25đ = 4.5đ)
+                sampleExamData.part1.forEach(q => {
+                    if (q.ans === q.realAns) {
+                        score += 0.25;
+                    }
+                });
 
-                // Chấm Phần 2
+                // 2. Chấm Phần 2 (4 câu x tối đa 1.0đ = 4.0đ)
                 sampleExamData.part2.forEach(q => {
                     let correctCount = 0;
-                    for(let i=0; i<4; i++) {
-                        if(q.userAns[i] === q.realAns[i]) correctCount++;
-                    }
+                    q.stmts.forEach((stmt, idx) => {
+                        if(q.userAns[idx] === stmt.realAns) {
+                            correctCount++;
+                        }
+                    });
+                    
+                    // Tính điểm theo barem Bộ GD
                     if(correctCount === 4) score += 1.0;
                     else if(correctCount === 3) score += 0.5;
                     else if(correctCount === 2) score += 0.25;
                     else if(correctCount === 1) score += 0.1;
                 });
 
-                // Chấm Phần 3
-                let p3Correct = Math.floor(Math.random() * 6);
-                score += p3Correct * 0.25;
+                // 3. Chấm Phần 3 (6 câu x 0.25đ = 1.5đ)
+                sampleExamData.part3.forEach(q => {
+                    if (q.ans && q.ans.trim().toLowerCase() === q.realAns.toString().trim().toLowerCase()) {
+                        score += 0.25;
+                    }
+                });
 
-                score = Math.min(10, score).toFixed(2); // Giới hạn 10đ
+                // Tổng điểm: 4.5 + 4.0 + 1.5 = 10.0đ
+                score = Math.min(10, score).toFixed(2); 
                 
-                window.showMessage("Kết quả bài thi", `Xuất sắc! Bạn đạt được ${score} Điểm. Dữ liệu đã được lưu vào hệ thống!`);
+                window.showMessage("Kết quả bài thi", `Hoàn thành! Bạn đạt được ${score} / 10.0 Điểm. Dữ liệu đã được lưu vào hệ thống.`);
                 
                 // Lưu điểm vào DB nếu đã đăng nhập
                 if(currentUserUid && currentStats) {
