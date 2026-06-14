@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Xuân Hóa Học</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-logo { font-family: 'Nunito', sans-serif; }
+        
+        /* 1. Nền lưới Pastel Xanh Dương */
+        .bg-grid-pattern {
+            background-color: #dce8ff; /* Pastel Blue */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* 2. Hiệu ứng lắc lư (Wobble) cho bảng mục tiêu */
+        @keyframes wobble {
+            0% { transform: translateX(0%); }
+            15% { transform: translateX(-5%) rotate(-5deg); }
+            30% { transform: translateX(4%) rotate(3deg); }
+            45% { transform: translateX(-3%) rotate(-3deg); }
+            60% { transform: translateX(2%) rotate(2deg); }
+            75% { transform: translateX(-1%) rotate(-1deg); }
+            100% { transform: translateX(0%); }
+        }
+        .hover-wobble:hover {
+            animation: wobble 0.8s ease-in-out;
+            cursor: pointer;
+        }
+
+        /* Card hover effects */
+        .skill-card { transition: all 0.3s ease; cursor: pointer; }
+        .skill-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+
+        /* Ô nguyên tố hóa học CSS */
+        .chemical-square {
+            background: white; border: 4px solid #1e3a8a; border-radius: 12px;
+            width: 120px; height: 120px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; position: absolute;
+            box-shadow: 6px 6px 0px rgba(30, 58, 138, 0.2);
+            transform: rotate(-10deg); z-index: 20;
+        }
+
+        /* Ẩn hiện các Layout */
+        .hidden-layout { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- ================= VIEW 1: TRANG CHỦ LANDING PAGE ================= -->
+    <div id="landing-view" class="block">
+        <!-- HERO SECTION -->
+        <section class="bg-grid-pattern relative overflow-hidden text-gray-800 pt-4 pb-20">
+            <!-- Navigation -->
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center relative z-10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-600 text-white flex items-center justify-center font-bold rounded-xl text-xl">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+                    <span class="font-logo font-extrabold text-2xl tracking-tight text-blue-900">Thanh Xuân Hóa Học</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <!-- Nút đăng nhập Google (Mặc định hiện) -->
+                    <button id="btn-login" onclick="loginGoogle()" class="bg-white border-2 border-gray-200 rounded-full px-4 py-2 flex items-center gap-2 hover:bg-gray-50 transition shadow-sm font-semibold text-sm">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5">
+                        Đăng nhập bằng Google
+                    </button>
+
+                    <!-- User Profile (Mặc định ẩn, hiện sau khi đăng nhập) -->
+                    <div id="user-profile" onclick="openDashboard()" class="hidden bg-white border border-gray-200 rounded-full px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-blue-50 transition shadow-sm">
+                        <img src="https://ui-avatars.com/api/?name=Hoc+Sinh&background=0D8ABC&color=fff" class="w-8 h-8 rounded-full" alt="Avatar">
+                        <div class="text-xs text-left hidden md:block">
+                            <div class="font-bold text-gray-800">Học Sinh 1</div>
+                            <div class="text-blue-600 font-semibold" style="font-size: 0.6rem;">TRANG CÁ NHÂN <i class="fa-solid fa-chevron-right ml-1"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Hero Content -->
+            <div class="container mx-auto px-6 mt-12 flex flex-col lg:flex-row relative z-10">
+                <!-- Left content -->
+                <div class="lg:w-1/2 pt-10">
+                    <div class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-bold mb-4 border border-blue-200">#ThanhXuanHoaHoc</div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-blue-950 font-logo">
+                        Khám phá vẻ đẹp <br>
+                        <span class="text-blue-600">Thế Giới Hóa Học</span>
+                    </h1>
+                    <p class="mb-8 text-lg text-gray-700 max-w-md font-medium">
+                        Hệ thống học tập, luyện đề và lưu trữ kiến thức Hóa Học cá nhân hóa. Mỗi tài khoản là một không gian học tập độc lập và bảo mật.
+                    </p>
+
+                    <!-- Actions -->
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <button onclick="loginGoogle()" class="bg-blue-600 text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                                Bắt đầu học ngay <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right content (Stickers Hóa Học) -->
+                <div class="lg:w-1/2 mt-16 lg:mt-0 relative flex justify-center items-center h-[400px]">
+                    <!-- Sticker CSS Nguyên tố -->
+                    <div class="chemical-square top-10 right-20">
+                        <span class="text-sm font-bold text-gray-500">6</span>
+                        <h2 class="text-5xl font-extrabold text-gray-800 leading-none">C</h2>
+                        <span class="text-xs font-semibold">Carbon</span>
+                        <span class="text-[10px]">12.011</span>
+                    </div>
+
+                    <div class="chemical-square bottom-20 left-10" style="transform: rotate(15deg); border-color: #ef4444;">
+                        <span class="text-sm font-bold text-gray-500">8</span>
+                        <h2 class="text-5xl font-extrabold text-red-500 leading-none">O</h2>
+                        <span class="text-xs font-semibold">Oxygen</span>
+                        <span class="text-[10px]">15.999</span>
+                    </div>
+
+                    <!-- BẠN THAY ẢNH STICKER VÀO ĐÂY -->
+                    <!-- Sửa thuộc tính src="..." thành link ảnh thật của bạn -->
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chemistry-flask-5380681-4497615.png" alt="Sticker Hóa học" class="w-64 h-64 object-contain z-10 animate-[bounce_4s_infinite]">
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILL CARDS SECTION (CÁC MÔN HỌC) -->
+        <section class="container mx-auto px-4 -mt-10 relative z-20">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                
+                <div onclick="openSubjectPage('Hóa Hữu Cơ')" class="skill-card bg-[#3b82f6] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden">
+                    <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-hexagon-nodes"></i></div>
+                    <h3 class="font-bold text-xl mb-2">Hóa Hữu Cơ</h3>
+                    <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Hydrocarbon, Ancol, Phenol, Amin... và các chuỗi phản ứng.</p>
+                </div>
+
+                <div onclick="openSubjectPage('Hóa Vô Cơ')" class="skill-card bg-[#10b981] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden">
+                    <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-gem"></i></div>
+                    <h3 class="font-bold text-xl mb-2">Hóa Vô Cơ</h3>
+                    <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Kim loại, Phi kim, hợp chất vô cơ và các định luật bảo toàn.</p>
+                </div>
+
+                <div onclick="openSubjectPage('Lý Thuyết')" class="skill-card bg-[#f59e0b] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden">
+                    <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-book"></i></div>
+                    <h3 class="font-bold text-xl mb-2">Lý Thuyết</h3>
+                    <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Lý thuyết trọng tâm, đếm mệnh đề, phân biệt các hiện tượng hóa học.</p>
+                </div>
+
+                <div onclick="openSubjectPage('Bài Tập Vận Dụng')" class="skill-card bg-[#ef4444] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden">
+                    <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-calculator"></i></div>
+                    <h3 class="font-bold text-xl mb-2">Bài Tập</h3>
+                    <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Bài tập tính toán từ cơ bản đến nâng cao (VDC).</p>
+                </div>
+
+                <div onclick="openSubjectPage('Luyện Đề')" class="skill-card bg-[#8b5cf6] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden">
+                    <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-file-signature"></i></div>
+                    <h3 class="font-bold text-lg mb-2 leading-tight">Luyện Đề<br>Thi Thử</h3>
+                    <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Cập nhật đề thi THPT Quốc Gia, ĐGNL mới nhất.</p>
+                </div>
+
+                <div onclick="openSubjectPage('Sổ Tay Phương Trình')" class="skill-card bg-[#06b6d4] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden">
+                    <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <h3 class="font-bold text-lg mb-2 leading-tight">Sổ Tay<br>Phương Trình</h3>
+                    <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Từ điển tra cứu nhanh phương trình và điều kiện phản ứng.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- STATS SECTION (BẢNG MỤC TIÊU LẮC LƯ) -->
+        <section class="container mx-auto px-4 py-16 mt-8">
+            <div class="bg-[#e0f2fe] rounded-[3rem] p-8 md:p-12 relative overflow-hidden shadow-sm border border-blue-100 min-h-[400px] flex flex-col justify-center">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    
+                    <!-- Left Stats -->
+                    <div class="space-y-6 flex flex-col items-end">
+                        <div class="bg-white rounded-[2rem] p-4 pr-8 flex items-center gap-4 w-64 shadow-md transform -rotate-2 border border-gray-100">
+                            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-2xl text-blue-600"><i class="fa-solid fa-book-open-reader"></i></div>
+                            <div>
+                                <div class="text-2xl font-bold text-gray-800">10,000+</div>
+                                <div class="text-sm text-gray-500">Câu hỏi ôn tập</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Text Box (Hiệu ứng Lắc lư) -->
+                    <div class="flex items-center justify-center hover-wobble">
+                        <div class="bg-white rounded-[2rem] p-6 text-center shadow-xl border-b-4 border-blue-400 max-w-sm z-20">
+                            <div class="text-blue-600 text-3xl mb-2"><i class="fa-solid fa-ranking-star"></i></div>
+                            <p class="text-gray-800 font-medium">Mục tiêu của admin là giúp bạn <strong class="text-black text-lg text-blue-800">chinh phục điểm 9+ Hóa Học</strong> một cách dễ dàng nhất</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Stats -->
+                    <div class="space-y-6 flex flex-col items-start">
+                        <div class="bg-white rounded-[2rem] p-4 pr-8 flex items-center gap-4 w-64 shadow-md transform rotate-2 border border-gray-100">
+                            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-2xl text-blue-600"><i class="fa-solid fa-lock"></i></div>
+                            <div>
+                                <div class="text-xl font-bold text-gray-800">100% Bảo mật</div>
+                                <div class="text-sm text-gray-500">Dữ liệu độc lập</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-white border-t border-gray-200 pt-16 pb-8 mt-10">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                    <div>
+                        <div class="flex items-center gap-2 mb-6">
+                            <div class="w-8 h-8 bg-blue-600 text-white flex items-center justify-center font-bold rounded text-lg"><i class="fa-solid fa-flask"></i></div>
+                            <span class="font-bold text-xl text-blue-900 font-logo">Thanh Xuân Hóa Học</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-6">Nền tảng chia sẻ kiến thức Hóa Học miễn phí. Cam kết bảo mật dữ liệu học tập của từng tài khoản cá nhân (Admin không có quyền truy cập thông tin của bạn).</p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800 mb-6">Học Tập</h4>
+                        <ul class="text-gray-500 text-sm space-y-3">
+                            <li><a href="#" class="hover:text-blue-600 transition">Đề thi thử THPT QG</a></li>
+                            <li><a href="#" class="hover:text-blue-600 transition">Chuyên đề Hữu Cơ</a></li>
+                            <li><a href="#" class="hover:text-blue-600 transition">Chuyên đề Vô Cơ</a></li>
+                            <li><a href="#" class="hover:text-blue-600 transition">Mẹo giải nhanh</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800 mb-6">Dành cho bạn</h4>
+                        <ul class="text-gray-500 text-sm space-y-3">
+                            <li><a href="#" class="hover:text-blue-600 transition">Bảng tuần hoàn Online</a></li>
+                            <li><a href="#" class="hover:text-blue-600 transition">Máy tính hóa học</a></li>
+                            <li><a href="#" class="hover:text-blue-600 transition">Blog góc nhìn hóa học</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-800 mb-6">Liên hệ Admin</h4>
+                        <ul class="text-gray-500 text-sm space-y-3">
+                            <li><i class="fa-solid fa-envelope w-5 text-blue-500"></i> admin@thanhxuanhoahoc.vn</li>
+                            <li><i class="fa-brands fa-facebook w-5 text-blue-500"></i> fb.com/thanhxuanhoahoc</li>
+                            <li>(Chỉ liên hệ để góp ý nội dung bài tập, website hoạt động tự động 100%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- ================= VIEW 2: TRANG NỘI DUNG TRẮNG KHI BẤM VÀO MÔN HỌC ================= -->
+    <div id="subject-view" class="hidden-layout bg-white min-h-screen">
+        <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+            <button onclick="backToHome()" class="text-gray-600 hover:text-blue-600 font-bold flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Quay lại
+            </button>
+            <h1 id="subject-title" class="text-xl font-bold text-blue-900">Tên Môn Học</h1>
+            <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-bold border border-blue-200">
+                Chế độ học tập
+            </div>
+        </nav>
+        <div class="container mx-auto px-6 py-12 text-center">
+            <div class="inline-flex justify-center items-center w-24 h-24 bg-blue-50 text-blue-300 rounded-full text-4xl mb-6">
+                <i class="fa-solid fa-pencil"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Trang nội dung học tập</h2>
+            <p class="text-gray-500 max-w-lg mx-auto">Đây là trang trắng nơi Admin sẽ đăng tải các đề học tập. Mỗi tài khoản khi truy cập vào đây để làm bài đều được lưu điểm độc lập và tài khoản của bạn vẫn đang được giữ nguyên.</p>
+        </div>
+    </div>
+
+
+    <!-- ================= VIEW 3: DASHBOARD CÁ NHÂN (DARK MODE NHƯ ẢNH 2) ================= -->
+    <div id="dashboard-view" class="hidden-layout bg-[#0f172a] min-h-screen text-white flex">
+        
+        <!-- Sidebar Trái -->
+        <aside class="w-64 bg-[#1e293b] border-r border-slate-700 hidden md:flex flex-col h-screen sticky top-0">
+            <div class="p-6 flex items-center gap-3 border-b border-slate-700">
+                <div class="w-8 h-8 bg-blue-500 text-white flex items-center justify-center font-bold rounded"><i class="fa-solid fa-flask"></i></div>
+                <span class="font-bold text-lg font-logo">TX. Hóa Học</span>
+            </div>
+            <div class="p-4 space-y-2 flex-grow">
+                <div class="text-xs text-slate-400 font-bold mb-2 uppercase tracking-wider">Học tập</div>
+                <a href="#" class="flex items-center gap-3 bg-[#334155] text-white px-4 py-3 rounded-lg"><i class="fa-solid fa-border-all w-5"></i> Tổng quan</a>
+                <a href="#" class="flex items-center gap-3 text-slate-300 hover:bg-[#334155] px-4 py-3 rounded-lg transition"><i class="fa-solid fa-book w-5"></i> Giáo trình</a>
+                <a href="#" class="flex items-center gap-3 text-slate-300 hover:bg-[#334155] px-4 py-3 rounded-lg transition"><i class="fa-solid fa-layer-group w-5"></i> Flashcard</a>
+                <a href="#" class="flex items-center gap-3 text-slate-300 hover:bg-[#334155] px-4 py-3 rounded-lg transition"><i class="fa-solid fa-chart-line w-5"></i> Thống kê</a>
+            </div>
+            <div class="p-4">
+                <button onclick="backToHome()" class="w-full text-left text-slate-400 hover:text-white px-4 py-2 flex items-center gap-2"><i class="fa-solid fa-house"></i> Về trang chủ</button>
+            </div>
+        </aside>
+
+        <!-- Nội dung chính Dashboard -->
+        <main class="flex-1 p-8">
+            <!-- Top Nav Dashboard -->
+            <header class="flex justify-between items-center mb-10">
+                <div>
+                    <h2 class="text-sm text-slate-400">TỔNG QUAN - TIẾN ĐỘ LUYỆN ĐỀ</h2>
+                    <h1 class="text-3xl font-bold text-white mt-1">Chào Học Sinh, hôm nay luyện đề nhé!</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-[#1e293b] px-4 py-2 rounded-full border border-slate-600 flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-orange-500"></i> 0
+                    </div>
+                    <div class="flex items-center gap-3 bg-[#1e293b] pl-2 pr-4 py-1.5 rounded-full border border-slate-600">
+                        <img src="https://ui-avatars.com/api/?name=Hoc+Sinh&background=0D8ABC&color=fff" class="w-8 h-8 rounded-full">
+                        <span class="font-semibold text-sm">Học Sinh 1</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Khung thống kê -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Mục tiêu -->
+                <div class="bg-[#1e293b] p-6 rounded-2xl border border-slate-700 relative overflow-hidden">
+                    <h3 class="text-slate-400 font-bold mb-4 uppercase text-sm tracking-wider">Mục Tiêu Điểm</h3>
+                    <div class="flex items-end gap-4">
+                        <span class="text-6xl font-black text-blue-400">9.0+</span>
+                        <button class="bg-[#334155] text-xs px-3 py-1 rounded-full mb-2 hover:bg-slate-600">Sửa mục tiêu <i class="fa-solid fa-pen ml-1"></i></button>
+                    </div>
+                    <p class="text-sm text-slate-400 mt-4">Chưa đủ dữ liệu điểm để hệ thống tính toán lộ trình.</p>
+                </div>
+
+                <!-- Chuỗi ngày học -->
+                <div class="lg:col-span-2 bg-[#1e293b] p-6 rounded-2xl border border-slate-700">
+                    <h3 class="text-slate-400 font-bold mb-4 uppercase text-sm tracking-wider flex items-center gap-2">Chuỗi ngày học <i class="fa-solid fa-fire text-orange-500"></i></h3>
+                    <div class="flex items-center gap-6">
+                        <div class="text-5xl font-black">0 <span class="text-lg font-normal text-slate-400">ngày liên tiếp</span></div>
+                        <!-- Vòng tròn các ngày mô phỏng -->
+                        <div class="flex gap-2 w-full justify-between mt-4">
+                            <div class="flex flex-col items-center gap-2"><div class="w-8 h-8 rounded-full bg-slate-700"></div><span class="text-xs text-slate-400">T2</span></div>
+                            <div class="flex flex-col items-center gap-2"><div class="w-8 h-8 rounded-full bg-slate-700"></div><span class="text-xs text-slate-400">T3</span></div>
+                            <div class="flex flex-col items-center gap-2"><div class="w-8 h-8 rounded-full bg-blue-500 ring-4 ring-blue-500/20"></div><span class="text-xs text-blue-400 font-bold">T4</span></div>
+                            <div class="flex flex-col items-center gap-2"><div class="w-8 h-8 rounded-full border-2 border-slate-600 border-dashed"></div><span class="text-xs text-slate-500">T5</span></div>
+                            <div class="flex flex-col items-center gap-2"><div class="w-8 h-8 rounded-full border-2 border-slate-600 border-dashed"></div><span class="text-xs text-slate-500">T6</span></div>
+                            <div class="flex flex-col items-center gap-2"><div class="w-8 h-8 rounded-full border-2 border-slate-600 border-dashed"></div><span class="text-xs text-slate-500">T7</span></div>
+                            <div class="flex flex-col items-center gap-2"><div class="w-8 h-8 rounded-full border-2 border-slate-600 border-dashed"></div><span class="text-xs text-slate-500">CN</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chuyên đề gần đây -->
+                <div class="lg:col-span-2 bg-[#1e293b] p-6 rounded-2xl border border-slate-700">
+                    <h3 class="text-slate-400 font-bold mb-6 uppercase text-sm tracking-wider">Tiến độ Chuyên đề</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span>Hóa Hữu Cơ</span><span class="text-slate-400">Chưa làm</span></div>
+                            <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-2"><span>Hóa Vô Cơ</span><span class="text-slate-400">Chưa làm</span></div>
+                            <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-green-500 h-2 rounded-full" style="width: 0%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Đếm ngược -->
+                <div class="bg-[#1e293b] p-6 rounded-2xl border border-slate-700 flex flex-col items-center justify-center text-center">
+                    <h3 class="text-slate-400 font-bold mb-4 uppercase text-sm tracking-wider">Đếm ngược kỳ thi</h3>
+                    <i class="fa-regular fa-calendar-xmark text-4xl text-slate-600 mb-4"></i>
+                    <p class="text-slate-300 font-medium mb-4">Bạn chưa đặt ngày thi THPT Quốc Gia</p>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">Thiết lập ngày thi</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+
+    <!-- ================= JAVASCRIPT XỬ LÝ CHUYỂN TRANG ================= -->
+    <script>
+        // Các biến View
+        const landingView = document.getElementById('landing-view');
+        const subjectView = document.getElementById('subject-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        
+        const btnLogin = document.getElementById('btn-login');
+        const userProfile = document.getElementById('user-profile');
+
+        // Hàm giả lập đăng nhập Google
+        function loginGoogle() {
+            // Ẩn nút đăng nhập, hiện User Avatar
+            btnLogin.classList.add('hidden');
+            userProfile.classList.remove('hidden');
+            alert("Đã mô phỏng đăng nhập bằng Google thành công! Tài khoản của bạn đã được bảo mật độc lập. Hãy bấm vào Tên của bạn trên góc phải để vào Dashboard.");
+        }
+
+        // Mở Dashboard (Trang cá nhân màu tối)
+        function openDashboard() {
+            landingView.classList.add('hidden-layout');
+            subjectView.classList.add('hidden-layout');
+            dashboardView.classList.remove('hidden-layout');
+            window.scrollTo(0,0);
+        }
+
+        // Mở Trang Môn Học trắng
+        function openSubjectPage(subjectName) {
+            // Cập nhật tên môn học
+            document.getElementById('subject-title').innerText = subjectName;
+            
+            landingView.classList.add('hidden-layout');
+            dashboardView.classList.add('hidden-layout');
+            subjectView.classList.remove('hidden-layout');
+            window.scrollTo(0,0);
+        }
+
+        // Quay lại Landing Page
+        function backToHome() {
+            subjectView.classList.add('hidden-layout');
+            dashboardView.classList.add('hidden-layout');
+            landingView.classList.remove('hidden-layout');
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>
