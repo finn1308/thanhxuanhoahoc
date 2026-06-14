@@ -89,10 +89,6 @@
         }
         
         .folder-list-scroll::-webkit-scrollbar { height: 4px; }
-        
-        /* Ẩn triệt để tab admin bằng CSS */
-        .admin-only { display: none !important; }
-        .admin-only.show-admin { display: flex !important; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -187,14 +183,12 @@
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Cập nhật đề thi THPT Quốc Gia, ĐGNL mới nhất.</p>
                 </div>
                 
-                <!-- Nút Tài Liệu Tổng Hợp mới -->
                 <div onclick="window.openDocumentLibrary()" class="bg-[#06b6d4] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
                     <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-folder-open"></i></div>
                     <h3 class="font-bold text-lg mb-2 leading-tight">Tài Liệu<br>Tổng Hợp</h3>
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Kho tài liệu, đề thi, chuyên đề Hóa Học các khối lớp.</p>
                 </div>
 
-                <!-- Nút Khám Phá Sự kiện -->
                 <div onclick="window.openEventDiscovery()" class="bg-[#f97316] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
                     <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-trophy"></i></div>
                     <h3 class="font-bold text-lg mb-2 leading-tight">Khám Phá<br>Sự Kiện</h3>
@@ -210,7 +204,7 @@
         </footer>
     </div>
 
-    <!-- ================= NEW VIEW: KHÁM PHÁ SỰ KIỆN (GIAO DIỆN DARK TƯƠNG TỰ ẢNH) ================= -->
+    <!-- ================= VIEW 2: KHÁM PHÁ SỰ KIỆN (GIAO DIỆN DARK TƯƠNG TỰ ẢNH) ================= -->
     <div id="event-discovery-view" class="hidden-layout bg-grid-dark min-h-screen font-inter flex flex-col">
         <nav class="bg-[#111] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
             <button onclick="window.backToHome()" class="text-gray-300 font-bold flex items-center gap-2 hover:text-white transition w-[200px]">
@@ -219,9 +213,7 @@
             <div class="flex-1 flex justify-center items-center gap-3">
                 <h1 class="text-2xl font-extrabold text-white font-logo tracking-wide">Kho Sự Kiện & Thử Thách</h1>
             </div>
-            <div class="flex items-center justify-end gap-3 md:gap-4 w-[200px]">
-                 <!-- Có thể thêm user profile info ở đây nếu cần -->
-            </div>
+            <div class="w-[200px]"></div>
         </nav>
 
         <div class="container mx-auto px-6 py-10 flex-grow">
@@ -229,16 +221,13 @@
                 <h2 class="text-4xl font-black text-white font-logo mb-4">Thử thách bản thân</h2>
                 <p class="text-gray-400">Tham gia các sự kiện để kiểm tra kiến thức và ghi danh vào bảng vàng.</p>
             </div>
-
-            <!-- Grid Thẻ Sự kiện -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="public-events-grid">
                 <!-- JS sẽ Render danh sách sự kiện từ Public Database vào đây -->
             </div>
         </div>
     </div>
 
-
-    <!-- ================= VIEW 2: TRANG NỘI DUNG MÔN HỌC (SUBJECT VIEW) ================= -->
+    <!-- ================= VIEW 3: TRANG NỘI DUNG MÔN HỌC (SUBJECT VIEW) ================= -->
     <div id="subject-view" class="hidden-layout bg-white min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
             <button onclick="window.backToHome()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition w-[200px]">
@@ -248,25 +237,16 @@
                 <h1 id="subject-title" class="text-xl font-bold text-blue-900 font-logo">Tên Môn Học</h1>
                 <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-[11px] font-bold border border-blue-200">Chế độ học tập</div>
             </div>
-            <div class="flex items-center justify-end gap-3 md:gap-4 w-[300px]">
-                <div class="flex flex-col items-end mr-2">
-                    <span class="study-timer-display text-[10px] font-bold text-gray-400">Hôm nay: 00:00 / 30:00</span>
-                </div>
-                <div class="bg-white border border-gray-200 px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm" title="Học đủ 30 phút để tăng chuỗi">
-                    <i class="nav-fire-icon fa-solid fa-fire text-gray-300 transition-colors duration-500"></i> 
-                    <span class="nav-streak-count font-bold text-gray-700 text-sm">0</span>
-                </div>
-            </div>
+            <div class="w-[200px]"></div>
         </nav>
-        
         <div class="container mx-auto px-6 py-12 text-center flex-grow flex flex-col items-center justify-center">
             <div class="inline-flex justify-center items-center w-24 h-24 bg-blue-50 text-blue-300 rounded-full text-4xl mb-6"><i class="fa-solid fa-pencil"></i></div>
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Trang nội dung</h2>
-            <p class="text-gray-500 max-w-lg mx-auto">Nơi hiển thị bài giảng, bài tập trắc nghiệm và kiến thức thuộc chủ đề bạn vừa chọn. Thời gian hoạt động tại đây vẫn được tính vào Chuỗi ngày học.</p>
+            <p class="text-gray-500 max-w-lg mx-auto">Nơi hiển thị bài giảng, bài tập trắc nghiệm và kiến thức thuộc chủ đề bạn vừa chọn.</p>
         </div>
     </div>
 
-    <!-- ================= VIEW: THƯ VIỆN TÀI LIỆU TỔNG HỢP ================= -->
+    <!-- ================= VIEW 4: THƯ VIỆN TÀI LIỆU TỔNG HỢP ================= -->
     <div id="document-library-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
             <button onclick="window.backToHome()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition w-[200px]">
@@ -276,7 +256,6 @@
                 <h1 class="text-xl font-bold text-blue-900 font-logo">Tài Liệu Tổng Hợp</h1>
             </div>
             <div class="flex items-center justify-end gap-3 md:gap-4 w-[300px]">
-                <!-- Ô tìm kiếm tài liệu -->
                 <div class="relative w-full">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
                     <input type="text" id="lib-search-input" placeholder="Tìm tài liệu..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition border border-transparent focus:border-blue-300" onkeyup="window.handleGlobalSearch(event)">
@@ -291,11 +270,11 @@
                         <h1 class="text-2xl font-extrabold text-gray-900 font-logo" id="doc-section-title">Tất cả tài liệu</h1>
                     </div>
                     <div class="flex gap-2 mb-6 border-b border-gray-200 pb-2 overflow-x-auto whitespace-nowrap scrollbar-hide folder-list-scroll">
-                        <button onclick="window.filterDocuments('Tất cả')" id="btn-filter-Tất cả" class="filter-btn px-4 py-1.5 text-sm font-bold text-blue-600 border-b-2 border-blue-600 transition-colors">Tất cả</button>
-                        <button onclick="window.filterDocuments('Lớp 12')" id="btn-filter-Lớp 12" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 12</button>
-                        <button onclick="window.filterDocuments('Lớp 11')" id="btn-filter-Lớp 11" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 11</button>
-                        <button onclick="window.filterDocuments('Lớp 10')" id="btn-filter-Lớp 10" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 10</button>
-                        <button onclick="window.filterDocuments('ĐGNL')" id="btn-filter-ĐGNL" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">ĐGNL</button>
+                        <button onclick="window.filterDocuments('Tất cả')" class="filter-btn px-4 py-1.5 text-sm font-bold text-blue-600 border-b-2 border-blue-600 transition-colors">Tất cả</button>
+                        <button onclick="window.filterDocuments('Lớp 12')" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 12</button>
+                        <button onclick="window.filterDocuments('Lớp 11')" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 11</button>
+                        <button onclick="window.filterDocuments('Lớp 10')" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 10</button>
+                        <button onclick="window.filterDocuments('ĐGNL')" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">ĐGNL</button>
                     </div>
                     <div id="document-list-container" class="space-y-4 flex-1"></div>
                 </div>
@@ -309,27 +288,19 @@
                         <div class="space-y-3">
                             <div onclick="window.selectFolder('Kho đề thi thử 2026')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
                                 <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-gray-800">Kho đề thi thử 2026</h4>
-                                </div>
+                                <div><h4 class="font-bold text-sm text-gray-800">Kho đề thi thử 2026</h4></div>
                             </div>
                             <div onclick="window.selectFolder('Chuyên đề Hóa Hữu Cơ')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
                                 <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Hữu Cơ</h4>
-                                </div>
+                                <div><h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Hữu Cơ</h4></div>
                             </div>
                             <div onclick="window.selectFolder('Chuyên đề Hóa Vô Cơ')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
                                 <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Vô Cơ</h4>
-                                </div>
+                                <div><h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Vô Cơ</h4></div>
                             </div>
                             <div onclick="window.selectFolder('Kiến thức trọng tâm')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
                                 <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-gray-800">Kiến thức trọng tâm</h4>
-                                </div>
+                                <div><h4 class="font-bold text-sm text-gray-800">Kiến thức trọng tâm</h4></div>
                             </div>
                         </div>
                     </div>
@@ -338,8 +309,7 @@
         </div>
     </div>
 
-
-    <!-- ================= VIEW 3: MAIN DASHBOARD (CÁ NHÂN) ================= -->
+    <!-- ================= VIEW 5: MAIN DASHBOARD (CÁ NHÂN) ================= -->
     <div id="dashboard-view" class="hidden-layout bg-[#eff6ff] min-h-screen text-gray-800 flex font-inter">
         
         <!-- Sidebar Trái -->
@@ -363,8 +333,8 @@
                     <i class="fa-solid fa-chart-line w-5"></i> Thống kê
                 </button>
                 
-                <!-- MENU ADMIN (Được quản lý bằng CSS class .admin-only) -->
-                <button onclick="window.switchDashboardTab('admin-panel')" id="tab-admin-panel" class="admin-only w-full items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100">
+                <!-- MENU ADMIN (Mặc định ẩn, chỉ hiện thông qua JS kiểm tra logic email) -->
+                <button onclick="window.switchDashboardTab('admin-panel')" id="tab-admin-panel" style="display: none;" class="w-full items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100">
                     <i class="fa-solid fa-user-shield w-5"></i> Quản lý Hệ Thống
                 </button>
             </div>
@@ -424,21 +394,12 @@
                     <h1 id="dash-welcome" class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Chào bạn, hôm nay luyện đề nhé!</h1>
 
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                        <!-- 1. Manifest Điểm -->
+                        <!-- Manifest Điểm -->
                         <div class="lg:col-span-5 starry-card rounded-3xl p-6 text-white shadow-xl flex flex-col justify-between min-h-[220px]">
                             <div class="shooting-star" style="top: 20%; left: 30%;"></div>
                             <div class="shooting-star" style="top: 60%; left: 80%; animation-delay: 2s;"></div>
                             
-                            <div class="absolute top-[-20px] right-[-20px] w-32 h-32 bg-white rounded-full opacity-90 shadow-[0_0_40px_rgba(255,255,255,0.4)] flex items-center justify-center">
-                                <div class="w-16 h-16 mr-4 mt-4 opacity-50 relative">
-                                    <div class="absolute w-2 h-2 bg-gray-800 rounded-full top-4 left-2"></div>
-                                    <div class="absolute w-2 h-2 bg-gray-800 rounded-full top-4 right-2"></div>
-                                    <div class="absolute w-6 h-2 border-b-2 border-gray-800 rounded-full bottom-4 left-5"></div>
-                                </div>
-                            </div>
-
                             <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-2 z-10">Manifest Điểm</h3>
-                            
                             <div class="flex items-end gap-2 z-10 mb-2 mt-2">
                                 <span id="display-target-score" class="text-7xl font-black text-white leading-none tracking-tighter">?</span>
                                 <span id="target-score-plus" class="text-2xl font-bold text-[#facc15] mb-2 hidden">+</span>
@@ -447,16 +408,13 @@
                             <div class="w-full z-10 relative mt-4 mb-2 pr-8">
                                 <input type="range" id="score-slider" min="0" max="10" step="0.25" value="0" class="w-full h-2.5 bg-[#0f172a]/80 rounded-lg appearance-none cursor-pointer accent-[#facc15] shadow-inner" oninput="window.updateTargetScore(this.value)" onchange="window.saveTargetScoreToDB(this.value)">
                                 <div class="flex justify-between text-[10px] font-bold text-blue-200 mt-2">
-                                    <span>0</span>
-                                    <span>5</span>
-                                    <span>10</span>
+                                    <span>0</span><span>5</span><span>10</span>
                                 </div>
                             </div>
-                            
-                            <p class="text-sm text-blue-100 opacity-80 z-10 max-w-[80%] mt-2">Kéo thanh trượt để đặt mục tiêu và để hệ thống đồng hành cùng bạn mỗi ngày 🌱</p>
+                            <p class="text-sm text-blue-100 opacity-80 z-10 max-w-[80%] mt-2">Kéo thanh trượt để đặt mục tiêu.</p>
                         </div>
 
-                        <!-- 2. Chuỗi Ngày Học -->
+                        <!-- Chuỗi Ngày Học -->
                         <div class="lg:col-span-7 starry-card rounded-3xl p-6 text-white shadow-xl min-h-[220px]">
                             <div class="shooting-star" style="top: 40%; left: 50%; animation-delay: 1s;"></div>
                             <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-6 flex items-center gap-2">Chuỗi ngày học <i class="fa-solid fa-fire text-orange-400"></i> (Cần học 30p/ngày)</h3>
@@ -467,7 +425,6 @@
                                     <span class="text-sm text-blue-200 ml-1">ngày liên tiếp</span>
                                 </div>
                             </div>
-                            <!-- Tracking 7 ngày -->
                             <div class="flex justify-between items-center w-full mt-4 px-2">
                                 <div class="flex flex-col items-center gap-2 relative">
                                     <div class="w-10 h-10 rounded-full bg-[#0f172a] shadow-inner flex items-center justify-center text-gray-600"><i class="fa-solid fa-check"></i></div>
@@ -507,7 +464,7 @@
                             </div>
                         </div>
 
-                        <!-- 3. Đếm ngược kỳ thi -->
+                        <!-- Đếm ngược kỳ thi -->
                         <div class="lg:col-span-12 starry-card rounded-3xl p-6 text-white shadow-xl relative min-h-[150px]">
                             <div class="flex justify-between items-start mb-2 relative z-10">
                                 <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase">Đếm ngược kỳ thi THPT</h3>
@@ -523,29 +480,25 @@
                     </div>
                 </div>
 
-                <!-- ================= TAB 3: SỰ KIỆN (CHỈ DÀNH CHO CÁ NHÂN) ================= -->
+                <!-- ================= TAB 2: SỰ KIỆN ĐÃ THAM GIA ================= -->
                 <div id="tab-content-su-kien" class="hidden-layout">
                     <div class="flex justify-between items-end mb-8">
                         <div>
                             <h2 class="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">HOẠT ĐỘNG CÁ NHÂN</h2>
                             <h1 class="text-3xl font-extrabold text-gray-900 font-logo">Sự kiện đã tham gia</h1>
-                            <p class="text-sm text-gray-500 mt-2">Bấm vào sự kiện để mở Phòng thi/Tài liệu tương ứng.</p>
+                            <p class="text-sm text-gray-500 mt-2">Bấm vào thẻ để mở phòng thi tương ứng.</p>
                         </div>
                         <button onclick="window.openEventDiscovery()" class="bg-[#f97316] hover:bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-sm">
                             <i class="fa-solid fa-plus"></i> Khám phá thêm
                         </button>
                     </div>
                     
-                    <!-- Khung chứa dữ liệu sự kiện được Render từ Firebase -->
                     <div id="user-events-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="col-span-full text-center py-10 text-gray-400">
-                            <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br>
-                            <span class="text-sm">Đang tải dữ liệu sự kiện...</span>
-                        </div>
+                        <!-- Dữ liệu JS -->
                     </div>
                 </div>
 
-                <!-- ================= TAB 4: THỐNG KÊ ================= -->
+                <!-- ================= TAB 3: THỐNG KÊ ================= -->
                 <div id="tab-content-thong-ke" class="hidden-layout">
                     <div class="flex justify-between items-end mb-6">
                         <div>
@@ -596,7 +549,7 @@
                             <div>
                                 <h3 class="font-bold text-gray-800 text-lg">Biểu đồ nỗ lực học tập</h3>
                                 <p class="text-xs text-gray-500 mt-1 max-w-lg">
-                                    Đường đồ thị nối các bài kiểm tra gần nhất. Mọi hành động thoát bài thi giữa chừng sẽ tự động tính điểm thấp và ghi nhận vĩnh viễn (đồ thị cắm xuống). Hãy luôn nỗ lực đến câu cuối cùng!
+                                    Đường đồ thị nối các bài kiểm tra gần nhất. Mọi hành động thoát bài thi giữa chừng sẽ tự động tính điểm thấp.
                                 </p>
                             </div>
                             <div class="flex items-center gap-4 text-xs font-bold">
@@ -609,12 +562,11 @@
                     </div>
                 </div>
 
-                <!-- ================= TAB 5: QUẢN TRỊ VIÊN (ADMIN PANEL) ================= -->
+                <!-- ================= TAB 4: QUẢN TRỊ VIÊN (ADMIN PANEL) ================= -->
                 <div id="tab-content-admin-panel" class="hidden-layout">
                     <h2 class="text-[11px] text-red-600 font-bold uppercase tracking-widest mb-1">DÀNH RIÊNG CHO QUẢN TRỊ VIÊN</h2>
                     <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Quản lý Hệ Thống</h1>
                     
-                    <!-- Hàng 1: Quản lý User -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
@@ -651,19 +603,18 @@
                                 </div>
                             </div>
                             <div id="admin-accounts-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll">
-                                <div class="text-center py-10 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br><span class="text-sm">Đang tải dữ liệu...</span></div>
+                                <div class="text-center py-10 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Hàng 2: Quản lý Sự kiện -->
+                    <!-- Quản lý Sự kiện -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-orange-500">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                 <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-calendar-plus"></i></div>
                                 <div>
                                     <h3 class="font-bold text-gray-800">Tạo Sự Kiện Public</h3>
-                                    <p class="text-xs text-gray-500">Tạo sự kiện hiển thị ở trang Khám Phá cho tất cả user</p>
                                 </div>
                             </div>
 
@@ -683,8 +634,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tài liệu / Nội dung (dạng văn bản)</label>
-                                    <textarea id="admin-event-desc" placeholder="Nhập tài liệu đi kèm hoặc mô tả ngắn gọn..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm h-16 resize-none"></textarea>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Nội dung (dạng văn bản)</label>
+                                    <textarea id="admin-event-desc" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm h-16 resize-none"></textarea>
                                 </div>
                                 <button onclick="window.adminCreateEvent()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
                                     <i class="fa-solid fa-paper-plane"></i> Đăng Sự Kiện
@@ -699,7 +650,6 @@
                                     <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-list-check"></i></div>
                                     <div>
                                         <h3 class="font-bold text-gray-800">Danh sách Sự Kiện</h3>
-                                        <p class="text-xs text-gray-500">Quản lý và Xóa sự kiện</p>
                                     </div>
                                 </div>
                             </div>
@@ -709,21 +659,20 @@
                         </div>
                     </div>
 
-                    <!-- Hàng 3: Quản lý Tài liệu -->
+                    <!-- Quản lý Tài liệu -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-cyan-500">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                 <div class="w-10 h-10 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-file-pdf"></i></div>
                                 <div>
                                     <h3 class="font-bold text-gray-800">Đăng Tài Liệu / Phòng Thi Mới</h3>
-                                    <p class="text-xs text-gray-500">Gõ tên sự kiện vào ô Thư mục để gán tài liệu cho sự kiện đó</p>
                                 </div>
                             </div>
 
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tên Tài Liệu</label>
-                                    <input type="text" id="admin-doc-title" placeholder="VD: Đề thi thử THPT Quốc Gia..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition font-medium text-sm">
+                                    <input type="text" id="admin-doc-title" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition font-medium text-sm">
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -737,7 +686,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Thư Mục / Tên Sự Kiện</label>
-                                        <input type="text" list="folder-list" id="admin-doc-folder" placeholder="VD: Kho đề thi..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
+                                        <input type="text" list="folder-list" id="admin-doc-folder" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
                                         <datalist id="folder-list">
                                             <option value="Kho đề thi thử 2026">
                                             <option value="Chuyên đề Hóa Hữu Cơ">
@@ -747,8 +696,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Link PDF (URL - Nguồn tải trực tiếp)</label>
-                                    <input type="url" id="admin-doc-url" placeholder="VD: https://example.com/file.pdf" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Link PDF (URL)</label>
+                                    <input type="url" id="admin-doc-url" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
                                 </div>
                                 <button onclick="window.adminCreateDocument()" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
                                     <i class="fa-solid fa-upload"></i> Đăng Tài Liệu
@@ -756,14 +705,12 @@
                             </div>
                         </div>
 
-                        <!-- Danh sách Tài Liệu -->
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex flex-col">
                             <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-folder-open"></i></div>
                                     <div>
                                         <h3 class="font-bold text-gray-800">Kho Tài Liệu Public</h3>
-                                        <p class="text-xs text-gray-500">Quản lý và Xóa tài liệu</p>
                                     </div>
                                 </div>
                             </div>
@@ -772,14 +719,13 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
         </main>
     </div>
 
-    <!-- ================= VIEW: PHÒNG THI / TÀI LIỆU SỰ KIỆN ================= -->
+    <!-- ================= VIEW 6: PHÒNG THI / TÀI LIỆU SỰ KIỆN ================= -->
     <div id="event-room-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
             <button onclick="window.closeToDashboard()" class="text-orange-600 font-bold flex items-center gap-2 hover:text-orange-700 transition w-[200px]">
@@ -807,7 +753,7 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 4: XEM TẤT CẢ THƯ MỤC ================= -->
+    <!-- ================= VIEW 7: XEM TẤT CẢ THƯ MỤC ================= -->
     <div id="all-folders-view" class="hidden-layout bg-gray-50 min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
             <button onclick="window.openDocumentLibrary()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition">
@@ -827,7 +773,7 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 5: TRÌNH XEM PDF (PDF VIEWER) ================= -->
+    <!-- ================= VIEW 8: TRÌNH XEM PDF (PDF VIEWER) ================= -->
     <div id="pdf-viewer-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col h-screen overflow-hidden">
         <nav class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center z-50 shadow-sm flex-shrink-0">
             <div class="flex items-center gap-3 text-sm font-semibold text-gray-500">
@@ -860,7 +806,7 @@
                 </div>
 
                 <div class="bg-white w-[850px] max-w-[95%] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200 mb-8 flex flex-col" id="pdf-content-area">
-                    <!-- Sẽ thay thế bằng iframe nếu có Link PDF, ngược lại hiện bài Test giả lập -->
+                    <!-- Nội dung PDF Render vào đây -->
                 </div>
             </div>
 
@@ -905,7 +851,7 @@
         </div>
     </div>
 
-    <!-- ================= EVENT MODAL (POPUP CHI TIẾT SỰ KIỆN) ================= -->
+    <!-- ================= MODAL SỰ KIỆN ================= -->
     <div id="event-detail-modal" class="fixed inset-0 bg-black/80 z-[150] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300 font-inter">
         <div class="bg-white rounded-3xl w-full max-w-[500px] overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col relative" id="event-detail-content">
             
@@ -945,7 +891,7 @@
     </div>
 
 
-    <!-- ================= LOGIN MODAL (TÀI KHOẢN FIREBASE) ================= -->
+    <!-- ================= LOGIN MODAL ================= -->
     <div id="login-modal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300 font-inter">
         <div class="bg-white rounded-[24px] w-full max-w-[460px] overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col" id="login-modal-content">
             
@@ -1014,9 +960,7 @@
             </div>
             <h3 class="text-xl font-bold text-gray-800 mb-2" id="custom-msg-title">Thông báo</h3>
             <p class="text-gray-500 mb-6 text-sm" id="custom-msg-text">Nội dung thông báo...</p>
-            <div class="flex gap-3 justify-center w-full" id="custom-msg-buttons">
-                <!-- Buttons JS -->
-            </div>
+            <div class="flex gap-3 justify-center w-full" id="custom-msg-buttons"></div>
         </div>
     </div>
 
@@ -1035,9 +979,9 @@
         let publicDocsList = []; 
         
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'tx-hoa-hoc-demo';
-        const ADMIN_EMAIL = 'huyvan1312@gmail.com'; // Khóa bảo mật tuyệt đối email này
+        const ADMIN_EMAIL = 'huyvan1312@gmail.com'; 
         
-        // CẤU HÌNH FIREBASE CÁ NHÂN
+        // CẤU HÌNH FIREBASE CÁ NHÂN CỦA BẠN
         const myFirebaseConfig = {
             apiKey: "AIzaSyBgL0EBg53fHLVvscwH05I59iVqEs_2eJc",
             authDomain: "thanhxuanhoahoc.firebaseapp.com",
@@ -1078,7 +1022,7 @@
                         window.openDashboard();
                         startStudyTimer();
                         
-                        // Nếu là Admin xịn, load data để quản lý
+                        // Nếu là Admin, load luôn data để quản lý
                         if (isAdmin()) {
                             loadAdminEventsList();
                             loadAdminDocsList();
@@ -1098,13 +1042,11 @@
 
                 listenToPublicDocuments();
 
-            } catch (error) {
-                console.error("Lỗi khởi tạo Firebase:", error);
-            }
+            } catch (error) { console.error("Lỗi khởi tạo Firebase:", error); }
         }
         initFirebase();
 
-        // [QUAN TRỌNG] HÀM KIỂM TRA QUYỀN ADMIN DỰA TRÊN EMAIL CHÍNH XÁC
+        // [QUAN TRỌNG TỐI CAO] KIỂM TRA QUYỀN ADMIN DỰA TRÊN EMAIL CHÍNH XÁC
         function isAdmin() {
             return auth && auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
         }
@@ -1139,15 +1081,13 @@
                         currentProfile = docSnap.data();
                         updateProfileUI(currentProfile);
                         
-                        // KIỂM SOÁT GIAO DIỆN ADMIN CHỈ HIỂN THỊ NẾU ĐÚNG EMAIL
+                        // [BẢO MẬT] Ẩn/Hiện nút Admin Panel Bằng CSS nội tuyến thay vì Class Tailwind
                         const adminTabBtn = document.getElementById('tab-admin-panel');
                         if (adminTabBtn) {
                             if (isAdmin()) {
-                                adminTabBtn.classList.remove('admin-only');
-                                adminTabBtn.classList.add('show-admin');
+                                adminTabBtn.style.display = 'flex';
                             } else {
-                                adminTabBtn.classList.add('admin-only');
-                                adminTabBtn.classList.remove('show-admin');
+                                adminTabBtn.style.display = 'none';
                             }
                         }
                     }
@@ -1161,9 +1101,7 @@
                     }
                 }, (e) => console.error(e));
 
-            } catch (error) {
-                console.error("Error loading user profile:", error);
-            }
+            } catch (error) { console.error("Error loading user profile:", error); }
         }
 
         // ================= CẬP NHẬT GIAO DIỆN TỪ CLOUD =================
@@ -1233,19 +1171,7 @@
             const container = document.getElementById('public-events-grid');
             container.innerHTML = '<div class="col-span-full text-center py-10 text-white"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br>Đang tải sự kiện...</div>';
             
-            publicEventsList = []; // Xóa data cũ
-            
-            // 1. Luôn thêm sự kiện mặc định Đỗ NV1 vào kho khám phá
-            publicEventsList.push({
-                id: 'default-nv1',
-                title: 'Đỗ NV1',
-                start: 'Bắt đầu từ hôm nay',
-                end: 'Ngày công bố điểm',
-                desc: 'Tham gia sự kiện này như một lời nhắc nhở bản thân luôn cố gắng để đạt được nguyện vọng 1. Khi chấp nhận, sự kiện này sẽ tự động đánh dấu hoàn thành 100% thay cho một lời chúc may mắn.',
-                max: 100,
-                icon: 'fa-graduation-cap'
-            });
-
+            publicEventsList = []; 
             try {
                 if (db) {
                     const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'events');
@@ -1272,9 +1198,7 @@
                 const bgColor = cardColors[index % cardColors.length];
                 const safeObj = encodeURIComponent(JSON.stringify(evt));
                 
-                // Kiểm tra xem user đã tham gia sự kiện này chưa
                 const hasJoined = currentStats && currentStats.participatedEvents && currentStats.participatedEvents.some(e => e.title === evt.title);
-                
                 const actionBadge = hasJoined 
                     ? `<span class="text-[10px] font-bold uppercase tracking-wider bg-white/30 px-2 py-1 rounded-full"><i class="fa-solid fa-check"></i> Đã tham gia</span>` 
                     : `<span class="text-[10px] font-bold uppercase tracking-wider bg-black/20 px-2 py-1 rounded-full">Sự kiện</span>`;
@@ -1296,7 +1220,7 @@
                     </div>
                 `;
             });
-            container.innerHTML = htmlContent; // Dùng 1 lần gán HTML để tránh giật lag
+            container.innerHTML = htmlContent;
         }
 
         let currentSelectedEvent = null;
@@ -1314,7 +1238,6 @@
             const icon = document.getElementById('modal-event-icon');
             icon.innerHTML = `<i class="fa-solid ${currentSelectedEvent.icon || 'fa-star'} text-${bgColor.replace('bg-', '')}"></i>`;
 
-            // Thay đổi nút Action trong Modal nếu đã tham gia
             const actionContainer = document.getElementById('modal-event-actions');
             if (hasJoined) {
                 actionContainer.innerHTML = `
@@ -1354,16 +1277,10 @@
 
             const events = currentStats.participatedEvents || [];
             
-            // Xử lý riêng sự kiện Đỗ NV1
-            let startProgress = 0;
-            if (currentSelectedEvent.title === 'Đỗ NV1') {
-                startProgress = 100;
-            }
-
             events.push({
                 id: currentSelectedEvent.id,
                 title: currentSelectedEvent.title,
-                progress: startProgress,
+                progress: 0,
                 max: currentSelectedEvent.max || 100,
                 joinedAt: new Date().toISOString()
             });
@@ -1372,7 +1289,7 @@
             .then(() => {
                 window.closeEventDetailModal();
                 window.showMessage("Thành công", `Đã chấp nhận sự kiện "${currentSelectedEvent.title}". Hệ thống đã lưu trữ vĩnh viễn vào hồ sơ của bạn.`);
-                loadPublicEvents(); // Load lại để update UI thành "Đã tham gia"
+                loadPublicEvents(); 
             })
             .catch(error => {
                 console.error(error);
@@ -1402,8 +1319,6 @@
             }
 
             events.forEach(evt => {
-                if (evt.title === 'Đỗ NV1') { evt.progress = evt.max || 100; }
-
                 const progress = evt.progress || 0;
                 const max = evt.max || 100;
                 const percent = Math.min(100, Math.round((progress / max) * 100));
@@ -1440,7 +1355,6 @@
             
             document.getElementById('event-room-title').innerText = eventTitle;
             
-            // Lọc ra các tài liệu thuộc sự kiện này (folder của tài liệu = tên sự kiện)
             const allDocs = [...defaultDocsData, ...publicDocsList];
             const eventDocs = allDocs.filter(d => d.folder === eventTitle);
             
@@ -1467,9 +1381,7 @@
             container.innerHTML = html;
         }
 
-
         // ================= ADMIN PANEL LOGIC (QUẢN LÝ DỮ LIỆU) =================
-        
         window.adminUpdateUserProfile = async function() {
             if(!isAdmin()) return;
             const email = document.getElementById('admin-new-email').value.trim().toLowerCase();
@@ -1592,7 +1504,7 @@
             if(!isAdmin()) return;
             const title = document.getElementById('admin-doc-title').value.trim();
             const classInfo = document.getElementById('admin-doc-class').value;
-            const folder = document.getElementById('admin-doc-folder').value.trim(); // Đã sửa thành input allow text
+            const folder = document.getElementById('admin-doc-folder').value.trim();
             const url = document.getElementById('admin-doc-url').value.trim();
 
             if(!title || !folder) { window.showMessage("Lỗi", "Vui lòng nhập Tên tài liệu và chọn/gõ Thư mục lưu trữ."); return; }
@@ -1656,7 +1568,6 @@
             });
         }
 
-
         // ================= DỮ LIỆU TÀI LIỆU (THƯ VIỆN & PDF) =================
         function listenToPublicDocuments() {
             if (!db) return;
@@ -1669,7 +1580,6 @@
                     publicDocsList.push(data);
                 });
                 
-                // Nếu đang mở tab Thư viện thì render lại
                 const libView = document.getElementById('document-library-view');
                 if(libView && !libView.classList.contains('hidden-layout')) {
                     window.filterDocuments('Tất cả'); 
@@ -1768,7 +1678,6 @@
                 `;
             }
         }
-
 
         // ================= UI & NAVIGATION CHUNG =================
         window.showMessage = function(title, text, isConfirm = false, confirmCallback = null) {
@@ -1903,25 +1812,24 @@
 
         let chartInitialized = false;
         window.switchDashboardTab = function(tabId) {
+            if (tabId === 'admin-panel' && !isAdmin()) return; // KHÓA CỨNG: Không phải Admin thì bị chặn ngay tại đây
+
             const tabs = ['tong-quan', 'su-kien', 'thong-ke', 'admin-panel']; 
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
                 const content = document.getElementById(`tab-content-${t}`);
                 if (!btn || !content) return;
                 
-                // Nếu người dùng không phải Admin mà cố bấm vào admin-panel (dù đã ẩn HTML), thì chặn luôn
-                if (tabId === 'admin-panel' && !isAdmin()) return;
-
                 if(t === tabId) {
                     if (t === 'admin-panel') {
-                        btn.className = "show-admin w-full flex items-center gap-3 bg-red-600 text-white font-bold px-4 py-3 rounded-xl shadow-sm transition mt-4";
+                        btn.className = "w-full flex items-center gap-3 bg-red-600 text-white font-bold px-4 py-3 rounded-xl shadow-sm transition mt-4";
                     } else {
                         btn.className = "w-full flex items-center gap-3 bg-[#facc15] text-[#854d0e] font-bold px-4 py-3 rounded-xl shadow-sm transition";
                     }
                     content.classList.remove('hidden-layout'); content.classList.add('block');
                 } else {
                     if (t === 'admin-panel') {
-                        btn.className = isAdmin() ? "show-admin w-full flex items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100" : "admin-only";
+                        btn.className = "w-full flex items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100";
                     } else {
                         btn.className = "w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition";
                     }
@@ -1931,6 +1839,12 @@
             
             hideAllViews(); views.dashboard.classList.remove('hidden-layout');
             
+            // Xử lý bảo mật hiển thị lại nút Admin
+            const adminTabBtn = document.getElementById('tab-admin-panel');
+            if (adminTabBtn) {
+                adminTabBtn.style.display = isAdmin() ? 'flex' : 'none';
+            }
+            
             if (tabId === 'thong-ke' && !chartInitialized) { initChart(); chartInitialized = true; if(currentStats) updateStatsUI(currentStats); }
             if (tabId === 'admin-panel' && isAdmin()) { 
                 window.loadAdminUsersList();
@@ -1939,6 +1853,103 @@
             }
         }
 
+        // CHỨC NĂNG CẬP NHẬT ĐIỂM SỐ & NGÀY THI
+        window.updateTargetScore = function(val) {
+            let num = parseFloat(val);
+            const displayEl = document.getElementById('display-target-score');
+            const plusEl = document.getElementById('target-score-plus');
+            if(displayEl) displayEl.innerText = num > 0 ? num : '?';
+            if(plusEl) plusEl.classList.toggle('hidden', num <= 0);
+            document.querySelectorAll('.nav-target-score').forEach(el => el.innerText = num > 0 ? `Mục tiêu: ${num}+` : "Mục tiêu");
+        }
+
+        window.saveTargetScoreToDB = async function(val) {
+            if(currentUserUid && db) {
+                await updateDoc(getProfileRef(), { targetScore: parseFloat(val) }).catch(e=>console.log(e));
+            }
+        }
+
+        window.calculateAndSaveCountdown = async function(dateString, shouldSaveToDB = true) {
+            if(!dateString) return;
+            const targetDate = new Date(dateString);
+            const diffDays = Math.ceil((targetDate - new Date()) / (1000 * 60 * 60 * 24)); 
+            
+            const displayEl = document.getElementById('countdown-display');
+            const navEl = document.getElementById('nav-countdown-days');
+            if(displayEl && navEl) {
+                if(diffDays > 0) {
+                    displayEl.innerHTML = `<div class="text-7xl font-black text-white leading-none">${diffDays}</div><div class="text-lg font-bold text-blue-200 mt-2">Ngày nữa</div>`;
+                    navEl.innerText = `Còn ${diffDays} ngày`;
+                } else if (diffDays === 0) {
+                    displayEl.innerHTML = `<div class="text-5xl font-black text-yellow-300">Hôm nay thi!</div>`;
+                    navEl.innerText = `Hôm nay thi!`;
+                } else {
+                    displayEl.innerHTML = `<div class="text-3xl font-bold text-gray-300">Đã qua ngày thi</div>`;
+                    navEl.innerText = `Đã qua`;
+                }
+            }
+            if(shouldSaveToDB && currentUserUid && db) {
+                await updateDoc(getProfileRef(), { targetDate: dateString }).catch(e=>console.log(e));
+            }
+        }
+
+        // ================= THỜI GIAN & CHART =================
+        let studySeconds = 0;
+        const targetSeconds = 30 * 60; 
+        let studyInterval, streakEarnedToday = false;
+
+        function startStudyTimer() {
+            if(studyInterval) clearInterval(studyInterval);
+            studyInterval = setInterval(async () => {
+                if(streakEarnedToday) return;
+                studySeconds++;
+                let min = Math.floor(studySeconds / 60), sec = studySeconds % 60;
+                let formatted = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+                document.querySelectorAll('.study-timer-display').forEach(el => el.innerText = `Hôm nay: ${formatted} / 30:00`);
+
+                if (studySeconds >= targetSeconds) {
+                    streakEarnedToday = true;
+                    document.querySelectorAll('.study-timer-display').forEach(el => { el.innerText = `Đã học đủ 30 phút 🔥`; el.classList.replace('text-gray-400', 'text-orange-500'); });
+                    document.querySelectorAll('.nav-fire-icon').forEach(el => el.classList.replace('text-gray-300', 'text-orange-500'));
+                    
+                    const todayCircle = document.getElementById('today-circle');
+                    if(todayCircle) { todayCircle.classList.replace('bg-blue-500', 'bg-orange-500'); todayCircle.classList.replace('ring-blue-500/30', 'ring-orange-500/30'); }
+
+                    if(currentUserUid && db && currentStats) {
+                        await updateDoc(getStatsRef(), { currentStreak: (currentStats.currentStreak || 0) + 1, totalStudySeconds: (currentStats.totalStudySeconds || 0) + studySeconds }).catch(e=>console.log(e));
+                    }
+                }
+            }, 1000); 
+        }
+
+        let scoreChartInstance = null;
+        function initChart() {
+            const ctx = document.getElementById('scoreChart');
+            if(!ctx) return;
+            let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+            scoreChartInstance = new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: { labels: [], datasets: [{ label: 'Điểm số', data: [], borderColor: '#3b82f6', backgroundColor: gradient, borderWidth: 3, pointBackgroundColor: '#ffffff', pointBorderColor: '#3b82f6', pointBorderWidth: 2, pointRadius: 5, fill: true, tension: 0.3 }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 10, grid: { color: '#f1f5f9' }, ticks: { stepSize: 2 } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
+            });
+            if(currentStats) updateStatsUI(currentStats);
+        }
+
+        window.simulateQuitTest = function() {
+            if(!chartInitialized || !currentStats || !currentUserUid) return;
+            window.showMessage("Xác nhận bỏ cuộc", "Hệ thống sẽ chấm điểm 1.0 và LƯU TRÊN CLOUD. Chắc chắn bỏ cuộc?", true, async () => {
+                let labels = currentStats.testLabels || [], scores = currentStats.testScores || [], qCount = currentStats.quitCount || 0;
+                labels.push('Bài ' + (labels.length + 1) + '\n(Bỏ cuộc)');
+                scores.push(1.0);
+                qCount++;
+                try {
+                    await updateDoc(getStatsRef(), { testLabels: labels, testScores: scores, quitCount: qCount });
+                    window.showMessage("Đã lưu kết quả", "Bạn vừa thoát bài thi. Dữ liệu đã lưu vĩnh viễn trên máy chủ.");
+                } catch (e) { console.error(e); }
+            });
+        }
     </script>
 </body>
 </html>
