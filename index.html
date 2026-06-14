@@ -25,6 +25,13 @@
             background-size: 40px 40px;
         }
 
+        .bg-grid-dark {
+            background-color: #1a1a1a;
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
         .hidden-layout { display: none !important; }
 
         .starry-card {
@@ -176,15 +183,15 @@
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Cập nhật đề thi THPT Quốc Gia, ĐGNL mới nhất.</p>
                 </div>
                 
-                <!-- Nút Tài Liệu Tổng Hợp mới (thay thế sổ tay) -->
+                <!-- Nút Tài Liệu Tổng Hợp mới -->
                 <div onclick="window.openDocumentLibrary()" class="bg-[#06b6d4] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
                     <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-folder-open"></i></div>
                     <h3 class="font-bold text-lg mb-2 leading-tight">Tài Liệu<br>Tổng Hợp</h3>
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Kho tài liệu, đề thi, chuyên đề Hóa Học các khối lớp.</p>
                 </div>
 
-                <!-- Nút Sự kiện mới thêm -->
-                <div onclick="window.joinEvent('Thử thách Marathon 100 Câu Hóa Hữu Cơ', 100)" class="bg-[#f97316] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
+                <!-- Nút Khám Phá Sự kiện -->
+                <div onclick="window.openEventDiscovery()" class="bg-[#f97316] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
                     <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-trophy"></i></div>
                     <h3 class="font-bold text-lg mb-2 leading-tight">Khám Phá<br>Sự Kiện</h3>
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Click để tham gia ngay các minigame, thử thách Hóa Học thú vị.</p>
@@ -198,6 +205,34 @@
             </div>
         </footer>
     </div>
+
+    <!-- ================= NEW VIEW: KHÁM PHÁ SỰ KIỆN (GIAO DIỆN DARK TƯƠNG TỰ ẢNH) ================= -->
+    <div id="event-discovery-view" class="hidden-layout bg-grid-dark min-h-screen font-inter flex flex-col">
+        <nav class="bg-[#111] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
+            <button onclick="window.backToHome()" class="text-gray-300 font-bold flex items-center gap-2 hover:text-white transition w-[200px]">
+                <i class="fa-solid fa-arrow-left"></i> Về Trang chủ
+            </button>
+            <div class="flex-1 flex justify-center items-center gap-3">
+                <h1 class="text-2xl font-extrabold text-white font-logo tracking-wide">Kho Sự Kiện & Thử Thách</h1>
+            </div>
+            <div class="flex items-center justify-end gap-3 md:gap-4 w-[200px]">
+                 <!-- Có thể thêm user profile info ở đây nếu cần -->
+            </div>
+        </nav>
+
+        <div class="container mx-auto px-6 py-10 flex-grow">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-black text-white font-logo mb-4">Thử thách bản thân</h2>
+                <p class="text-gray-400">Tham gia các sự kiện để kiểm tra kiến thức và ghi danh vào bảng vàng.</p>
+            </div>
+
+            <!-- Grid Thẻ Sự kiện -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="public-events-grid">
+                <!-- JS sẽ Render danh sách sự kiện từ Public Database vào đây -->
+            </div>
+        </div>
+    </div>
+
 
     <!-- ================= VIEW 2: TRANG NỘI DUNG MÔN HỌC (SUBJECT VIEW) ================= -->
     <div id="subject-view" class="hidden-layout bg-white min-h-screen font-inter flex flex-col">
@@ -227,7 +262,7 @@
         </div>
     </div>
 
-    <!-- ================= NEW VIEW: THƯ VIỆN TÀI LIỆU TỔNG HỢP ================= -->
+    <!-- ================= VIEW: THƯ VIỆN TÀI LIỆU TỔNG HỢP ================= -->
     <div id="document-library-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
             <button onclick="window.backToHome()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition w-[200px]">
@@ -321,9 +356,8 @@
                 <button onclick="window.switchDashboardTab('tong-quan')" id="tab-tong-quan" class="w-full flex items-center gap-3 bg-[#facc15] text-[#854d0e] font-bold px-4 py-3 rounded-xl shadow-sm transition">
                     <i class="fa-solid fa-border-all w-5"></i> Tổng quan
                 </button>
-                <!-- Đã xóa Tab Tài Liệu Tổng Hợp ở đây -->
                 <button onclick="window.switchDashboardTab('su-kien')" id="tab-su-kien" class="w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition">
-                    <i class="fa-solid fa-layer-group w-5"></i> Sự kiện
+                    <i class="fa-solid fa-layer-group w-5"></i> Sự kiện đã tham gia
                 </button>
                 <button onclick="window.switchDashboardTab('thong-ke')" id="tab-thong-ke" class="w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition">
                     <i class="fa-solid fa-chart-line w-5"></i> Thống kê
@@ -331,7 +365,7 @@
                 
                 <!-- MENU ADMIN (Mặc định ẩn, chỉ hiện nếu là Admin) -->
                 <button onclick="window.switchDashboardTab('admin-panel')" id="tab-admin-panel" class="hidden w-full items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100">
-                    <i class="fa-solid fa-user-shield w-5"></i> Quản lý Học sinh
+                    <i class="fa-solid fa-user-shield w-5"></i> Quản lý Hệ Thống
                 </button>
             </div>
 
@@ -352,7 +386,6 @@
         <main class="flex-1 flex flex-col h-screen overflow-y-auto relative">
             
             <header class="bg-white/80 backdrop-blur-md border-b border-blue-100 px-8 py-4 flex justify-between items-center sticky top-0 z-40">
-                <!-- Search bar in Dashboard disabled/removed since Library is standalone now. Replaced with Title -->
                 <div class="relative hidden md:block">
                     <h2 class="font-bold text-gray-800">Không gian học tập cá nhân</h2>
                 </div>
@@ -496,8 +529,11 @@
                         <div>
                             <h2 class="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">HOẠT ĐỘNG CÁ NHÂN</h2>
                             <h1 class="text-3xl font-extrabold text-gray-900 font-logo">Sự kiện đã tham gia</h1>
-                            <p class="text-sm text-gray-500 mt-2">Nơi lưu giữ kết quả và tiến độ các thử thách Hóa Học mà bạn đang thực hiện.</p>
+                            <p class="text-sm text-gray-500 mt-2">Nơi lưu giữ kết quả và tiến độ các thử thách Hóa Học mà bạn đang thực hiện. Dữ liệu sẽ lưu vĩnh viễn không thể xóa.</p>
                         </div>
+                        <button onclick="window.openEventDiscovery()" class="bg-[#f97316] hover:bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-plus"></i> Khám phá thêm
+                        </button>
                     </div>
                     
                     <!-- Khung chứa dữ liệu sự kiện được Render từ Firebase thay vì Hardcode -->
@@ -576,9 +612,10 @@
                 <!-- ================= TAB 5: QUẢN TRỊ VIÊN (ADMIN PANEL) ================= -->
                 <div id="tab-content-admin-panel" class="hidden-layout">
                     <h2 class="text-[11px] text-red-600 font-bold uppercase tracking-widest mb-1">DÀNH RIÊNG CHO QUẢN TRỊ VIÊN</h2>
-                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Quản lý Tài khoản Học sinh</h1>
+                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Quản lý Hệ Thống</h1>
                     
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <!-- Quản lý học sinh -->
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                 <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-plus"></i></div>
@@ -588,40 +625,72 @@
                                 </div>
                             </div>
                             
-                            <div class="bg-orange-50 text-orange-700 p-3 rounded-lg border border-orange-100 text-xs mb-4">
-                                <i class="fa-solid fa-circle-info"></i> <strong>Lưu ý:</strong> Vui lòng tạo tài khoản ở mục <strong>Firebase Authentication</strong> (như bạn đã làm với <i>huyvan1312...</i>). Sau đó dùng Form này để gắn <b>Tên hiển thị</b> cho Email đó.
-                            </div>
-
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Email (Đã đăng ký bên Firebase)</label>
-                                    <input type="email" id="admin-new-email" placeholder="VD: huyvan1312@gmail.com" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
+                                    <input type="email" id="admin-new-email" placeholder="VD: hocsinh@gmail.com" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Họ và tên học sinh</label>
-                                    <input type="text" id="admin-new-name" placeholder="VD: Huy Văn" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
+                                    <input type="text" id="admin-new-name" placeholder="VD: Nguyễn Văn A" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
                                 </div>
                                 <button onclick="window.adminUpdateUserProfile()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
-                                    <i class="fa-solid fa-cloud-arrow-up"></i> Lưu Hồ Sơ
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Lưu Hồ Sơ Học Sinh
                                 </button>
                             </div>
                         </div>
 
-                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex flex-col">
-                            <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-users-viewfinder"></i></div>
-                                    <div>
-                                        <h3 class="font-bold text-gray-800">Danh sách Hồ sơ</h3>
-                                        <p class="text-xs text-gray-500">Dữ liệu thời gian thực từ Firestore</p>
-                                    </div>
+                        <!-- Tạo sự kiện mới -->
+                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-orange-500">
+                            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                                <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-calendar-plus"></i></div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Tạo Sự Kiện Public</h3>
+                                    <p class="text-xs text-gray-500">Tạo sự kiện hiển thị ở trang Khám Phá cho tất cả user</p>
                                 </div>
                             </div>
-                            <div id="admin-accounts-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll">
-                                <div class="text-center py-10 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br><span class="text-sm">Đang tải dữ liệu...</span></div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tên Sự Kiện</label>
+                                    <input type="text" id="admin-event-title" placeholder="VD: Thử thách Hữu cơ 100 câu" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition font-medium text-sm">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Bắt đầu</label>
+                                        <input type="date" id="admin-event-start" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Kết thúc</label>
+                                        <input type="date" id="admin-event-end" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tài liệu / Nội dung (dạng văn bản)</label>
+                                    <textarea id="admin-event-desc" placeholder="Nhập tài liệu đi kèm hoặc mô tả ngắn gọn..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm h-16 resize-none"></textarea>
+                                </div>
+                                <button onclick="window.adminCreateEvent()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
+                                    <i class="fa-solid fa-paper-plane"></i> Đăng Sự Kiện Lên Hệ Thống
+                                </button>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Danh sách tài khoản Admin -->
+                    <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex flex-col">
+                        <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-users-viewfinder"></i></div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Danh sách Hồ sơ đã cấu hình</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="admin-accounts-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll">
+                            <div class="text-center py-10 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br><span class="text-sm">Đang tải dữ liệu...</span></div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -764,8 +833,48 @@
         </div>
     </div>
 
+    <!-- ================= EVENT MODAL (POPUP CHI TIẾT SỰ KIỆN) ================= -->
+    <div id="event-detail-modal" class="fixed inset-0 bg-black/80 z-[150] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300 font-inter">
+        <div class="bg-white rounded-3xl w-full max-w-[500px] overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col relative" id="event-detail-content">
+            
+            <button onclick="window.closeEventDetailModal()" class="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white rounded-full w-8 h-8 flex items-center justify-center transition z-20">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Banner Header -->
+            <div id="modal-event-banner" class="bg-blue-500 h-32 relative flex items-end p-6">
+                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(white 2px, transparent 2px); background-size: 20px 20px;"></div>
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl shadow-lg relative z-10" id="modal-event-icon">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+            </div>
+
+            <div class="p-8">
+                <div class="flex items-center gap-2 mb-2 text-xs font-bold uppercase tracking-wider text-gray-500" id="modal-event-dates">
+                    <i class="fa-regular fa-calendar text-blue-500"></i> 14/06/2026 - 30/06/2026
+                </div>
+                <h2 class="text-2xl font-black text-gray-900 mb-4 leading-tight font-logo" id="modal-event-title">Tên Sự Kiện</h2>
+                
+                <div class="bg-blue-50 rounded-2xl p-4 border border-blue-100 mb-6">
+                    <h4 class="text-xs font-bold text-blue-800 uppercase mb-2">Tài liệu & Nội dung</h4>
+                    <p class="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed" id="modal-event-desc">
+                        Nội dung chi tiết của sự kiện.
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-xs text-gray-400 mb-3"><i class="fa-solid fa-circle-info"></i> Lưu ý: Khi chấp nhận tham gia, sự kiện sẽ được lưu vĩnh viễn vào hồ sơ cá nhân như một lời nhắc nhở.</p>
+                    <button onclick="window.confirmJoinEvent()" class="w-full bg-[#111] hover:bg-black text-white font-bold rounded-2xl py-4 transition-all shadow-md flex items-center justify-center gap-2">
+                        CHẤP NHẬN SỰ KIỆN <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- ================= LOGIN MODAL (TÀI KHOẢN FIREBASE) ================= -->
-    <div id="login-modal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
+    <div id="login-modal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300 font-inter">
         <div class="bg-white rounded-[24px] w-full max-w-[460px] overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col" id="login-modal-content">
             
             <div class="bg-[#1c2e11] p-5 flex justify-between items-center text-white">
@@ -843,13 +952,14 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // ================= KHỞI TẠO FIREBASE =================
         let db, auth, currentUserUid;
         let isLoggedIn = false;
         let currentProfile = null;
         let currentStats = null;
+        let publicEventsList = [];
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'tx-hoa-hoc-demo';
         
         // CẤU HÌNH FIREBASE CÁ NHÂN
@@ -1019,7 +1129,154 @@
             }
         }
 
-        // ================= XỬ LÝ GIAO DIỆN SỰ KIỆN CÁ NHÂN =================
+        // ================= XỬ LÝ SỰ KIỆN: KHÁM PHÁ & THAM GIA =================
+        
+        // Array các màu sắc cho thẻ sự kiện giống Duolingo
+        const cardColors = ['bg-[#5a8c2f]', 'bg-[#eab308]', 'bg-[#0ea5e9]', 'bg-[#ef4444]', 'bg-[#8b5cf6]', 'bg-[#f97316]', 'bg-[#06b6d4]'];
+        
+        window.openEventDiscovery = function() {
+            hideAllViews();
+            document.getElementById('event-discovery-view').classList.remove('hidden-layout');
+            loadPublicEvents(); // Fetch từ Firebase
+        }
+
+        async function loadPublicEvents() {
+            const container = document.getElementById('public-events-grid');
+            container.innerHTML = '<div class="col-span-full text-center py-10 text-white"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br>Đang tải sự kiện...</div>';
+            
+            try {
+                // Sự kiện mặc định "Đỗ NV1" luôn có mặt
+                publicEventsList = [{
+                    id: 'default-nv1',
+                    title: 'Đỗ NV1',
+                    start: 'Bắt đầu từ hôm nay',
+                    end: 'Ngày công bố điểm',
+                    desc: 'Tham gia sự kiện này như một lời nhắc nhở bản thân luôn cố gắng để đạt được nguyện vọng 1. Khi chấp nhận, sự kiện này sẽ tự động đánh dấu hoàn thành 100% thay cho một lời chúc may mắn.',
+                    max: 100,
+                    icon: 'fa-graduation-cap'
+                }];
+
+                // Fetch sự kiện từ Firebase do Admin tạo
+                if (db) {
+                    const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'events');
+                    const snapshot = await getDocs(colRef);
+                    snapshot.forEach(doc => {
+                        let data = doc.data();
+                        data.id = doc.id;
+                        data.icon = 'fa-star'; // Default icon
+                        publicEventsList.push(data);
+                    });
+                }
+                
+                renderPublicEventsGrid();
+            } catch (e) {
+                console.error("Lỗi khi tải sự kiện public:", e);
+                renderPublicEventsGrid(); // Render ít nhất sự kiện mặc định
+            }
+        }
+
+        function renderPublicEventsGrid() {
+            const container = document.getElementById('public-events-grid');
+            container.innerHTML = '';
+            
+            publicEventsList.forEach((evt, index) => {
+                const bgColor = cardColors[index % cardColors.length];
+                // Chuyển Obj thành chuỗi an toàn để gán vào onclick
+                const safeObj = encodeURIComponent(JSON.stringify(evt));
+                
+                container.innerHTML += `
+                    <div onclick="window.showEventDetailModal('${safeObj}', '${bgColor}')" class="${bgColor} rounded-3xl p-6 text-white shadow-lg cursor-pointer hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden group">
+                        <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSI+PC9yZWN0Pgo8cGF0aCBkPSJNMCAwbDhfOHptOF8wTDBfOHoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMC4xIj48L3BhdGg+Cjwvc3ZnPg==')]"></div>
+                        
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-black/20 px-2 py-1 rounded-full">Sự kiện</span>
+                            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm group-hover:rotate-12 transition">
+                                <i class="fa-solid ${evt.icon} text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="relative z-10">
+                            <h3 class="text-xl font-black mb-2 leading-tight">${evt.title}</h3>
+                            <p class="text-xs text-white/80 line-clamp-2">${evt.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        let currentSelectedEvent = null;
+
+        window.showEventDetailModal = function(encodedObj, bgColor) {
+            currentSelectedEvent = JSON.parse(decodeURIComponent(encodedObj));
+            
+            // Đổ dữ liệu vào Modal
+            document.getElementById('modal-event-title').innerText = currentSelectedEvent.title;
+            document.getElementById('modal-event-desc').innerText = currentSelectedEvent.desc;
+            document.getElementById('modal-event-dates').innerHTML = `<i class="fa-regular fa-calendar text-blue-500"></i> Bắt đầu: ${currentSelectedEvent.start || 'Không rõ'} - Kết thúc: ${currentSelectedEvent.end || 'Không rõ'}`;
+            
+            const banner = document.getElementById('modal-event-banner');
+            banner.className = `h-32 relative flex items-end p-6 ${bgColor}`; // Áp dụng màu thẻ vào banner popup
+            
+            const icon = document.getElementById('modal-event-icon');
+            icon.innerHTML = `<i class="fa-solid ${currentSelectedEvent.icon || 'fa-star'} text-${bgColor.replace('bg-', '')}"></i>`;
+
+            const modal = document.getElementById('event-detail-modal');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            document.getElementById('event-detail-content').classList.remove('scale-95');
+        }
+
+        window.closeEventDetailModal = function() {
+            const modal = document.getElementById('event-detail-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('event-detail-content').classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); currentSelectedEvent = null; }, 300);
+        }
+
+        window.confirmJoinEvent = function() {
+            if(!isLoggedIn) { 
+                window.closeEventDetailModal();
+                window.openLoginModal(); 
+                return; 
+            }
+            if(!currentStats || !currentUserUid || !currentSelectedEvent) return;
+
+            const events = currentStats.participatedEvents || [];
+            const exists = events.find(e => e.title === currentSelectedEvent.title);
+            
+            if(exists) {
+                window.closeEventDetailModal();
+                window.showMessage("Đã tham gia", "Bạn đã tham gia sự kiện này rồi. Hãy vào phần Sự kiện trong Trang cá nhân để theo dõi nhé!");
+                return;
+            }
+
+            // Xử lý riêng sự kiện Đỗ NV1
+            let startProgress = 0;
+            if (currentSelectedEvent.title === 'Đỗ NV1') {
+                startProgress = 100; // Mặc định 100%
+            }
+
+            events.push({
+                id: currentSelectedEvent.id,
+                title: currentSelectedEvent.title,
+                progress: startProgress,
+                max: currentSelectedEvent.max || 100,
+                joinedAt: new Date().toISOString()
+            });
+
+            // Lưu lên Cloud
+            updateDoc(getStatsRef(), { participatedEvents: events })
+            .then(() => {
+                window.closeEventDetailModal();
+                window.showMessage("Thành công", `Đã chấp nhận sự kiện "${currentSelectedEvent.title}". Hệ thống đã lưu trữ vĩnh viễn vào hồ sơ của bạn.`);
+            })
+            .catch(error => {
+                console.error(error);
+                window.showMessage("Lỗi", "Không thể tham gia sự kiện lúc này do lỗi máy chủ Firebase.");
+            });
+        }
+
+        // Render UI trong Dashboard cá nhân
         function updateEventsUI(stats) {
             const container = document.getElementById('user-events-container');
             if(!container) return;
@@ -1041,22 +1298,29 @@
 
             container.innerHTML = '';
             events.forEach(evt => {
+                // Đảm bảo "Đỗ NV1" luôn 100% nếu nhỡ có lỗi data cũ
+                if (evt.title === 'Đỗ NV1') { evt.progress = evt.max || 100; }
+
                 const progress = evt.progress || 0;
                 const max = evt.max || 100;
                 const percent = Math.min(100, Math.round((progress / max) * 100));
                 
+                const isDone = percent === 100;
+                const statusTag = isDone ? '<span class="text-xs font-bold uppercase tracking-wider text-green-600 bg-green-100 px-2 py-1 rounded">ĐÃ HOÀN THÀNH</span>' : '<span class="text-xs font-bold uppercase tracking-wider text-orange-500 bg-orange-50 px-2 py-1 rounded">ĐANG DIỄN RA</span>';
+                const progressColor = isDone ? 'bg-green-500' : 'bg-orange-500';
+                
                 container.innerHTML += `
                     <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col h-56 cursor-pointer hover:-translate-y-1 transition">
                         <div class="flex justify-between items-start mb-4 relative z-10">
-                            <span class="text-xs font-bold uppercase tracking-wider text-orange-500 bg-orange-50 px-2 py-1 rounded">ĐANG DIỄN RA</span>
-                            <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 shadow-sm"><i class="fa-solid fa-leaf"></i></div>
+                            ${statusTag}
+                            <div class="w-8 h-8 ${isDone ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'} rounded-full flex items-center justify-center shadow-sm"><i class="fa-solid ${isDone ? 'fa-check-double' : 'fa-leaf'}"></i></div>
                         </div>
                         <div class="relative z-10 flex-grow">
                             <h3 class="text-2xl font-black mb-2 text-gray-800 leading-tight">${evt.title}</h3>
-                            <p class="text-sm text-gray-500 mt-1">Hoàn thành: ${progress}/${max} câu</p>
+                            <p class="text-sm text-gray-500 mt-1">Hoàn thành: ${progress}/${max}</p>
                             
                             <div class="w-full bg-gray-100 rounded-full h-2 mt-4">
-                              <div class="bg-orange-500 h-2 rounded-full transition-all duration-1000" style="width: ${percent}%"></div>
+                              <div class="${progressColor} h-2 rounded-full transition-all duration-1000" style="width: ${percent}%"></div>
                             </div>
                         </div>
                     </div>
@@ -1064,37 +1328,84 @@
             });
         }
 
-        window.joinEvent = function(eventTitle, maxProgress) {
-            if(!isLoggedIn) { window.openLoginModal(); return; }
-            if(!currentStats || !currentUserUid) return;
 
-            const events = currentStats.participatedEvents || [];
-            const exists = events.find(e => e.title === eventTitle);
-            
-            if(exists) {
-                window.showMessage("Đã tham gia", "Bạn đã tham gia sự kiện này rồi. Hãy vào phần Sự kiện trong Trang cá nhân để tiếp tục nhé!");
-                return;
+        // ================= ADMIN PANEL LOGIC =================
+        window.adminUpdateUserProfile = async function() {
+            const email = document.getElementById('admin-new-email').value.trim().toLowerCase();
+            const name = document.getElementById('admin-new-name').value.trim();
+            if(!email || !name) { window.showMessage("Lỗi", "Vui lòng nhập Email và Tên hiển thị."); return; }
+
+            try {
+                const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', email);
+                await setDoc(accountsRef, { email: email, name: name, role: 'student' });
+                window.showMessage("Thành công", `Đã lưu hồ sơ của ${name} (${email}).`);
+                window.loadAdminUsersList(); 
+                document.getElementById('admin-new-email').value = '';
+                document.getElementById('admin-new-name').value = '';
+            } catch(e) {
+                console.error(e);
+                window.showMessage("Lỗi hệ thống", "Không thể cập nhật hồ sơ Firebase.");
             }
-
-            window.showMessage("Xác nhận tham gia", `Bạn có muốn tham gia thử thách "${eventTitle}" không? Dữ liệu sẽ được lưu vào tài khoản của bạn.`, true, async () => {
-                events.push({
-                    title: eventTitle,
-                    progress: 0,
-                    max: maxProgress,
-                    joinedAt: new Date().toISOString()
-                });
-
-                try {
-                    await updateDoc(getStatsRef(), { participatedEvents: events });
-                    window.showMessage("Thành công", `Đã đăng ký tham gia "${eventTitle}". Hãy kiểm tra trong Trang cá nhân của bạn.`);
-                } catch (error) {
-                    console.error(error);
-                    window.showMessage("Lỗi", "Không thể tham gia sự kiện lúc này do lỗi máy chủ Firebase.");
-                }
-            });
         }
 
-        // ================= UI & NAVIGATION =================
+        window.loadAdminUsersList = async function() {
+            const container = document.getElementById('admin-accounts-list');
+            try {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'admin_accounts');
+                onSnapshot(colRef, (querySnapshot) => {
+                    container.innerHTML = '';
+                    querySnapshot.forEach((docSnap) => {
+                        const info = docSnap.data();
+                        let roleBadge = info.role === 'admin' ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">ADMIN</span>` : `<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">HỌC SINH</span>`;
+                        let avatarLetter = info.name ? info.name.charAt(0).toUpperCase() : 'U';
+
+                        container.innerHTML += `
+                            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center">${avatarLetter}</div>
+                                    <div>
+                                        <div class="font-bold text-gray-800 text-sm flex items-center">${info.name || 'Chưa cập nhật tên'} ${roleBadge}</div>
+                                        <div class="text-xs text-gray-500 mt-0.5">${info.email}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    if(container.innerHTML === '') container.innerHTML = '<div class="text-center py-5 text-gray-500">Chưa có hồ sơ nào được lưu trữ metadata.</div>';
+                });
+            } catch(e) { console.error(e); }
+        }
+
+        window.adminCreateEvent = async function() {
+            const title = document.getElementById('admin-event-title').value.trim();
+            const start = document.getElementById('admin-event-start').value;
+            const end = document.getElementById('admin-event-end').value;
+            const desc = document.getElementById('admin-event-desc').value.trim();
+
+            if(!title || !desc) { window.showMessage("Lỗi", "Vui lòng nhập Tên Sự kiện và Nội dung tài liệu."); return; }
+
+            try {
+                const eventRef = collection(db, 'artifacts', appId, 'public', 'data', 'events');
+                await addDoc(eventRef, {
+                    title: title,
+                    start: start,
+                    end: end,
+                    desc: desc,
+                    max: 100, // Mặc định progress max là 100
+                    createdAt: new Date().toISOString()
+                });
+                
+                window.showMessage("Thành công", `Đã tạo sự kiện "${title}". Tất cả học sinh đều có thể thấy và tham gia.`);
+                document.getElementById('admin-event-title').value = '';
+                document.getElementById('admin-event-desc').value = '';
+                
+            } catch(e) {
+                console.error(e);
+                window.showMessage("Lỗi", "Không thể lưu sự kiện lên hệ thống Firebase.");
+            }
+        }
+
+        // ================= UI & NAVIGATION CHUNG =================
         window.showMessage = function(title, text, isConfirm = false, confirmCallback = null) {
             const box = document.getElementById('custom-msg-box');
             const content = document.getElementById('custom-msg-content');
@@ -1168,7 +1479,7 @@
                 btn.innerHTML = `ĐĂNG NHẬP NGAY <i class="fa-solid fa-arrow-right"></i>`;
                 btn.classList.remove('opacity-80', 'cursor-not-allowed');
                 console.error("Lỗi đăng nhập:", error);
-                window.showMessage("Từ chối truy cập", "Email chưa được đăng ký hoặc bạn nhập sai mật khẩu.");
+                window.showMessage("Từ chối truy cập", "Email chưa được đăng ký trên hệ thống Firebase Authentication hoặc bạn nhập sai mật khẩu.");
             }
         }
 
@@ -1192,14 +1503,14 @@
             });
         }
 
-        // ================= VIEW ROUTER MỚI CẬP NHẬT =================
         const views = {
             landing: document.getElementById('landing-view'),
             subject: document.getElementById('subject-view'),
             dashboard: document.getElementById('dashboard-view'),
             allFolders: document.getElementById('all-folders-view'),
             pdfViewer: document.getElementById('pdf-viewer-view'),
-            documentLibrary: document.getElementById('document-library-view') // Thêm view mới Thư viện Tài Liệu
+            documentLibrary: document.getElementById('document-library-view'),
+            eventDiscovery: document.getElementById('event-discovery-view') // Thêm view Khám phá
         };
         function hideAllViews() { Object.values(views).forEach(v => { if(v) v.classList.add('hidden-layout') }); }
 
@@ -1219,14 +1530,12 @@
             hideAllViews(); views.subject.classList.remove('hidden-layout'); window.scrollTo(0,0);
         }
 
-        // Hàm mở riêng không gian Tài liệu Tổng hợp
         window.openDocumentLibrary = function() {
             if(!isLoggedIn) { window.openLoginModal(); return; }
             hideAllViews(); views.documentLibrary.classList.remove('hidden-layout');
             window.filterDocuments('Tất cả'); 
         }
 
-        // Tabs trong Dashboard (đã xóa tab tài liệu)
         let chartInitialized = false;
         window.switchDashboardTab = function(tabId) {
             const tabs = ['tong-quan', 'su-kien', 'thong-ke', 'admin-panel']; 
@@ -1250,181 +1559,6 @@
             
             if (tabId === 'thong-ke' && !chartInitialized) { initChart(); chartInitialized = true; if(currentStats) updateStatsUI(currentStats); }
             if (tabId === 'admin-panel') { window.loadAdminUsersList(); }
-        }
-
-        // ================= CHỨC NĂNG BÀI HỌC =================
-        window.updateTargetScore = function(val) {
-            let num = parseFloat(val);
-            if(document.getElementById('display-target-score')) document.getElementById('display-target-score').innerText = num > 0 ? num : '?';
-            if(document.getElementById('target-score-plus')) document.getElementById('target-score-plus').classList.toggle('hidden', num <= 0);
-            document.querySelectorAll('.nav-target-score').forEach(el => el.innerText = num > 0 ? `Mục tiêu: ${num}+` : "Mục tiêu");
-        }
-        window.saveTargetScoreToDB = async function(val) {
-            if(currentUserUid && db) await updateDoc(getProfileRef(), { targetScore: parseFloat(val) }).catch(e=>console.log(e));
-        }
-        window.calculateAndSaveCountdown = async function(dateString, shouldSaveToDB = true) {
-            if(!dateString) return;
-            const targetDate = new Date(dateString);
-            const diffDays = Math.ceil((targetDate - new Date()) / (1000 * 60 * 60 * 24)); 
-            
-            const displayEl = document.getElementById('countdown-display');
-            const navEl = document.getElementById('nav-countdown-days');
-            if(displayEl && navEl) {
-                if(diffDays > 0) {
-                    displayEl.innerHTML = `<div class="text-7xl font-black text-white leading-none">${diffDays}</div><div class="text-lg font-bold text-blue-200 mt-2">Ngày nữa</div>`;
-                    navEl.innerText = `Còn ${diffDays} ngày`;
-                } else if (diffDays === 0) {
-                    displayEl.innerHTML = `<div class="text-5xl font-black text-yellow-300">Hôm nay thi!</div>`;
-                    navEl.innerText = `Hôm nay thi!`;
-                } else {
-                    displayEl.innerHTML = `<div class="text-3xl font-bold text-gray-300">Đã qua ngày thi</div>`;
-                    navEl.innerText = `Đã qua`;
-                }
-            }
-            if(shouldSaveToDB && currentUserUid && db) await updateDoc(getProfileRef(), { targetDate: dateString }).catch(e=>console.log(e));
-        }
-
-        // ================= THỜI GIAN & CHART =================
-        let studySeconds = 0;
-        const targetSeconds = 30 * 60; 
-        let studyInterval, streakEarnedToday = false;
-
-        function startStudyTimer() {
-            if(studyInterval) clearInterval(studyInterval);
-            studyInterval = setInterval(async () => {
-                if(streakEarnedToday) return;
-                studySeconds++;
-                let min = Math.floor(studySeconds / 60), sec = studySeconds % 60;
-                let formatted = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-                document.querySelectorAll('.study-timer-display').forEach(el => el.innerText = `Hôm nay: ${formatted} / 30:00`);
-
-                if (studySeconds >= targetSeconds) {
-                    streakEarnedToday = true;
-                    document.querySelectorAll('.study-timer-display').forEach(el => { el.innerText = `Đã học đủ 30 phút 🔥`; el.classList.replace('text-gray-400', 'text-orange-500'); });
-                    document.querySelectorAll('.nav-fire-icon').forEach(el => el.classList.replace('text-gray-300', 'text-orange-500'));
-                    
-                    const todayCircle = document.getElementById('today-circle');
-                    if(todayCircle) { todayCircle.classList.replace('bg-blue-500', 'bg-orange-500'); todayCircle.classList.replace('ring-blue-500/30', 'ring-orange-500/30'); }
-
-                    if(currentUserUid && db && currentStats) {
-                        await updateDoc(getStatsRef(), { currentStreak: (currentStats.currentStreak || 0) + 1, totalStudySeconds: (currentStats.totalStudySeconds || 0) + studySeconds }).catch(e=>console.log(e));
-                    }
-                }
-            }, 1000); 
-        }
-
-        let scoreChartInstance = null;
-        function initChart() {
-            const ctx = document.getElementById('scoreChart');
-            if(!ctx) return;
-            let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
-
-            scoreChartInstance = new Chart(ctx.getContext('2d'), {
-                type: 'line',
-                data: { labels: [], datasets: [{ label: 'Điểm số', data: [], borderColor: '#3b82f6', backgroundColor: gradient, borderWidth: 3, pointBackgroundColor: '#ffffff', pointBorderColor: '#3b82f6', pointBorderWidth: 2, pointRadius: 5, fill: true, tension: 0.3 }] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 10, grid: { color: '#f1f5f9' }, ticks: { stepSize: 2 } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
-            });
-            if(currentStats) updateStatsUI(currentStats);
-        }
-
-        window.simulateQuitTest = function() {
-            if(!chartInitialized || !currentStats || !currentUserUid) return;
-            window.showMessage("Xác nhận bỏ cuộc", "Hệ thống sẽ chấm điểm 1.0 và LƯU TRÊN CLOUD. Chắc chắn bỏ cuộc?", true, async () => {
-                let labels = currentStats.testLabels || [], scores = currentStats.testScores || [], qCount = currentStats.quitCount || 0;
-                labels.push('Bài ' + (labels.length + 1) + '\n(Bỏ cuộc)');
-                scores.push(1.0);
-                qCount++;
-                try {
-                    await updateDoc(getStatsRef(), { testLabels: labels, testScores: scores, quitCount: qCount });
-                    window.showMessage("Đã lưu kết quả", "Bạn vừa thoát bài thi. Dữ liệu đã lưu vĩnh viễn trên máy chủ.");
-                } catch (e) { console.error(e); }
-            });
-        }
-
-        // ================= DỮ LIỆU TÀI LIỆU =================
-        const docsData = [
-            { id: 1, title: 'Đề thi thử THPT Quốc Gia môn Hóa 2026', subject: 'Hóa Học', classInfo: 'Lớp 12', tag: 'Đề Thi', folder: 'Đề thi thử 2026', views: 3421, date: '14/06/2026' },
-            { id: 2, title: 'Tổng ôn lý thuyết Hóa Vô Cơ', subject: 'Hóa Học', classInfo: 'Hóa Vô Cơ', tag: 'Trọng Tâm', folder: 'Hóa Vô Cơ', views: 8205, date: '12/06/2026' },
-            { id: 3, title: 'Tuyển tập 50 bài tập VDC đồ thị Peptit và Este', subject: 'Hóa Học', classInfo: 'Hóa Hữu Cơ', tag: 'Vận Dụng Cao', folder: 'Hóa Hữu Cơ', views: 1150, date: '10/06/2026' },
-        ];
-        function renderDocumentList(dataToRender) {
-            const container = document.getElementById('document-list-container'); 
-            if(!container) return;
-            container.innerHTML = '';
-            if(dataToRender.length === 0) { container.innerHTML = `<div class="text-center p-10"><p>Không tìm thấy.</p></div>`; return; }
-            dataToRender.forEach(doc => {
-                container.innerHTML += `<div onclick="window.openPDFViewer(${doc.id}, '${doc.title}', '${doc.folder}')" class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200"><div class="bg-red-50 p-4 rounded-xl relative"><i class="fa-solid fa-file-pdf text-red-500 text-4xl"></i></div><div class="flex-1"><h3 class="font-bold text-gray-800 text-base mb-2">${doc.title}</h3></div></div>`;
-            });
-        }
-        function countDocsForFolders() { /* Mock function as per original */ }
-        window.filterDocuments = function(className) {
-            if(document.getElementById('doc-section-title')) document.getElementById('doc-section-title').innerText = `Tài liệu ${className}`;
-            renderDocumentList(className === 'Tất cả' ? docsData : docsData.filter(d => d.classInfo === className || d.subject === className));
-        }
-        window.selectFolder = function(folderName) {
-            if(document.getElementById('doc-section-title')) document.getElementById('doc-section-title').innerText = folderName;
-            renderDocumentList(docsData.filter(d => d.folder === folderName));
-        }
-        window.handleGlobalSearch = function(event) {
-            let query = event.target.value.toLowerCase();
-            // Tự động chuyển sang View Tài Liệu khi search từ thanh điều hướng Dashboard
-            hideAllViews(); views.documentLibrary.classList.remove('hidden-layout');
-            renderDocumentList(query.trim() === '' ? docsData : docsData.filter(d => d.title.toLowerCase().includes(query)));
-        }
-        window.openAllFoldersView = function() { hideAllViews(); views.allFolders.classList.remove('hidden-layout'); }
-        window.openPDFViewer = function(id, title, folder) {
-            hideAllViews(); views.pdfViewer.classList.remove('hidden-layout');
-            if(document.getElementById('pdf-breadcrumb-folder')) document.getElementById('pdf-breadcrumb-folder').innerText = folder;
-            if(document.getElementById('pdf-header-title')) document.getElementById('pdf-header-title').innerText = title;
-            if(document.getElementById('pdf-page-title')) document.getElementById('pdf-page-title').innerText = title;
-        }
-
-        // ================= ADMIN PANEL LOGIC (CHỈ DÀNH CHO ADMIN CẬP NHẬT TÊN HIỂN THỊ) =================
-        window.adminUpdateUserProfile = async function() {
-            const email = document.getElementById('admin-new-email').value.trim().toLowerCase();
-            const name = document.getElementById('admin-new-name').value.trim();
-            if(!email || !name) { window.showMessage("Lỗi", "Vui lòng nhập Email và Tên hiển thị."); return; }
-
-            try {
-                // Lưu metadata cấu hình (Mô phỏng gán metadata cho Email)
-                const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', email);
-                await setDoc(accountsRef, { email: email, name: name, role: 'student' });
-                window.showMessage("Thành công", `Đã lưu hồ sơ của ${name} (${email}).`);
-                window.loadAdminUsersList(); // Reload list
-            } catch(e) {
-                console.error(e);
-                window.showMessage("Lỗi hệ thống", "Không thể cập nhật hồ sơ Firebase.");
-            }
-        }
-
-        window.loadAdminUsersList = async function() {
-            const container = document.getElementById('admin-accounts-list');
-            try {
-                // Lấy toàn bộ document trong collection mô phỏng admin_accounts
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'admin_accounts');
-                onSnapshot(colRef, (querySnapshot) => {
-                    container.innerHTML = '';
-                    querySnapshot.forEach((docSnap) => {
-                        const info = docSnap.data();
-                        let roleBadge = info.role === 'admin' ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">ADMIN</span>` : `<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">HỌC SINH</span>`;
-                        let avatarLetter = info.name ? info.name.charAt(0).toUpperCase() : 'U';
-
-                        container.innerHTML += `
-                            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center">${avatarLetter}</div>
-                                    <div>
-                                        <div class="font-bold text-gray-800 text-sm flex items-center">${info.name || 'Chưa cập nhật tên'} ${roleBadge}</div>
-                                        <div class="text-xs text-gray-500 mt-0.5">${info.email}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    if(container.innerHTML === '') container.innerHTML = '<div class="text-center py-5 text-gray-500">Chưa có hồ sơ nào được lưu trữ metadata.</div>';
-                });
-            } catch(e) { console.error(e); }
         }
 
     </script>
