@@ -239,6 +239,9 @@
                 <button onclick="window.switchDashboardTab('thong-ke')" id="tab-thong-ke" class="w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition">
                     <i class="fa-solid fa-chart-line w-5"></i> Thống kê
                 </button>
+                <button onclick="window.switchDashboardTab('admin-panel')" id="tab-admin-panel" class="hidden w-full items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100">
+                    <i class="fa-solid fa-user-shield w-5"></i> Quản lý Học sinh
+                </button>
             </div>
 
             <div class="p-4 mx-4 mb-6 bg-gray-900 rounded-2xl text-white flex items-center gap-4 relative overflow-hidden">
@@ -538,6 +541,60 @@
                     </div>
                 </div>
 
+                <!-- ================= TAB 5: QUẢN TRỊ VIÊN (ADMIN PANEL) ================= -->
+                <div id="tab-content-admin-panel" class="hidden-layout">
+                    <h2 class="text-[11px] text-red-600 font-bold uppercase tracking-widest mb-1">DÀNH RIÊNG CHO QUẢN TRỊ VIÊN</h2>
+                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Cấp phát tài khoản hệ thống</h1>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Form cấp tài khoản -->
+                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm">
+                            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                                <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-plus"></i></div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Tạo tài khoản mới</h3>
+                                    <p class="text-xs text-gray-500">Cấp quyền truy cập cho học sinh</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Họ và tên học sinh</label>
+                                    <input type="text" id="admin-new-name" placeholder="VD: Nguyễn Văn A" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Email đăng nhập</label>
+                                    <input type="email" id="admin-new-email" placeholder="VD: nguyenvana@tx.edu.vn" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Mật khẩu khởi tạo</label>
+                                    <input type="text" id="admin-new-pass" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm" value="123456">
+                                </div>
+                                <button onclick="window.adminCreateAccount()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Tạo & Lưu lên Cloud
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Danh sách tài khoản -->
+                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex flex-col">
+                            <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-users-viewfinder"></i></div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800">Danh sách tài khoản</h3>
+                                        <p class="text-xs text-gray-500">Dữ liệu thời gian thực từ Firebase</p>
+                                    </div>
+                                </div>
+                                <span id="admin-total-users" class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">0 user</span>
+                            </div>
+                            <div id="admin-accounts-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll">
+                                <!-- JS Render Items -->
+                                <div class="text-center py-10 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br><span class="text-sm">Đang tải dữ liệu...</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
@@ -778,14 +835,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // ---- THÔNG TIN TÀI KHOẢN ĐƯỢC ADMIN CẤP PHÉP SẴN (MOCK DB) ----
-        const ALLOWED_ACCOUNTS = {
-            'anhphuong@tx.edu.vn': { pass: '123456', name: 'Anh Phương' },
-            'hocsinh1@tx.edu.vn': { pass: '123456', name: 'Học sinh VIP 1' },
-            'admin@tx.edu.vn': { pass: '123456', name: 'Quản trị viên' }
-        };
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Biến toàn cục hệ thống
         let db, auth, currentUserUid;
@@ -793,6 +843,7 @@
         let isLoggedIn = false;
         let currentProfile = null;
         let currentStats = null;
+        let allowedAccountsFromDB = {}; // Dữ liệu tài khoản load từ Firebase Cloud
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'tx-hoa-hoc-demo';
         
         // Timer Variables
@@ -823,10 +874,11 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
 
-                onAuthStateChanged(auth, (user) => {
+                onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         currentUserUid = user.uid;
-                        isAppReady = true;
+                        isAppReady = true; // Mở khóa nút đăng nhập ngay lập tức
+                        loadAccountsFromCloud();
                     }
                 });
 
@@ -838,7 +890,44 @@
                 }
             } catch (error) {
                 console.error("Firebase init failed:", error);
+                isAppReady = true; // Mở khóa dự phòng nếu lỗi
             }
+        }
+        
+        // Cơ chế dự phòng: Nếu sau 2.5s Firebase không phản hồi, vẫn cho phép mở modal đăng nhập
+        setTimeout(() => { 
+            if(!isAppReady) {
+                isAppReady = true; 
+                allowedAccountsFromDB = {
+                    'anhphuong@tx.edu.vn': { pass: '123456', name: 'Anh Phương (Offline)', role: 'student' },
+                    'admin@tx.edu.vn': { pass: '123456', name: 'Quản trị viên (Offline)', role: 'admin' }
+                };
+            }
+        }, 2500);
+
+        function loadAccountsFromCloud() {
+            // SỬA LỖI ĐƯỜNG DẪN: Sử dụng đúng chuẩn public/data của hệ thống để không bị chặn quyền truy cập
+            const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', 'list');
+            
+            onSnapshot(accountsRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    allowedAccountsFromDB = docSnap.data();
+                    if(document.getElementById('tab-content-admin-panel') && document.getElementById('tab-content-admin-panel').classList.contains('block')) {
+                        window.renderAdminAccountsList();
+                    }
+                } else {
+                    // Mặc định tạo sẵn 3 tài khoản mẫu nếu Database Cloud trống
+                    const defaultAccounts = {
+                        'anhphuong@tx.edu.vn': { pass: '123456', name: 'Anh Phương', role: 'student' },
+                        'hocsinh1@tx.edu.vn': { pass: '123456', name: 'Học sinh VIP 1', role: 'student' },
+                        'admin@tx.edu.vn': { pass: '123456', name: 'Quản trị viên', role: 'admin' }
+                    };
+                    setDoc(accountsRef, defaultAccounts).catch(e => console.error("Không thể ghi db mặc định:", e));
+                    allowedAccountsFromDB = defaultAccounts;
+                }
+            }, (error) => {
+                console.error("Lỗi quyền đọc Firebase (Có thể do rule):", error);
+            });
         }
         
         // Gọi khởi tạo Firebase khi trang load
@@ -1040,12 +1129,7 @@
             }, 300);
         }
 
-        // Xử lý nút Click bên ngoài modal
-        document.getElementById('login-modal').addEventListener('click', function(e) {
-            if (e.target === document.getElementById('login-modal')) window.closeLoginModal();
-        });
-
-        // XỬ LÝ ĐĂNG NHẬP (Chỉ cho phép tài khoản Admin cấp)
+        // XỬ LÝ ĐĂNG NHẬP (Chỉ cho phép tài khoản Admin cấp, check từ Cloud)
         window.processStrictLogin = async function() {
             const email = document.getElementById('login-email').value.trim().toLowerCase();
             const pass = document.getElementById('login-password').value.trim();
@@ -1060,30 +1144,40 @@
             btn.classList.add('opacity-80', 'cursor-not-allowed');
 
             setTimeout(async () => {
-                btn.innerHTML = `VÀO HỌC NGAY <i class="fa-solid fa-arrow-right"></i>`;
+                btn.innerHTML = `ĐĂNG NHẬP NGAY <i class="fa-solid fa-arrow-right"></i>`;
                 btn.classList.remove('opacity-80', 'cursor-not-allowed');
 
-                // Kiểm tra DB Ảo
-                if (ALLOWED_ACCOUNTS[email] && ALLOWED_ACCOUNTS[email].pass === pass) {
+                // Kiểm tra với dữ liệu trên DB Cloud
+                if (allowedAccountsFromDB[email] && allowedAccountsFromDB[email].pass === pass) {
                     // Thành công
                     isLoggedIn = true;
-                    const userName = ALLOWED_ACCOUNTS[email].name;
+                    const userName = allowedAccountsFromDB[email].name;
 
                     // Thay đổi UI Trang chủ
                     document.getElementById('btn-login').classList.add('hidden');
                     document.getElementById('user-profile').classList.remove('hidden');
+                    
+                    // Phân quyền: Mở Tab Admin nếu role là admin
+                    if (allowedAccountsFromDB[email].role === 'admin') {
+                        document.getElementById('tab-admin-panel').classList.remove('hidden');
+                        document.getElementById('tab-admin-panel').classList.add('flex');
+                    } else {
+                        document.getElementById('tab-admin-panel').classList.add('hidden');
+                        document.getElementById('tab-admin-panel').classList.remove('flex');
+                    }
+
                     window.closeLoginModal();
 
                     // Init & Load Data from Cloud
                     await initializeOrLoadUserCloudData(email, userName);
                     
-                    window.showMessage("Đăng nhập thành công", `Chào mừng ${userName}! Hệ thống đang đồng bộ dữ liệu từ đám mây.`);
+                    window.showMessage("Đăng nhập thành công", `Chào mừng ${userName}! Hệ thống đang đồng bộ dữ liệu của bạn từ đám mây.`);
                     
                     window.openDashboard();
                     startStudyTimer();
                 } else {
                     // Thất bại
-                    window.showMessage("Từ chối truy cập", "Tài khoản không tồn tại hoặc sai mật khẩu. Hệ thống này chỉ dành cho tài khoản được Quản trị viên khởi tạo.");
+                    window.showMessage("Từ chối truy cập", "Email chưa được đăng ký hoặc sai mật khẩu. Hệ thống này chỉ dành cho tài khoản được cấp phép.");
                 }
             }, 800); // Simulate network delay
         }
@@ -1144,16 +1238,26 @@
 
         // Quản lý Tabs trong Dashboard
         window.switchDashboardTab = function(tabId) {
-            const tabs = ['tong-quan', 'tai-lieu', 'su-kien', 'thong-ke'];
+            const tabs = ['tong-quan', 'tai-lieu', 'su-kien', 'thong-ke', 'admin-panel'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
                 const content = document.getElementById(`tab-content-${t}`);
+                if (!btn || !content) return;
+
                 if(t === tabId) {
-                    btn.className = "w-full flex items-center gap-3 bg-[#facc15] text-[#854d0e] font-bold px-4 py-3 rounded-xl shadow-sm transition";
+                    if (t === 'admin-panel') {
+                        btn.className = "w-full flex items-center gap-3 bg-red-600 text-white font-bold px-4 py-3 rounded-xl shadow-sm transition mt-4";
+                    } else {
+                        btn.className = "w-full flex items-center gap-3 bg-[#facc15] text-[#854d0e] font-bold px-4 py-3 rounded-xl shadow-sm transition";
+                    }
                     content.classList.remove('hidden-layout');
                     content.classList.add('block');
                 } else {
-                    btn.className = "w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition";
+                    if (t === 'admin-panel') {
+                        btn.className = "w-full flex items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100";
+                    } else {
+                        btn.className = "w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition";
+                    }
                     content.classList.add('hidden-layout');
                     content.classList.remove('block');
                 }
@@ -1170,6 +1274,10 @@
                 initChart();
                 chartInitialized = true;
                 if(currentStats) updateStatsUI(currentStats); // Sync fresh data to chart
+            }
+
+            if (tabId === 'admin-panel') {
+                window.renderAdminAccountsList();
             }
         }
 
@@ -1480,6 +1588,92 @@
             document.getElementById('pdf-breadcrumb-folder').innerText = folder;
             document.getElementById('pdf-header-title').innerText = title;
             document.getElementById('pdf-page-title').innerText = title; 
+        }
+
+        // ================= LOGIC QUẢN TRỊ VIÊN (ADMIN PANEL) =================
+        window.adminCreateAccount = async function() {
+            const name = document.getElementById('admin-new-name').value.trim();
+            const email = document.getElementById('admin-new-email').value.trim().toLowerCase();
+            const pass = document.getElementById('admin-new-pass').value.trim();
+
+            if(!name || !email || !pass) {
+                window.showMessage("Thiếu thông tin", "Vui lòng nhập đầy đủ Tên, Email và Mật khẩu.");
+                return;
+            }
+
+            if(allowedAccountsFromDB[email]) {
+                window.showMessage("Đã tồn tại", "Email này đã được cấp tài khoản rồi!");
+                return;
+            }
+
+            try {
+                // Sửa đường dẫn lưu trữ
+                const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', 'list');
+                await setDoc(accountsRef, { [email]: { name: name, pass: pass, role: 'student' } }, { merge: true });
+                
+                window.showMessage("Thành công", `Đã cấp tài khoản cho ${name}. Dữ liệu đã lưu lên Cloud.`);
+                document.getElementById('admin-new-name').value = '';
+                document.getElementById('admin-new-email').value = '';
+            } catch(e) {
+                console.error("Lỗi tạo tài khoản:", e);
+                window.showMessage("Lỗi hệ thống", "Không thể ghi dữ liệu lên Firebase. (Chi tiết trong Console)");
+            }
+        }
+
+        window.renderAdminAccountsList = function() {
+            const container = document.getElementById('admin-accounts-list');
+            const totalCount = document.getElementById('admin-total-users');
+            if(!container) return;
+            
+            container.innerHTML = '';
+            let count = 0;
+            
+            for(const [email, info] of Object.entries(allowedAccountsFromDB)) {
+                count++;
+                let roleBadge = info.role === 'admin' 
+                    ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2 shadow-sm">ADMIN</span>` 
+                    : `<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2 border border-blue-100">HỌC SINH</span>`;
+                
+                let avatarLetter = info.name.charAt(0).toUpperCase();
+
+                container.innerHTML += `
+                    <div class="bg-white border border-gray-100 hover:border-blue-200 hover:shadow-md p-3 rounded-2xl flex justify-between items-center transition-all group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 text-blue-700 font-bold flex items-center justify-center text-sm shadow-inner">${avatarLetter}</div>
+                            <div>
+                                <div class="font-bold text-gray-800 text-sm flex items-center">${info.name} ${roleBadge}</div>
+                                <div class="text-xs text-gray-500 mt-0.5 flex items-center gap-2">
+                                    <span><i class="fa-regular fa-envelope"></i> ${email}</span>
+                                    <span class="text-gray-300">|</span>
+                                    <span><i class="fa-solid fa-key"></i> Pass: <span class="font-mono bg-gray-100 px-1 rounded text-gray-600">${info.pass}</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="window.adminDeleteAccount('${email}')" class="text-gray-300 hover:text-red-500 bg-gray-50 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100" title="Thu hồi tài khoản">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `;
+            }
+            if(totalCount) totalCount.innerText = `${count} User`;
+        }
+
+        window.adminDeleteAccount = async function(email) {
+            if(allowedAccountsFromDB[email].role === 'admin') {
+                window.showMessage("Bảo vệ cấp cao", "Không thể xóa tài khoản Quản trị viên của hệ thống!");
+                return;
+            }
+            
+            window.showMessage("Xác nhận thu hồi", `Bạn có chắc chắn muốn thu hồi vĩnh viễn tài khoản ${email}? Học sinh sẽ không thể đăng nhập nữa.`, true, async () => {
+                try {
+                    // Sửa đường dẫn lưu trữ
+                    const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', 'list');
+                    await updateDoc(accountsRef, { [email]: deleteField() });
+                    window.showMessage("Đã thu hồi", "Tài khoản đã bị xóa khỏi hệ thống.");
+                } catch(e) { 
+                    console.error("Lỗi xóa tài khoản", e); 
+                }
+            });
         }
     </script>
 </body>
