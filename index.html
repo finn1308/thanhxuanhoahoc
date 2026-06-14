@@ -17,7 +17,6 @@
         body { font-family: 'Inter', sans-serif; }
         .font-logo { font-family: 'Nunito', sans-serif; }
         
-        /* Nền lưới Pastel Xanh Dương cho Landing Page */
         .bg-grid-pattern {
             background-color: #dce8ff;
             background-image: 
@@ -26,10 +25,8 @@
             background-size: 40px 40px;
         }
 
-        /* Ẩn hiện các Layout */
         .hidden-layout { display: none !important; }
 
-        /* Card nền sao lấp lánh */
         .starry-card {
             background: linear-gradient(135deg, #1e2b4d 0%, #151e32 100%);
             position: relative;
@@ -69,17 +66,24 @@
             100% { transform: rotate(-45deg) translateX(-150px); opacity: 0; }
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        /* Hiệu ứng item tài liệu */
         .doc-item:hover {
             box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
             border-color: #bfdbfe;
+            transform: translateY(-2px);
         }
+
+        /* Styles cho PDF Viewer */
+        .pdf-toolbar-btn {
+            @apply text-gray-500 hover:text-blue-600 hover:bg-blue-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer;
+        }
+        
+        /* Chỉnh scrollbar riêng cho lưới thư mục */
+        .folder-list-scroll::-webkit-scrollbar { height: 4px; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -188,21 +192,16 @@
     </div>
 
 
-    <!-- ================= VIEW 2: TRANG NỘI DUNG MÔN HỌC (LIÊN KẾT GLOBAL NAV) ================= -->
+    <!-- ================= VIEW 2: TRANG NỘI DUNG MÔN HỌC (SUBJECT VIEW) ================= -->
     <div id="subject-view" class="hidden-layout bg-white min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
-            <!-- Nút Back -->
-            <button onclick="switchDashboardTab('tong-quan')" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition w-[200px]">
+            <button onclick="closeToDashboard()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition w-[200px]">
                 <i class="fa-solid fa-arrow-left"></i> Về Dashboard
             </button>
-            
-            <!-- Center Title -->
             <div class="flex-1 flex justify-center items-center gap-3">
                 <h1 id="subject-title" class="text-xl font-bold text-blue-900 font-logo">Tên Môn Học</h1>
                 <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-[11px] font-bold border border-blue-200">Chế độ học tập</div>
             </div>
-
-            <!-- Right Nav (Đồng bộ với Dashboard) -->
             <div class="flex items-center justify-end gap-3 md:gap-4 w-[300px]">
                 <div class="flex flex-col items-end mr-2">
                     <span class="study-timer-display text-[10px] font-bold text-gray-400">Hôm nay: 00:00 / 30:00</span>
@@ -227,7 +226,7 @@
     </div>
 
 
-    <!-- ================= VIEW 3: NEW DASHBOARD ================= -->
+    <!-- ================= VIEW 3: MAIN DASHBOARD ================= -->
     <div id="dashboard-view" class="hidden-layout bg-[#eff6ff] min-h-screen text-gray-800 flex font-inter">
         
         <!-- Sidebar Trái -->
@@ -274,13 +273,12 @@
             
             <!-- Top Navigation -->
             <header class="bg-white/80 backdrop-blur-md border-b border-blue-100 px-8 py-4 flex justify-between items-center sticky top-0 z-40">
-                <!-- Search bar -->
-                <div class="relative hidden md:block w-64">
+                <!-- Search bar: Đã cập nhật chức năng -->
+                <div class="relative hidden md:block w-72">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                    <input type="text" placeholder="Tìm tài liệu, sự kiện..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    <input type="text" id="global-search-input" placeholder="Tìm tài liệu, mã đề..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition border border-transparent focus:border-blue-300" onkeyup="handleGlobalSearch(event)">
                 </div>
 
-                <!-- Info Nav (Dùng Class thay vì ID để đồng bộ nhiều nơi) -->
                 <div class="flex items-center gap-3 md:gap-4 ml-auto">
                     <div class="flex flex-col items-end mr-2">
                         <span class="study-timer-display text-[10px] font-bold text-gray-400">Hôm nay: 00:00 / 30:00</span>
@@ -313,15 +311,12 @@
                     <h2 class="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">Tổng quan · Tiến độ luyện đề</h2>
                     <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Chào Phương, hôm nay luyện đề nhé!</h1>
 
-                    <!-- Grid Layout Chính -->
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                        
                         <!-- 1. Manifest Điểm -->
                         <div class="lg:col-span-5 starry-card rounded-3xl p-6 text-white shadow-xl flex flex-col justify-between min-h-[220px]">
                             <div class="shooting-star" style="top: 20%; left: 30%;"></div>
                             <div class="shooting-star" style="top: 60%; left: 80%; animation-delay: 2s;"></div>
                             
-                            <!-- Mặt trăng -->
                             <div class="absolute top-[-20px] right-[-20px] w-32 h-32 bg-white rounded-full opacity-90 shadow-[0_0_40px_rgba(255,255,255,0.4)] flex items-center justify-center">
                                 <div class="w-16 h-16 mr-4 mt-4 opacity-50 relative">
                                     <div class="absolute w-2 h-2 bg-gray-800 rounded-full top-4 left-2"></div>
@@ -332,13 +327,11 @@
 
                             <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-2 z-10">Manifest Điểm</h3>
                             
-                            <!-- Khu vực hiển thị điểm -->
                             <div class="flex items-end gap-2 z-10 mb-2 mt-2">
                                 <span id="display-target-score" class="text-7xl font-black text-white leading-none tracking-tighter">?</span>
                                 <span id="target-score-plus" class="text-2xl font-bold text-[#facc15] mb-2 hidden">+</span>
                             </div>
 
-                            <!-- Thanh trượt điểm -->
                             <div class="w-full z-10 relative mt-4 mb-2 pr-8">
                                 <input type="range" id="score-slider" min="0" max="10" step="0.25" value="0" class="w-full h-2.5 bg-[#0f172a]/80 rounded-lg appearance-none cursor-pointer accent-[#facc15] shadow-inner" oninput="updateTargetScore(this.value)">
                                 <div class="flex justify-between text-[10px] font-bold text-blue-200 mt-2">
@@ -374,7 +367,6 @@
                                     <span class="text-xs text-blue-300">T3</span>
                                 </div>
                                 <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent mx-1 mt-[-20px]"></div>
-                                <!-- Ngày hiện tại -->
                                 <div class="flex flex-col items-center gap-2 relative">
                                     <div class="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full animate-ping"></div>
                                     <div id="today-circle" class="w-10 h-10 rounded-full bg-blue-500 ring-4 ring-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.6)] border-2 border-white transition-colors duration-1000"></div>
@@ -407,7 +399,6 @@
                         <div class="lg:col-span-12 starry-card rounded-3xl p-6 text-white shadow-xl relative min-h-[150px]">
                             <div class="flex justify-between items-start mb-2 relative z-10">
                                 <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase">Đếm ngược kỳ thi THPT</h3>
-                                <!-- Fix lỗi Date Picker: Overlay thẻ input lên toàn bộ nút -->
                                 <div class="relative bg-[#facc15] text-[#854d0e] text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-yellow-300 flex items-center gap-2 transition overflow-hidden shadow-md">
                                     <i class="fa-regular fa-calendar"></i> Đặt ngày thi
                                     <input type="date" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="calculateCountdown(this.value)">
@@ -423,51 +414,61 @@
                 <!-- ================= TAB 2: TÀI LIỆU TỔNG HỢP ================= -->
                 <div id="tab-content-tai-lieu" class="hidden-layout">
                     <h2 class="text-[11px] text-blue-600 font-bold uppercase tracking-widest mb-1">THƯ VIỆN TÀI LIỆU</h2>
-                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Kho đề thi và kiến thức trọng tâm</h1>
+                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo" id="doc-section-title">Tất cả tài liệu</h1>
                     
                     <div class="flex flex-col lg:flex-row gap-8">
-                        <div class="flex-1 space-y-4">
-                            <div class="flex gap-2 mb-6 border-b border-gray-200 pb-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                                <button class="px-4 py-1.5 text-sm font-bold text-blue-600 border-b-2 border-blue-600">Tất cả</button>
-                                <button class="px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800">Lớp 12</button>
-                                <button class="px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800">Lớp 11</button>
-                                <button class="px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800">Lớp 10</button>
-                                <button class="px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800">ĐGNL</button>
+                        <!-- Lọc và Danh sách (Trái) -->
+                        <div class="flex-1 flex flex-col">
+                            <!-- Nút Lọc -->
+                            <div class="flex gap-2 mb-6 border-b border-gray-200 pb-2 overflow-x-auto whitespace-nowrap scrollbar-hide folder-list-scroll">
+                                <button onclick="filterDocuments('Tất cả')" id="btn-filter-Tất cả" class="filter-btn px-4 py-1.5 text-sm font-bold text-blue-600 border-b-2 border-blue-600 transition-colors">Tất cả</button>
+                                <button onclick="filterDocuments('Lớp 12')" id="btn-filter-Lớp 12" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 12</button>
+                                <button onclick="filterDocuments('Lớp 11')" id="btn-filter-Lớp 11" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 11</button>
+                                <button onclick="filterDocuments('Lớp 10')" id="btn-filter-Lớp 10" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">Lớp 10</button>
+                                <button onclick="filterDocuments('ĐGNL')" id="btn-filter-ĐGNL" class="filter-btn px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors border-b-2 border-transparent">ĐGNL</button>
                             </div>
 
-                            <div class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
-                                <div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative">
-                                    <i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i>
-                                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">PDF</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">Đề thi thử THPT Quốc Gia môn Hóa 2026 - THPT Chuyên KHTN lần 1</h3>
-                                    <div class="flex gap-2 mb-3">
-                                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Hóa Học</span>
-                                        <span class="bg-blue-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Lớp 12</span>
-                                        <span class="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Đề Thi</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 text-xs font-medium text-gray-400">
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-eye"></i> 3,421</span>
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 14/06/2026</span>
-                                    </div>
-                                </div>
+                            <!-- Vùng chứa List -->
+                            <div id="document-list-container" class="space-y-4 flex-1">
+                                <!-- JS sẽ render item vào đây -->
                             </div>
                         </div>
 
+                        <!-- Cột Kho Tài Liệu (Phải) -->
                         <div class="w-full lg:w-80 flex-shrink-0">
                             <div class="sticky top-24">
                                 <div class="flex justify-between items-center mb-4">
                                     <h3 class="font-bold text-gray-800 text-lg">Kho tài liệu</h3>
-                                    <a href="#" class="text-xs font-bold text-blue-600 hover:underline">Xem tất cả <i class="fa-solid fa-angles-right text-[10px]"></i></a>
+                                    <button onclick="openAllFoldersView()" class="text-xs font-bold text-blue-600 hover:underline">Xem tất cả <i class="fa-solid fa-angles-right text-[10px]"></i></button>
                                 </div>
                                 
                                 <div class="space-y-3">
-                                    <div class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
+                                    <div onclick="selectFolder('Đề thi thử 2026')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
                                         <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
                                         <div>
                                             <h4 class="font-bold text-sm text-gray-800">Kho đề thi thử 2026</h4>
-                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> 120 tài liệu</p>
+                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> <span class="folder-count-de-thi">0</span> tài liệu</p>
+                                        </div>
+                                    </div>
+                                    <div onclick="selectFolder('Hóa Hữu Cơ')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
+                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Hữu Cơ</h4>
+                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> <span class="folder-count-huu-co">0</span> tài liệu</p>
+                                        </div>
+                                    </div>
+                                    <div onclick="selectFolder('Hóa Vô Cơ')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
+                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Vô Cơ</h4>
+                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> <span class="folder-count-vo-co">0</span> tài liệu</p>
+                                        </div>
+                                    </div>
+                                    <div onclick="selectFolder('Trọng Tâm')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
+                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-gray-800">Kiến thức trọng tâm</h4>
+                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> <span class="folder-count-trong-tam">0</span> tài liệu</p>
                                         </div>
                                     </div>
                                 </div>
@@ -485,7 +486,6 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Card Sự kiện -->
                         <div class="bg-[#f0a25c] rounded-3xl p-6 text-white shadow-md relative overflow-hidden flex flex-col h-56 cursor-pointer hover:-translate-y-1 transition border-4 border-transparent hover:border-white/50">
                             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(white 2px, transparent 2px); background-size: 20px 20px;"></div>
                             <div class="flex justify-between items-start mb-4 relative z-10">
@@ -568,12 +568,181 @@
         </main>
     </div>
 
+    <!-- ================= VIEW 4: XEM TẤT CẢ THƯ MỤC (ALL FOLDERS GRID) ================= -->
+    <div id="all-folders-view" class="hidden-layout bg-gray-50 min-h-screen font-inter flex flex-col">
+        <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+            <button onclick="closeToDashboard()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition">
+                <i class="fa-solid fa-arrow-left"></i> Về Dashboard
+            </button>
+            <div class="flex items-center gap-4 w-96 relative">
+                 <i class="fa-solid fa-magnifying-glass absolute left-3 text-gray-400 text-sm"></i>
+                 <input type="text" placeholder="Tìm kiếm thư mục..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </nav>
+        
+        <div class="container mx-auto px-6 py-10">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Tổng hợp kho tài liệu</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="all-folders-grid">
+                <!-- JS Render Grid Thư Mục -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 5: TRÌNH XEM PDF (PDF VIEWER) ================= -->
+    <div id="pdf-viewer-view" class="hidden-layout bg-gray-100 min-h-screen font-inter flex flex-col h-screen overflow-hidden">
+        <!-- Header -->
+        <nav class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center z-50 shadow-sm flex-shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="closeToDashboard()" class="text-gray-500 hover:text-blue-600"><i class="fa-solid fa-house"></i></button>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+                <span class="text-sm font-semibold text-gray-500" id="pdf-breadcrumb-folder">Tài liệu</span>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
+                <h1 class="text-sm font-bold text-blue-900 truncate w-96" id="pdf-header-title">Tên tài liệu PDF</h1>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <div class="flex flex-col items-end mr-2">
+                    <span class="study-timer-display text-[10px] font-bold text-gray-400">00:00 / 30:00</span>
+                </div>
+                <button onclick="closeToDashboard()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-1.5 rounded-lg text-sm font-semibold transition">Đóng</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex flex-1 overflow-hidden">
+            <!-- Trái: Khung hiển thị PDF -->
+            <div class="flex-1 flex flex-col items-center bg-gray-100 relative overflow-y-auto pt-4 pb-20">
+                <!-- Toolbar giả lập -->
+                <div class="sticky top-0 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full px-4 py-2 flex items-center gap-2 shadow-md z-10 mb-6">
+                    <div class="pdf-toolbar-btn"><i class="fa-solid fa-magnifying-glass-minus"></i></div>
+                    <span class="text-sm font-semibold text-gray-600 px-2 border-x border-gray-200">100%</span>
+                    <div class="pdf-toolbar-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                    <div class="w-[1px] h-4 bg-gray-300 mx-2"></div>
+                    <div class="pdf-toolbar-btn" title="Tải xuống"><i class="fa-solid fa-download"></i></div>
+                    <div class="pdf-toolbar-btn" title="In"><i class="fa-solid fa-print"></i></div>
+                </div>
+
+                <!-- Trang PDF giả lập -->
+                <div class="bg-white w-[800px] min-h-[1100px] shadow-xl border border-gray-300 mb-8 p-12 text-center relative">
+                    <div class="border-b-2 border-blue-800 pb-4 mb-8">
+                        <h2 class="text-2xl font-bold text-blue-900 mb-2 uppercase" id="pdf-page-title">ĐỀ THI MÔN HÓA HỌC</h2>
+                        <p class="text-sm text-gray-600">Thời gian làm bài: 50 phút</p>
+                    </div>
+                    
+                    <div class="text-left space-y-6 text-gray-800 font-serif">
+                        <div class="flex gap-4">
+                            <span class="font-bold whitespace-nowrap">Câu 1:</span>
+                            <div>
+                                Phản ứng nào sau đây là phản ứng oxi hóa - khử?
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <label><input type="radio" name="q1"> A. CaCO3 → CaO + CO2</label>
+                                    <label><input type="radio" name="q1"> B. 2H2 + O2 → 2H2O</label>
+                                    <label><input type="radio" name="q1"> C. NaOH + HCl → NaCl + H2O</label>
+                                    <label><input type="radio" name="q1"> D. Cu(OH)2 → CuO + H2O</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <span class="font-bold whitespace-nowrap">Câu 2:</span>
+                            <div>
+                                Chất nào sau đây thuộc loại đisaccarit?
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <label><input type="radio" name="q2"> A. Glucozo</label>
+                                    <label><input type="radio" name="q2"> B. Saccarozo</label>
+                                    <label><input type="radio" name="q2"> C. Tinh bột</label>
+                                    <label><input type="radio" name="q2"> D. Xenlulozo</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Khối mờ hiển thị content tiếp theo -->
+                        <div class="mt-20 pt-20 border-t border-dashed border-gray-300 text-gray-400 flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-lock text-4xl mb-4"></i>
+                            <p>Cuộn xuống để xem tiếp tài liệu...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phải: Sidebar Đánh giá & Bình luận -->
+            <div class="w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-4px_0_15px_rgba(0,0,0,0.03)] flex-shrink-0 z-20">
+                <!-- Đánh giá -->
+                <div class="p-5 border-b border-gray-100">
+                    <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-regular fa-thumbs-up text-blue-500"></i> Đánh giá tài liệu</h3>
+                    <div class="flex gap-3 justify-between bg-gray-50 p-2 rounded-xl border border-gray-100">
+                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group">
+                            <span class="text-xl group-hover:scale-125 transition-transform">❤️</span>
+                            <span class="text-xs text-gray-500 font-bold mt-1">12</span>
+                        </button>
+                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group">
+                            <span class="text-xl group-hover:scale-125 transition-transform">😂</span>
+                            <span class="text-xs text-gray-500 font-bold mt-1">0</span>
+                        </button>
+                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group">
+                            <span class="text-xl group-hover:scale-125 transition-transform">👍</span>
+                            <span class="text-xs text-gray-500 font-bold mt-1">45</span>
+                        </button>
+                        <button class="flex flex-col items-center p-2 hover:bg-blue-100 rounded-lg transition group opacity-50">
+                            <span class="text-xl group-hover:scale-125 transition-transform">👎</span>
+                            <span class="text-xs text-gray-500 font-bold mt-1">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bình luận -->
+                <div class="p-5 flex-1 flex flex-col overflow-hidden">
+                    <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="fa-regular fa-comment-dots text-blue-500"></i> Bình luận</h3>
+                    
+                    <!-- Khung nhập -->
+                    <div class="mb-4">
+                        <textarea class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:border-blue-400 focus:bg-white transition resize-none h-24" placeholder="Nhập bình luận của bạn..."></textarea>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex gap-2 text-gray-400">
+                                <button class="hover:text-blue-500"><i class="fa-solid fa-image"></i></button>
+                                <button class="hover:text-blue-500"><i class="fa-solid fa-paperclip"></i></button>
+                            </div>
+                            <button class="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-blue-700">Gửi <i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- List Comment -->
+                    <div class="flex-1 overflow-y-auto space-y-4 pr-2">
+                        <div class="flex gap-3 text-sm">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold flex-shrink-0">H</div>
+                            <div>
+                                <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-none">
+                                    <div class="font-bold text-gray-800 text-xs mb-1">Hoàng Tuấn</div>
+                                    <p class="text-gray-600 text-xs">Đề khó quá admin ơi, câu 35 giải chi tiết hộ em với ạ.</p>
+                                </div>
+                                <div class="text-[10px] text-gray-400 mt-1 ml-2 font-semibold cursor-pointer">Thích · Phản hồi · 2 giờ trước</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 text-sm">
+                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold flex-shrink-0">M</div>
+                            <div>
+                                <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-none">
+                                    <div class="font-bold text-gray-800 text-xs mb-1">Mai Linh</div>
+                                    <p class="text-gray-600 text-xs">Tài liệu hay lắm, cảm ơn ad!</p>
+                                </div>
+                                <div class="text-[10px] text-gray-400 mt-1 ml-2 font-semibold cursor-pointer">Thích · Phản hồi · 1 ngày trước</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         // Các biến View
         const landingView = document.getElementById('landing-view');
         const subjectView = document.getElementById('subject-view');
         const dashboardView = document.getElementById('dashboard-view');
+        const allFoldersView = document.getElementById('all-folders-view');
+        const pdfViewerView = document.getElementById('pdf-viewer-view');
         
         let isLoggedIn = false;
 
@@ -583,40 +752,45 @@
             document.getElementById('user-profile').classList.remove('hidden');
             isLoggedIn = true;
             alert("Đăng nhập Google thành công! Thời gian học tập của bạn bắt đầu được tính.");
-            
-            // Bắt đầu đếm giờ học ngay khi đăng nhập
             startStudyTimer();
         }
 
-        // Chuyển trang Dashboard chính
         function openDashboard() {
             if(!isLoggedIn) { alert("Vui lòng đăng nhập trước!"); return; }
-            landingView.classList.add('hidden-layout');
-            subjectView.classList.add('hidden-layout');
+            hideAllViews();
             dashboardView.classList.remove('hidden-layout');
         }
 
-        // Về trang chủ Landing (Giữ nguyên timer chạy ngầm)
         function backToHome() {
-            subjectView.classList.add('hidden-layout');
-            dashboardView.classList.add('hidden-layout');
+            hideAllViews();
             landingView.classList.remove('hidden-layout');
         }
 
         function openSubjectPage(subjectName) {
             if(!isLoggedIn) { alert("Vui lòng đăng nhập để vào chế độ luyện tập cá nhân hóa!"); return; }
             document.getElementById('subject-title').innerText = subjectName;
-            landingView.classList.add('hidden-layout');
-            dashboardView.classList.add('hidden-layout');
+            hideAllViews();
             subjectView.classList.remove('hidden-layout');
             window.scrollTo(0,0);
+        }
+
+        function closeToDashboard() {
+            hideAllViews();
+            dashboardView.classList.remove('hidden-layout');
+        }
+
+        function hideAllViews() {
+            landingView.classList.add('hidden-layout');
+            subjectView.classList.add('hidden-layout');
+            dashboardView.classList.add('hidden-layout');
+            allFoldersView.classList.add('hidden-layout');
+            pdfViewerView.classList.add('hidden-layout');
         }
 
         // ---- LOGIC DASHBOARD TABS ----
         let chartInitialized = false;
 
         function switchDashboardTab(tabId) {
-            // Đổi màu nút Sidebar
             const tabs = ['tong-quan', 'tai-lieu', 'su-kien', 'thong-ke'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
@@ -629,23 +803,204 @@
                     content.classList.add('hidden-layout');
                 }
             });
-            subjectView.classList.add('hidden-layout');
+            hideAllViews();
             dashboardView.classList.remove('hidden-layout');
 
-            // Render Chart nếu vào tab Thống Kê
+            if (tabId === 'tai-lieu') {
+                renderDocumentList(docsData); // Load full doc khi vào tab
+                countDocsForFolders();
+            }
+
             if (tabId === 'thong-ke' && !chartInitialized) {
                 initChart();
                 chartInitialized = true;
             }
         }
 
+        // ================= DỮ LIỆU & LOGIC TAB TÀI LIỆU =================
+        const docsData = [
+            { id: 1, title: 'Đề thi thử THPT Quốc Gia môn Hóa 2026 - THPT Chuyên KHTN lần 1', subject: 'Hóa Học', classInfo: 'Lớp 12', tag: 'Đề Thi', folder: 'Đề thi thử 2026', views: 3421, date: '14/06/2026' },
+            { id: 2, title: 'Tổng ôn lý thuyết Hóa Vô Cơ - Đếm mệnh đề chống liệt', subject: 'Hóa Học', classInfo: 'Hóa Vô Cơ', tag: 'Trọng Tâm', folder: 'Hóa Vô Cơ', views: 8205, date: '12/06/2026' },
+            { id: 3, title: 'Tuyển tập 50 bài tập VDC đồ thị Peptit và Este (Giải chi tiết)', subject: 'Hóa Học', classInfo: 'Hóa Hữu Cơ', tag: 'Vận Dụng Cao', folder: 'Hóa Hữu Cơ', views: 1150, date: '10/06/2026' },
+            { id: 4, title: 'Sổ tay phương trình Hóa Học THPT (Trọn bộ Lớp 10-11-12)', subject: 'Hóa Học', classInfo: 'Trọng Tâm', tag: 'Sổ tay', folder: 'Trọng Tâm', views: 15420, date: '05/06/2026' },
+            { id: 5, title: 'Đề ĐGNL Đại học Quốc gia Hà Nội 2025 - Phần Tư duy Khoa học', subject: 'ĐGNL', classInfo: 'ĐGNL', tag: 'Đề Thi', folder: 'Đề thi thử 2026', views: 5600, date: '01/06/2026' },
+            { id: 6, title: 'Bài tập trắc nghiệm Ancol - Phenol Lớp 11 (Có đáp án)', subject: 'Hóa Học', classInfo: 'Lớp 11', tag: 'Bài Tập', folder: 'Hóa Hữu Cơ', views: 2300, date: '28/05/2026' },
+            { id: 7, title: 'Cấu tạo nguyên tử và Bảng tuần hoàn Lớp 10', subject: 'Hóa Học', classInfo: 'Lớp 10', tag: 'Lý Thuyết', folder: 'Hóa Vô Cơ', views: 4120, date: '20/05/2026' },
+        ];
+
+        // 1. Render danh sách tài liệu
+        function renderDocumentList(dataToRender) {
+            const container = document.getElementById('document-list-container');
+            container.innerHTML = ''; // Clear old
+
+            if(dataToRender.length === 0) {
+                container.innerHTML = `<div class="text-center p-10 bg-white rounded-2xl border border-gray-200"><i class="fa-solid fa-magnifying-glass text-4xl text-gray-300 mb-3"></i><p class="text-gray-500 font-semibold">Không tìm thấy tài liệu nào.</p></div>`;
+                return;
+            }
+
+            dataToRender.forEach(doc => {
+                let html = `
+                <div onclick="openPDFViewer(${doc.id}, '${doc.title.replace(/'/g, "\\'")}', '${doc.folder}')" class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
+                    <div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative">
+                        <i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i>
+                        <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">PDF</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">${doc.title}</h3>
+                        <div class="flex gap-2 mb-3">
+                            <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">${doc.subject}</span>
+                            <span class="bg-blue-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">${doc.classInfo}</span>
+                            <span class="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-0.5 rounded-full">${doc.tag}</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs font-medium text-gray-400">
+                            <span class="flex items-center gap-1"><i class="fa-regular fa-eye"></i> ${doc.views.toLocaleString()}</span>
+                            <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> ${doc.date}</span>
+                        </div>
+                    </div>
+                </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        // 2. Lọc theo Nút (Lớp)
+        function filterDocuments(className) {
+            // Đổi style nút active
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'border-blue-600', 'font-bold');
+                btn.classList.add('text-gray-500', 'font-medium', 'border-transparent');
+            });
+            let activeBtn = document.getElementById(`btn-filter-${className}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-gray-500', 'font-medium', 'border-transparent');
+                activeBtn.classList.add('text-blue-600', 'border-blue-600', 'font-bold');
+            }
+
+            document.getElementById('doc-section-title').innerText = className === 'Tất cả' ? 'Tất cả tài liệu' : `Tài liệu ${className}`;
+            
+            if(className === 'Tất cả') {
+                renderDocumentList(docsData);
+            } else {
+                const filtered = docsData.filter(d => d.classInfo === className || d.subject === className);
+                renderDocumentList(filtered);
+            }
+        }
+
+        // 3. Lọc theo Thư mục (Click cột phải)
+        function selectFolder(folderName) {
+            document.getElementById('doc-section-title').innerText = folderName;
+            const filtered = docsData.filter(d => d.folder === folderName);
+            renderDocumentList(filtered);
+
+            // Reset nút lọc về Tất cả mờ
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'border-blue-600', 'font-bold');
+                btn.classList.add('text-gray-500', 'font-medium', 'border-transparent');
+            });
+        }
+
+        // 4. Tìm kiếm Toàn cầu (Top Nav)
+        function handleGlobalSearch(event) {
+            let query = event.target.value.toLowerCase();
+            
+            // Nếu đang không ở tab tài liệu, chuyển sang
+            if(document.getElementById('tab-content-tai-lieu').classList.contains('hidden-layout')) {
+                switchDashboardTab('tai-lieu');
+            }
+
+            if(query.trim() === '') {
+                renderDocumentList(docsData);
+                document.getElementById('doc-section-title').innerText = 'Tất cả tài liệu';
+                return;
+            }
+
+            const searched = docsData.filter(d => d.title.toLowerCase().includes(query) || d.tag.toLowerCase().includes(query));
+            document.getElementById('doc-section-title').innerText = `Kết quả tìm kiếm cho: "${query}"`;
+            renderDocumentList(searched);
+        }
+
+        // 5. Cập nhật số lượng tài liệu trong thư mục bên phải
+        function countDocsForFolders() {
+            document.querySelector('.folder-count-de-thi').innerText = docsData.filter(d=>d.folder==='Đề thi thử 2026').length;
+            document.querySelector('.folder-count-huu-co').innerText = docsData.filter(d=>d.folder==='Hóa Hữu Cơ').length;
+            document.querySelector('.folder-count-vo-co').innerText = docsData.filter(d=>d.folder==='Hóa Vô Cơ').length;
+            document.querySelector('.folder-count-trong-tam').innerText = docsData.filter(d=>d.folder==='Trọng Tâm').length;
+        }
+
+        // ================= XEM TẤT CẢ THƯ MỤC =================
+        function openAllFoldersView() {
+            hideAllViews();
+            allFoldersView.classList.remove('hidden-layout');
+            renderAllFoldersGrid();
+        }
+
+        function renderAllFoldersGrid() {
+            // Giả lập danh sách thư mục nhiều hơn
+            const allFoldersData = [
+                { name: 'Kho đề thi thử 2026', count: 120, tag: 'Lớp 12', type: 'Toán học' }, // Dùng màu xanh dương
+                { name: 'Kho đề thi vào lớp 10 - Hóa 9', count: 45, tag: 'Lớp 9', type: 'Hóa học' },
+                { name: 'Kho Đề Trường - Sở - Hóa học 12', count: 88, tag: 'Lớp 12', type: 'Hóa học' },
+                { name: 'Kho Đề Trường - Sở - Hóa học 11', count: 56, tag: 'Lớp 11', type: 'Hóa học' },
+                { name: 'Tuyển tập đề thi thử ĐGNL 2026', count: 15, tag: 'ĐGNL', type: 'Tổng hợp' },
+                { name: 'Kho Đề Trường - Sở - Vật lí 12', count: 102, tag: 'Lớp 12', type: 'Vật lí' },
+                { name: 'Kiến thức trọng tâm Hữu Cơ', count: 30, tag: 'Trọng Tâm', type: 'Hóa học' },
+                { name: 'Sổ tay Vô Cơ', count: 18, tag: 'Sổ tay', type: 'Hóa học' },
+            ];
+
+            const grid = document.getElementById('all-folders-grid');
+            grid.innerHTML = '';
+            
+            allFoldersData.forEach(folder => {
+                // Style folder box giống ảnh 3 (Màu xanh, icon thư mục)
+                let html = `
+                <div class="bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-lg transition-shadow cursor-pointer flex flex-col justify-between h-48" onclick="clickFolderInGrid('${folder.name}')">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center text-white relative flex-shrink-0 shadow-sm">
+                            <!-- Icon mô phỏng thư mục kẹp giấy -->
+                            <div class="absolute top-2 left-2 w-4 h-6 bg-red-400 rounded-sm"></div>
+                            <div class="w-full h-full border-[3px] border-blue-500 rounded-xl bg-blue-500 flex items-end justify-center pb-2 z-10 relative">
+                                <div class="w-6 h-1 bg-white/50 rounded-full"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-sm leading-tight">${folder.name}</h3>
+                            <div class="flex items-center gap-3 text-xs text-gray-500 mt-2 font-medium">
+                                <span><i class="fa-regular fa-eye"></i> Lượt xem</span>
+                                <span><i class="fa-regular fa-file"></i> ${folder.count}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="inline-block bg-blue-800 text-white text-[10px] font-bold px-3 py-1 rounded-full">${folder.tag}</span>
+                    </div>
+                </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function clickFolderInGrid(folderName) {
+            // Khi bấm vào 1 thư mục trong lưới -> quay về Dashboard và filter
+            switchDashboardTab('tai-lieu');
+            selectFolder(folderName);
+        }
+
+        // ================= XEM PDF (PDF VIEWER) =================
+        function openPDFViewer(id, title, folder) {
+            hideAllViews();
+            pdfViewerView.classList.remove('hidden-layout');
+            
+            document.getElementById('pdf-breadcrumb-folder').innerText = folder;
+            document.getElementById('pdf-header-title').innerText = title;
+            document.getElementById('pdf-page-title').innerText = title; // Cập nhật tên trong giấy
+        }
+
+
         // ---- LOGIC MỤC TIÊU ĐIỂM ĐỒNG BỘ GLOBAL ----
         function updateTargetScore(val) {
             let num = parseFloat(val);
             let displayScore = document.getElementById('display-target-score');
             let plusSign = document.getElementById('target-score-plus');
-            
-            // Cập nhật tất cả các thanh điều hướng chứa class nav-target-score
             let navScores = document.querySelectorAll('.nav-target-score');
 
             if (num > 0) {
@@ -671,10 +1026,7 @@
             const navEl = document.getElementById('nav-countdown-days');
 
             if(diffDays > 0) {
-                displayEl.innerHTML = `
-                    <div class="text-7xl font-black text-white leading-none">${diffDays}</div>
-                    <div class="text-lg font-bold text-blue-200 mt-2">Ngày nữa</div>
-                `;
+                displayEl.innerHTML = `<div class="text-7xl font-black text-white leading-none">${diffDays}</div><div class="text-lg font-bold text-blue-200 mt-2">Ngày nữa</div>`;
                 navEl.innerText = `Còn ${diffDays} ngày`;
             } else if (diffDays === 0) {
                 displayEl.innerHTML = `<div class="text-5xl font-black text-yellow-300">Hôm nay thi!</div>`;
@@ -687,7 +1039,7 @@
 
         // ---- LOGIC CHUỖI HỌC TẬP GLOBAL (TIMER 30 PHÚT) ----
         let studySeconds = 0;
-        const targetSeconds = 30 * 60; // 30 phút
+        const targetSeconds = 30 * 60; 
         let studyInterval;
         let streakEarnedToday = false;
         let currentStreak = 0; 
@@ -703,7 +1055,6 @@
                 let seconds = studySeconds % 60;
                 let formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Cập nhật tất cả các bộ đếm trên mọi giao diện (Dashboard, Subject View)
                 document.querySelectorAll('.study-timer-display').forEach(el => {
                     el.innerText = `Hôm nay: ${formattedTime} / 30:00`;
                 });
@@ -713,27 +1064,21 @@
                     currentStreak++; 
                     
                     document.querySelectorAll('.study-timer-display').forEach(el => {
-                        el.innerText = `Tuyệt vời! Đã học đủ 30 phút hôm nay 🔥`;
+                        el.innerText = `Đã học đủ 30 phút 🔥`;
                         el.classList.replace('text-gray-400', 'text-orange-500');
                     });
                     
                     document.querySelectorAll('.nav-fire-icon').forEach(el => el.classList.replace('text-gray-300', 'text-orange-500'));
                     document.querySelectorAll('.nav-streak-count').forEach(el => el.innerText = currentStreak);
                     
-                    if(document.getElementById('main-streak-count')) {
-                        document.getElementById('main-streak-count').innerText = currentStreak;
-                    }
-                    if(document.getElementById('sidebar-streak')) {
-                        document.getElementById('sidebar-streak').innerText = currentStreak + " ngày";
-                    }
+                    if(document.getElementById('main-streak-count')) document.getElementById('main-streak-count').innerText = currentStreak;
+                    if(document.getElementById('sidebar-streak')) document.getElementById('sidebar-streak').innerText = currentStreak + " ngày";
                     
                     const todayCircle = document.getElementById('today-circle');
                     if(todayCircle) {
                         todayCircle.classList.replace('bg-blue-500', 'bg-orange-500');
                         todayCircle.classList.replace('ring-blue-500/30', 'ring-orange-500/30');
                     }
-                    
-                    alert("Chúc mừng! Bạn đã hoàn thành 30 phút học tập hôm nay. Chuỗi của bạn đã được tăng thêm 1 ngày!");
                 }
             }, 1000); 
         }
