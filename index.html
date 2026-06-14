@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    
     <style>
         body { font-family: 'Inter', sans-serif; }
         .font-logo { font-family: 'Nunito', sans-serif; }
@@ -77,6 +77,10 @@
             transform: translateY(-2px);
         }
 
+        .pdf-toolbar-btn {
+            @apply text-gray-500 hover:text-blue-600 hover:bg-blue-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer;
+        }
+        
         .folder-list-scroll::-webkit-scrollbar { height: 4px; }
     </style>
 </head>
@@ -94,13 +98,13 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <button id="btn-login" onclick="window.openLoginModal()" class="bg-white border-2 border-gray-200 rounded-full px-5 py-2 flex items-center gap-2 hover:bg-gray-50 transition shadow-sm font-bold text-sm text-gray-700">
-                        Đăng nhập
+                        Đăng nhập hệ thống
                     </button>
-                    <!-- Thông tin Profile (Ẩn mặc định) -->
+                    <!-- Thông tin Profile -->
                     <div id="user-profile" onclick="window.openDashboard()" class="hidden bg-white border border-gray-200 rounded-full px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-blue-50 transition shadow-sm">
-                        <img id="nav-avatar" src="" class="w-8 h-8 rounded-full" alt="Avatar">
+                        <img id="nav-avatar" src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" class="w-8 h-8 rounded-full" alt="Avatar">
                         <div class="text-xs text-left hidden md:block">
-                            <div id="nav-name" class="font-bold text-gray-800">Tên Người Dùng</div>
+                            <div id="nav-name" class="font-bold text-gray-800">Đang tải...</div>
                             <div class="text-blue-600 font-semibold" style="font-size: 0.6rem;">TRANG CÁ NHÂN <i class="fa-solid fa-chevron-right ml-1"></i></div>
                         </div>
                     </div>
@@ -203,6 +207,11 @@
                     <i class="nav-fire-icon fa-solid fa-fire text-gray-300 transition-colors duration-500"></i> 
                     <span class="nav-streak-count font-bold text-gray-700 text-sm">0</span>
                 </div>
+                <div class="hidden lg:flex items-center gap-3 border-l border-gray-200 pl-4">
+                    <div class="flex items-center gap-1 text-sm font-semibold text-blue-800 bg-blue-50 px-2 py-1 rounded">
+                        <i class="fa-solid fa-crosshairs text-blue-500"></i> <span class="nav-target-score">Mục tiêu</span>
+                    </div>
+                </div>
             </div>
         </nav>
         
@@ -239,11 +248,14 @@
                 <button onclick="window.switchDashboardTab('thong-ke')" id="tab-thong-ke" class="w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition">
                     <i class="fa-solid fa-chart-line w-5"></i> Thống kê
                 </button>
+                
+                <!-- MENU ADMIN (Mặc định ẩn, chỉ hiện nếu là Admin) -->
                 <button onclick="window.switchDashboardTab('admin-panel')" id="tab-admin-panel" class="hidden w-full items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100">
                     <i class="fa-solid fa-user-shield w-5"></i> Quản lý Học sinh
                 </button>
             </div>
 
+            <!-- Khối chuỗi học tập nhỏ ở dưới Sidebar -->
             <div class="p-4 mx-4 mb-6 bg-gray-900 rounded-2xl text-white flex items-center gap-4 relative overflow-hidden">
                 <div class="bg-gray-800 p-2 rounded-xl text-orange-500"><i class="fa-solid fa-fire text-xl"></i></div>
                 <div>
@@ -257,7 +269,10 @@
             </div>
         </aside>
 
+        <!-- Nội dung chính Dashboard -->
         <main class="flex-1 flex flex-col h-screen overflow-y-auto relative">
+            
+            <!-- Top Navigation -->
             <header class="bg-white/80 backdrop-blur-md border-b border-blue-100 px-8 py-4 flex justify-between items-center sticky top-0 z-40">
                 <div class="relative hidden md:block w-72">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -284,8 +299,8 @@
                     </div>
 
                     <div class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 cursor-pointer pl-1 pr-3 py-1 rounded-full transition border border-gray-200" onclick="window.logout()">
-                        <img id="dash-avatar" src="" class="w-7 h-7 rounded-full bg-blue-500 object-cover" alt="User Avatar">
-                        <span id="dash-name" class="font-semibold text-sm text-gray-700">Tên Người Dùng</span>
+                        <img id="dash-avatar" src="https://ui-avatars.com/api/?name=User&background=8b5cf6&color=fff" class="w-7 h-7 rounded-full object-cover" alt="User Avatar">
+                        <span id="dash-name" class="font-semibold text-sm text-gray-700">Đang tải...</span>
                         <i class="fa-solid fa-right-from-bracket text-gray-400 ml-1 text-xs" title="Đăng xuất"></i>
                     </div>
                 </div>
@@ -341,6 +356,7 @@
                                     <span class="text-sm text-blue-200 ml-1">ngày liên tiếp</span>
                                 </div>
                             </div>
+                            <!-- Tracking 7 ngày -->
                             <div class="flex justify-between items-center w-full mt-4 px-2">
                                 <div class="flex flex-col items-center gap-2 relative">
                                     <div class="w-10 h-10 rounded-full bg-[#0f172a] shadow-inner flex items-center justify-center text-gray-600"><i class="fa-solid fa-check"></i></div>
@@ -544,33 +560,34 @@
                 <!-- ================= TAB 5: QUẢN TRỊ VIÊN (ADMIN PANEL) ================= -->
                 <div id="tab-content-admin-panel" class="hidden-layout">
                     <h2 class="text-[11px] text-red-600 font-bold uppercase tracking-widest mb-1">DÀNH RIÊNG CHO QUẢN TRỊ VIÊN</h2>
-                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Cấp phát tài khoản hệ thống</h1>
+                    <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Quản lý Tài khoản Học sinh</h1>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Form cấp tài khoản -->
+                        <!-- Thêm thông tin học sinh -->
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                 <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-plus"></i></div>
                                 <div>
-                                    <h3 class="font-bold text-gray-800">Tạo tài khoản mới</h3>
-                                    <p class="text-xs text-gray-500">Cấp quyền truy cập cho học sinh</p>
+                                    <h3 class="font-bold text-gray-800">Cập nhật hồ sơ học sinh</h3>
+                                    <p class="text-xs text-gray-500">Tạo tên hiển thị cho Email đã đăng ký</p>
                                 </div>
                             </div>
+                            
+                            <div class="bg-orange-50 text-orange-700 p-3 rounded-lg border border-orange-100 text-xs mb-4">
+                                <i class="fa-solid fa-circle-info"></i> <strong>Lưu ý:</strong> Vui lòng tạo tài khoản ở mục <strong>Firebase Authentication</strong> (như bạn đã làm với <i>huyvan1312...</i>). Sau đó dùng Form này để gắn <b>Tên hiển thị</b> cho Email đó.
+                            </div>
+
                             <div class="space-y-4">
                                 <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Email (Đã đăng ký bên Firebase)</label>
+                                    <input type="email" id="admin-new-email" placeholder="VD: huyvan1312@gmail.com" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
+                                </div>
+                                <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Họ và tên học sinh</label>
-                                    <input type="text" id="admin-new-name" placeholder="VD: Nguyễn Văn A" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
+                                    <input type="text" id="admin-new-name" placeholder="VD: Huy Văn" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
                                 </div>
-                                <div>
-                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Email đăng nhập</label>
-                                    <input type="email" id="admin-new-email" placeholder="VD: nguyenvana@tx.edu.vn" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm">
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Mật khẩu khởi tạo</label>
-                                    <input type="text" id="admin-new-pass" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none transition font-medium text-sm" value="123456">
-                                </div>
-                                <button onclick="window.adminCreateAccount()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
-                                    <i class="fa-solid fa-cloud-arrow-up"></i> Tạo & Lưu lên Cloud
+                                <button onclick="window.adminUpdateUserProfile()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Lưu Hồ Sơ
                                 </button>
                             </div>
                         </div>
@@ -581,14 +598,12 @@
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-users-viewfinder"></i></div>
                                     <div>
-                                        <h3 class="font-bold text-gray-800">Danh sách tài khoản</h3>
-                                        <p class="text-xs text-gray-500">Dữ liệu thời gian thực từ Firebase</p>
+                                        <h3 class="font-bold text-gray-800">Danh sách Hồ sơ</h3>
+                                        <p class="text-xs text-gray-500">Dữ liệu thời gian thực từ Firestore</p>
                                     </div>
                                 </div>
-                                <span id="admin-total-users" class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">0 user</span>
                             </div>
                             <div id="admin-accounts-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll">
-                                <!-- JS Render Items -->
                                 <div class="text-center py-10 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br><span class="text-sm">Đang tải dữ liệu...</span></div>
                             </div>
                         </div>
@@ -641,14 +656,14 @@
         <div class="flex flex-1 overflow-hidden">
             <div class="flex-1 flex flex-col items-center bg-[#f1f5f9] relative overflow-y-auto pt-6 pb-20">
                 <div class="sticky top-0 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-full px-5 py-2.5 flex items-center gap-4 shadow-md z-10 mb-8 transition-all hover:shadow-lg">
-                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Thu nhỏ"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <button class="pdf-toolbar-btn" title="Thu nhỏ"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
                     <div class="flex items-center gap-1 border-x border-gray-300 px-3">
                         <span class="text-sm font-bold text-gray-700 w-12 text-center">100%</span>
                     </div>
-                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Phóng to"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button class="pdf-toolbar-btn" title="Phóng to"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
                     <div class="w-[1px] h-5 bg-gray-300 mx-1"></div>
-                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="Tải xuống PDF" onclick="window.showMessage('Thông báo', 'Đang chuẩn bị tải PDF...')"><i class="fa-solid fa-download"></i></button>
-                    <button class="text-gray-600 hover:text-blue-600 text-lg transition-transform hover:scale-110" title="In tài liệu" onclick="window.print()"><i class="fa-solid fa-print"></i></button>
+                    <button class="pdf-toolbar-btn" title="Tải xuống PDF" onclick="window.showMessage('Thông báo', 'Đang chuẩn bị tải PDF...')"><i class="fa-solid fa-download"></i></button>
+                    <button class="pdf-toolbar-btn" title="In tài liệu" onclick="window.print()"><i class="fa-solid fa-print"></i></button>
                 </div>
 
                 <div class="bg-white w-[850px] max-w-[95%] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200 mb-8 flex flex-col">
@@ -700,22 +715,10 @@
                         <i class="fa-regular fa-thumbs-up text-blue-600"></i> Đánh giá tài liệu
                     </h3>
                     <div class="flex gap-2 justify-between bg-[#f8fafc] p-3 rounded-2xl border border-gray-100">
-                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
-                            <span class="text-2xl group-hover:scale-110 transition-transform">❤️</span>
-                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
-                        </button>
-                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
-                            <span class="text-2xl group-hover:scale-110 transition-transform">😂</span>
-                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
-                        </button>
-                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
-                            <span class="text-2xl group-hover:scale-110 transition-transform">👍</span>
-                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
-                        </button>
-                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group">
-                            <span class="text-2xl group-hover:scale-110 transition-transform grayscale opacity-70">👎</span>
-                            <span class="text-xs text-gray-500 font-bold mt-2">0</span>
-                        </button>
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group"><span class="text-2xl group-hover:scale-110 transition-transform">❤️</span><span class="text-xs text-gray-500 font-bold mt-2">0</span></button>
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group"><span class="text-2xl group-hover:scale-110 transition-transform">😂</span><span class="text-xs text-gray-500 font-bold mt-2">0</span></button>
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group"><span class="text-2xl group-hover:scale-110 transition-transform">👍</span><span class="text-xs text-gray-500 font-bold mt-2">0</span></button>
+                        <button class="flex flex-col items-center justify-center flex-1 hover:bg-blue-50 rounded-xl py-2 transition group"><span class="text-2xl group-hover:scale-110 transition-transform grayscale opacity-70">👎</span><span class="text-xs text-gray-500 font-bold mt-2">0</span></button>
                     </div>
                 </div>
 
@@ -724,11 +727,11 @@
                         <i class="fa-regular fa-comment-dots text-blue-600"></i> Bình luận
                     </h3>
                     <div class="mb-6 relative">
-                        <textarea class="w-full bg-[#f8fafc] border border-gray-200 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition resize-none h-32" placeholder="Nhập bình luận của bạn về tài liệu này..."></textarea>
+                        <textarea class="w-full bg-[#f8fafc] border border-gray-200 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition resize-none h-32" placeholder="Nhập bình luận của bạn..."></textarea>
                         <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center bg-transparent">
                             <div class="flex gap-3 text-gray-400 px-2">
-                                <button class="hover:text-blue-600 transition" title="Chèn ảnh"><i class="fa-regular fa-image"></i></button>
-                                <button class="hover:text-blue-600 transition" title="Đính kèm file"><i class="fa-solid fa-paperclip"></i></button>
+                                <button class="hover:text-blue-600 transition"><i class="fa-regular fa-image"></i></button>
+                                <button class="hover:text-blue-600 transition"><i class="fa-solid fa-paperclip"></i></button>
                             </div>
                             <button class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-blue-700 shadow-sm transition-colors">
                                 Gửi <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -740,14 +743,14 @@
                             <i class="fa-regular fa-comments text-3xl text-gray-300"></i>
                         </div>
                         <h4 class="font-bold text-gray-800 text-sm mb-1">Chưa có bình luận nào.</h4>
-                        <p class="text-xs text-gray-500">Hãy là người đầu tiên đặt câu hỏi hoặc chia sẻ ý kiến về tài liệu này!</p>
+                        <p class="text-xs text-gray-500">Hãy là người đầu tiên đặt câu hỏi về tài liệu này!</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= LOGIN MODAL (TÀI KHOẢN CẤP SẴN) ================= -->
+    <!-- ================= LOGIN MODAL (TÀI KHOẢN FIREBASE) ================= -->
     <div id="login-modal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[24px] w-full max-w-[460px] overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col" id="login-modal-content">
             
@@ -760,7 +763,7 @@
                         <span class="font-bold text-[17px] font-logo tracking-wide">Thanh Xuân Hóa Học</span>
                     </div>
                     <div class="flex items-center gap-1.5 text-[11px] text-[#a3e635] ml-[46px] -mt-0.5 font-medium tracking-wide">
-                        <div class="w-2 h-2 bg-[#a3e635] rounded-full shadow-[0_0_5px_#a3e635]"></div> Nội bộ
+                        <div class="w-2 h-2 bg-[#a3e635] rounded-full shadow-[0_0_5px_#a3e635]"></div> Trực tuyến
                     </div>
                 </div>
                 
@@ -770,25 +773,21 @@
             </div>
 
             <div class="px-10 py-8 relative bg-white">
-                
                 <button onclick="window.closeLoginModal()" class="absolute top-4 right-4 text-gray-300 hover:text-gray-600 transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
 
-                <h2 class="text-[26px] font-extrabold text-[#111827] mb-1.5">Hệ thống học tập cá nhân</h2>
-                <p class="text-[13px] text-gray-500 mb-6 font-medium bg-orange-50 text-orange-700 p-3 rounded-lg border border-orange-100 flex items-start gap-2">
-                    <i class="fa-solid fa-circle-info mt-0.5"></i>
-                    Chỉ dành cho tài khoản đã được quản trị viên cấp phép. Dữ liệu học tập được lưu trữ trên Cloud.
-                </p>
+                <h2 class="text-[26px] font-extrabold text-[#111827] mb-1.5">Chào mừng trở lại 👋</h2>
+                <p class="text-[13px] text-gray-500 mb-6 font-medium">Đăng nhập bằng tài khoản Admin đã cấp trên Firebase để tiếp tục lộ trình học tập.</p>
 
                 <div class="space-y-5">
                     <div>
-                        <label class="block text-[11px] font-bold text-[#4b5563] uppercase tracking-widest mb-2.5">Email học sinh</label>
+                        <label class="block text-[11px] font-bold text-[#4b5563] uppercase tracking-widest mb-2.5">Email</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-300">
                                 <i class="fa-regular fa-envelope text-lg"></i>
                             </div>
-                            <input type="email" id="login-email" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="Ví dụ: anhphuong@tx.edu.vn">
+                            <input type="email" id="login-email" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="Ví dụ: huyvan1312@gmail.com">
                         </div>
                     </div>
 
@@ -800,24 +799,19 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-300">
                                 <i class="fa-solid fa-lock text-base"></i>
                             </div>
-                            <input type="password" id="login-password" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="Nhập mật khẩu được cấp">
+                            <input type="password" id="login-password" class="bg-[#f8fafc] border border-gray-100 text-gray-800 text-[15px] font-medium rounded-xl focus:ring-2 focus:ring-[#1c2e11]/20 focus:border-[#1c2e11] block w-full pl-12 p-3.5 transition outline-none" placeholder="Nhập mật khẩu">
                         </div>
                     </div>
 
                     <button onclick="window.processStrictLogin()" id="btn-submit-login" class="w-full text-white bg-[#5a7035] hover:bg-[#4b5e2b] active:scale-[0.98] font-bold rounded-2xl text-[15px] px-5 py-4 text-center transition-all shadow-md flex justify-center items-center gap-3 mt-4 tracking-wider">
-                        VÀO HỌC NGAY <i class="fa-solid fa-arrow-right"></i>
+                        ĐĂNG NHẬP NGAY <i class="fa-solid fa-arrow-right"></i>
                     </button>
-                </div>
-
-                <div class="mt-8 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest flex flex-col items-center justify-center gap-1">
-                    <div class="flex items-center gap-2"><i class="fa-solid fa-cloud"></i> Dữ liệu được đồng bộ bởi Firebase</div>
-                    <div class="text-[9px] mt-2 font-normal">Demo: anhphuong@tx.edu.vn / 123456</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= CUSTOM MESSAGE BOX (Thay thế Alert/Confirm) ================= -->
+    <!-- ================= CUSTOM MESSAGE BOX ================= -->
     <div id="custom-msg-box" class="fixed inset-0 bg-black/50 z-[200] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl transform scale-95 transition-transform duration-300" id="custom-msg-content">
             <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
@@ -826,171 +820,127 @@
             <h3 class="text-xl font-bold text-gray-800 mb-2" id="custom-msg-title">Thông báo</h3>
             <p class="text-gray-500 mb-6 text-sm" id="custom-msg-text">Nội dung thông báo...</p>
             <div class="flex gap-3 justify-center w-full" id="custom-msg-buttons">
-                <!-- Nút sẽ được chèn qua JS -->
+                <!-- Buttons JS -->
             </div>
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT & FIREBASE LOGIC ================= -->
+    <!-- ================= JAVASCRIPT & FIREBASE ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Biến toàn cục hệ thống
+        // ================= KHỞI TẠO FIREBASE =================
         let db, auth, currentUserUid;
-        let isAppReady = false;
         let isLoggedIn = false;
         let currentProfile = null;
         let currentStats = null;
-        let allowedAccountsFromDB = {}; // Dữ liệu tài khoản load từ Firebase Cloud
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'tx-hoa-hoc-demo';
         
-        // Timer Variables
-        let studySeconds = 0;
-        const targetSeconds = 30 * 60; 
-        let studyInterval;
-        let streakEarnedToday = false;
-
-        // Chart Variables
-        let scoreChartInstance = null;
-
-        // Dữ liệu tài liệu (Front-end)
-        const docsData = [
-            { id: 1, title: 'Đề thi thử THPT Quốc Gia môn Hóa 2026 - THPT Chuyên KHTN lần 1', subject: 'Hóa Học', classInfo: 'Lớp 12', tag: 'Đề Thi', folder: 'Đề thi thử 2026', views: 3421, date: '14/06/2026' },
-            { id: 2, title: 'Tổng ôn lý thuyết Hóa Vô Cơ - Đếm mệnh đề chống liệt', subject: 'Hóa Học', classInfo: 'Hóa Vô Cơ', tag: 'Trọng Tâm', folder: 'Hóa Vô Cơ', views: 8205, date: '12/06/2026' },
-            { id: 3, title: 'Tuyển tập 50 bài tập VDC đồ thị Peptit và Este (Giải chi tiết)', subject: 'Hóa Học', classInfo: 'Hóa Hữu Cơ', tag: 'Vận Dụng Cao', folder: 'Hóa Hữu Cơ', views: 1150, date: '10/06/2026' },
-            { id: 4, title: 'Sổ tay phương trình Hóa Học THPT (Trọn bộ Lớp 10-11-12)', subject: 'Hóa Học', classInfo: 'Trọng Tâm', tag: 'Sổ tay', folder: 'Trọng Tâm', views: 15420, date: '05/06/2026' },
-            { id: 5, title: 'Đề ĐGNL Đại học Quốc gia Hà Nội 2025 - Phần Tư duy Khoa học', subject: 'ĐGNL', classInfo: 'ĐGNL', tag: 'Đề Thi', folder: 'Đề thi thử 2026', views: 5600, date: '01/06/2026' },
-            { id: 6, title: 'Bài tập trắc nghiệm Ancol - Phenol Lớp 11 (Có đáp án)', subject: 'Hóa Học', classInfo: 'Lớp 11', tag: 'Bài Tập', folder: 'Hóa Hữu Cơ', views: 2300, date: '28/05/2026' },
-            { id: 7, title: 'Cấu tạo nguyên tử và Bảng tuần hoàn Lớp 10', subject: 'Hóa Học', classInfo: 'Lớp 10', tag: 'Lý Thuyết', folder: 'Hóa Vô Cơ', views: 4120, date: '20/05/2026' },
-        ];
-
-        // ================= KẾT NỐI FIREBASE LÕI =================
         async function initFirebase() {
             try {
-                const config = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+                // Nhận cấu hình do Web Builder cung cấp
+                const config = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+                if (!config) {
+                    console.warn("Không tìm thấy cấu hình Firebase.");
+                    return;
+                }
                 const app = initializeApp(config);
                 auth = getAuth(app);
                 db = getFirestore(app);
 
+                // Lắng nghe trạng thái đăng nhập thực sự (từ Firebase Authentication)
                 onAuthStateChanged(auth, async (user) => {
-                    if (user) {
+                    if (user && !user.isAnonymous) { // Chỉ xử lý user đăng nhập bằng Email/Pass
                         currentUserUid = user.uid;
-                        isAppReady = true; // Mở khóa nút đăng nhập ngay lập tức
-                        loadAccountsFromCloud();
+                        isLoggedIn = true;
+                        
+                        document.getElementById('btn-login').classList.add('hidden');
+                        document.getElementById('user-profile').classList.remove('hidden');
+
+                        // Khởi tạo & Tải Data người dùng
+                        await initializeOrLoadUserCloudData(user.email);
+                        window.closeLoginModal();
+                        window.openDashboard();
+                        startStudyTimer();
+                    } else {
+                        isLoggedIn = false;
                     }
                 });
 
+                // Khởi tạo phiên ẩn danh để cho phép Web Builder đọc ghi data nền (Bắt buộc)
                 const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                if (token) {
+                if (token && !isLoggedIn) {
                     await signInWithCustomToken(auth, token);
-                } else {
+                } else if (!isLoggedIn) {
                     await signInAnonymously(auth);
                 }
             } catch (error) {
-                console.error("Firebase init failed:", error);
-                isAppReady = true; // Mở khóa dự phòng nếu lỗi
+                console.error("Lỗi khởi tạo Firebase:", error);
             }
         }
-        
-        // Cơ chế dự phòng: Nếu sau 2.5s Firebase không phản hồi, vẫn cho phép mở modal đăng nhập
-        setTimeout(() => { 
-            if(!isAppReady) {
-                isAppReady = true; 
-                allowedAccountsFromDB = {
-                    'anhphuong@tx.edu.vn': { pass: '123456', name: 'Anh Phương (Offline)', role: 'student' },
-                    'admin@tx.edu.vn': { pass: '123456', name: 'Quản trị viên (Offline)', role: 'admin' }
-                };
-            }
-        }, 2500);
-
-        function loadAccountsFromCloud() {
-            // SỬA LỖI ĐƯỜNG DẪN: Sử dụng đúng chuẩn public/data của hệ thống để không bị chặn quyền truy cập
-            const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', 'list');
-            
-            onSnapshot(accountsRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    allowedAccountsFromDB = docSnap.data();
-                    if(document.getElementById('tab-content-admin-panel') && document.getElementById('tab-content-admin-panel').classList.contains('block')) {
-                        window.renderAdminAccountsList();
-                    }
-                } else {
-                    // Mặc định tạo sẵn 3 tài khoản mẫu nếu Database Cloud trống
-                    const defaultAccounts = {
-                        'anhphuong@tx.edu.vn': { pass: '123456', name: 'Anh Phương', role: 'student' },
-                        'hocsinh1@tx.edu.vn': { pass: '123456', name: 'Học sinh VIP 1', role: 'student' },
-                        'admin@tx.edu.vn': { pass: '123456', name: 'Quản trị viên', role: 'admin' }
-                    };
-                    setDoc(accountsRef, defaultAccounts).catch(e => console.error("Không thể ghi db mặc định:", e));
-                    allowedAccountsFromDB = defaultAccounts;
-                }
-            }, (error) => {
-                console.error("Lỗi quyền đọc Firebase (Có thể do rule):", error);
-            });
-        }
-        
-        // Gọi khởi tạo Firebase khi trang load
         initFirebase();
 
         // ================= FIREBASE CLOUD FIRESTORE HELPERS =================
         function getProfileRef() { return doc(db, 'artifacts', appId, 'users', currentUserUid, 'profile', 'info'); }
         function getStatsRef() { return doc(db, 'artifacts', appId, 'users', currentUserUid, 'stats', 'data'); }
 
-        async function initializeOrLoadUserCloudData(email, name) {
+        async function initializeOrLoadUserCloudData(email) {
             if (!currentUserUid || !db) return;
-            
             const profileRef = getProfileRef();
             const statsRef = getStatsRef();
 
             try {
                 const profileSnap = await getDoc(profileRef);
+                const fallbackName = email.split('@')[0];
                 
-                // Nếu chưa có data (Đăng nhập lần đầu trên Firebase) -> Khởi tạo
+                // Nếu User chưa có Profile (Đăng nhập lần đầu)
                 if (!profileSnap.exists()) {
                     await setDoc(profileRef, { 
                         email: email, 
-                        name: name, 
+                        name: fallbackName, // Lấy phần đầu email làm tên tạm thời
                         targetScore: 0, 
                         targetDate: null,
-                        avatarLetter: name.charAt(0).toUpperCase()
+                        role: email.includes('admin') ? 'admin' : 'student'
                     });
-                    
                     await setDoc(statsRef, {
-                        currentStreak: 0, 
-                        totalStudySeconds: 0, 
-                        testLabels: [], 
-                        testScores: [], 
-                        quitCount: 0
+                        currentStreak: 0, totalStudySeconds: 0, testLabels: [], testScores: [], quitCount: 0
                     });
                 }
 
-                // Lắng nghe thay đổi Cloud Realtime (Profile)
+                // Lắng nghe Realtime
                 onSnapshot(profileRef, (docSnap) => {
                     if (docSnap.exists()) {
                         currentProfile = docSnap.data();
                         updateProfileUI(currentProfile);
+                        
+                        // Phân quyền Tab Admin
+                        if (currentProfile.role === 'admin') {
+                            document.getElementById('tab-admin-panel').classList.remove('hidden');
+                            document.getElementById('tab-admin-panel').classList.add('flex');
+                        } else {
+                            document.getElementById('tab-admin-panel').classList.add('hidden');
+                            document.getElementById('tab-admin-panel').classList.remove('flex');
+                        }
                     }
-                }, (error) => console.error("Snapshot error:", error));
+                }, (e) => console.error(e));
 
-                // Lắng nghe thay đổi Cloud Realtime (Stats)
                 onSnapshot(statsRef, (docSnap) => {
                     if (docSnap.exists()) {
                         currentStats = docSnap.data();
                         updateStatsUI(currentStats);
                     }
-                }, (error) => console.error("Snapshot error:", error));
+                }, (e) => console.error(e));
 
             } catch (error) {
-                console.error("Error loading user data from cloud:", error);
-                window.showMessage("Lỗi đồng bộ", "Không thể lấy dữ liệu từ máy chủ. Vui lòng thử lại sau.");
+                console.error("Error loading user profile:", error);
             }
         }
 
-        // Cập nhật giao diện từ Profile Firebase
+        // ================= CẬP NHẬT GIAO DIỆN TỪ CLOUD =================
         function updateProfileUI(profile) {
-            const avatarUrl = `https://ui-avatars.com/api/?name=${profile.name}&background=5a7035&color=fff&bold=true`;
-            
+            const avatarUrl = `https://ui-avatars.com/api/?name=${profile.name}&background=8b5cf6&color=fff&bold=true`;
             document.getElementById('nav-avatar').src = avatarUrl;
             document.getElementById('dash-avatar').src = avatarUrl;
             document.getElementById('nav-name').innerText = profile.name;
@@ -999,30 +949,23 @@
             const dashWelcome = document.getElementById('dash-welcome');
             if (dashWelcome) dashWelcome.innerText = `Chào ${profile.name.split(' ')[0]}, hôm nay luyện đề nhé!`;
 
-            // Cập nhật thanh kéo điểm mục tiêu
             if (profile.targetScore !== undefined) {
                 document.getElementById('score-slider').value = profile.targetScore;
                 window.updateTargetScore(profile.targetScore);
             }
-
-            // Cập nhật đếm ngược ngày thi
             if (profile.targetDate) {
                 document.getElementById('exam-date-input').value = profile.targetDate;
                 window.calculateAndSaveCountdown(profile.targetDate, false);
             }
         }
 
-        // Cập nhật giao diện Thống kê và Biểu đồ từ Firebase
         function updateStatsUI(stats) {
-            // Update Streak UI
-            document.querySelectorAll('.nav-streak-count').forEach(el => el.innerText = stats.currentStreak);
-            if(document.getElementById('main-streak-count')) document.getElementById('main-streak-count').innerText = stats.currentStreak;
-            if(document.getElementById('sidebar-streak')) document.getElementById('sidebar-streak').innerText = stats.currentStreak + " ngày";
+            document.querySelectorAll('.nav-streak-count').forEach(el => el.innerText = stats.currentStreak || 0);
+            if(document.getElementById('main-streak-count')) document.getElementById('main-streak-count').innerText = stats.currentStreak || 0;
+            if(document.getElementById('sidebar-streak')) document.getElementById('sidebar-streak').innerText = (stats.currentStreak || 0) + " ngày";
             
-            // Lấy dữ liệu bài thi
             const labels = stats.testLabels || [];
             const scores = stats.testScores || [];
-            
             let total = scores.length;
             let maxScore = scores.length > 0 ? Math.max(...scores).toFixed(1) : "0.0";
             let avg = scores.length > 0 ? (scores.reduce((a, b) => a + b, 0) / total).toFixed(1) : "0.0";
@@ -1032,33 +975,24 @@
             document.getElementById('stat-avg-score').innerText = avg;
             document.getElementById('stat-quit-count').innerText = stats.quitCount || 0;
 
-            // Cập nhật Chart.js
             if (scoreChartInstance && labels.length > 0) {
                 scoreChartInstance.data.labels = labels;
                 scoreChartInstance.data.datasets[0].data = scores;
-                
-                // Color mapping cho những bài bị "Bỏ cuộc"
-                let pointColors = [];
-                let borderColors = [];
+                let pointColors = [], borderColors = [];
                 labels.forEach(label => {
                     if (label.includes('Bỏ cuộc')) {
-                        pointColors.push('#ef4444');
-                        borderColors.push('#b91c1c');
+                        pointColors.push('#ef4444'); borderColors.push('#b91c1c');
                     } else {
-                        pointColors.push('#ffffff');
-                        borderColors.push('#3b82f6');
+                        pointColors.push('#ffffff'); borderColors.push('#3b82f6');
                     }
                 });
                 scoreChartInstance.data.datasets[0].pointBackgroundColor = pointColors;
                 scoreChartInstance.data.datasets[0].pointBorderColor = borderColors;
-                
                 scoreChartInstance.update();
             }
         }
 
-        // ================= GIAO DIỆN & TƯƠNG TÁC =================
-        
-        // Custom Message Box
+        // ================= UI & NAVIGATION =================
         window.showMessage = function(title, text, isConfirm = false, confirmCallback = null) {
             const box = document.getElementById('custom-msg-box');
             const content = document.getElementById('custom-msg-content');
@@ -1072,10 +1006,7 @@
                     <button id="msg-confirm-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl transition flex-1">Đồng ý</button>
                 `;
                 document.getElementById('msg-cancel-btn').onclick = window.closeMsgBox;
-                document.getElementById('msg-confirm-btn').onclick = () => {
-                    window.closeMsgBox();
-                    if(confirmCallback) confirmCallback();
-                };
+                document.getElementById('msg-confirm-btn').onclick = () => { window.closeMsgBox(); if(confirmCallback) confirmCallback(); };
                 content.querySelector('.fa-bell')?.classList.replace('fa-bell', 'fa-triangle-exclamation');
                 content.querySelector('.text-blue-600')?.classList.replace('text-blue-600', 'text-red-600');
                 content.querySelector('.bg-blue-100')?.classList.replace('bg-blue-100', 'bg-red-100');
@@ -1087,33 +1018,21 @@
                 content.querySelector('.bg-red-100')?.classList.replace('bg-red-100', 'bg-blue-100');
             }
 
-            box.classList.remove('hidden');
-            box.classList.add('flex');
+            box.classList.remove('hidden'); box.classList.add('flex');
             void box.offsetWidth;
-            box.classList.remove('opacity-0');
-            content.classList.remove('scale-95');
+            box.classList.remove('opacity-0'); content.classList.remove('scale-95');
         }
 
         window.closeMsgBox = function() {
             const box = document.getElementById('custom-msg-box');
             const content = document.getElementById('custom-msg-content');
-            box.classList.add('opacity-0');
-            content.classList.add('scale-95');
-            setTimeout(() => {
-                box.classList.add('hidden');
-                box.classList.remove('flex');
-            }, 300);
+            box.classList.add('opacity-0'); content.classList.add('scale-95');
+            setTimeout(() => { box.classList.add('hidden'); box.classList.remove('flex'); }, 300);
         }
 
-        // Điều khiển Modal Đăng nhập
         window.openLoginModal = function() {
-            if(!isAppReady) {
-                window.showMessage("Đang kết nối", "Hệ thống đang kết nối máy chủ Firebase, vui lòng đợi vài giây.");
-                return;
-            }
             const modal = document.getElementById('login-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
             void modal.offsetWidth;
             modal.classList.remove('opacity-0');
             document.getElementById('login-modal-content').classList.remove('scale-95');
@@ -1123,77 +1042,53 @@
             const modal = document.getElementById('login-modal');
             modal.classList.add('opacity-0');
             document.getElementById('login-modal-content').classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
         }
 
-        // XỬ LÝ ĐĂNG NHẬP (Chỉ cho phép tài khoản Admin cấp, check từ Cloud)
+        // CHỨC NĂNG ĐĂNG NHẬP CHÍNH THỨC VỚI FIREBASE AUTH
         window.processStrictLogin = async function() {
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-password').value.trim();
             const btn = document.getElementById('btn-submit-login');
 
             if(!email || !pass) {
-                window.showMessage("Thiếu thông tin", "Vui lòng nhập đầy đủ Email và Mật khẩu được cấp.");
+                window.showMessage("Thiếu thông tin", "Vui lòng nhập đầy đủ Email và Mật khẩu bạn đã tạo.");
                 return;
             }
 
             btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ĐANG KIỂM TRA...`;
             btn.classList.add('opacity-80', 'cursor-not-allowed');
 
-            setTimeout(async () => {
+            try {
+                // Gọi hàm xác thực trực tiếp của Google Firebase (Xác thực với Account bạn vừa tạo)
+                await signInWithEmailAndPassword(auth, email, pass);
                 btn.innerHTML = `ĐĂNG NHẬP NGAY <i class="fa-solid fa-arrow-right"></i>`;
                 btn.classList.remove('opacity-80', 'cursor-not-allowed');
-
-                // Kiểm tra với dữ liệu trên DB Cloud
-                if (allowedAccountsFromDB[email] && allowedAccountsFromDB[email].pass === pass) {
-                    // Thành công
-                    isLoggedIn = true;
-                    const userName = allowedAccountsFromDB[email].name;
-
-                    // Thay đổi UI Trang chủ
-                    document.getElementById('btn-login').classList.add('hidden');
-                    document.getElementById('user-profile').classList.remove('hidden');
-                    
-                    // Phân quyền: Mở Tab Admin nếu role là admin
-                    if (allowedAccountsFromDB[email].role === 'admin') {
-                        document.getElementById('tab-admin-panel').classList.remove('hidden');
-                        document.getElementById('tab-admin-panel').classList.add('flex');
-                    } else {
-                        document.getElementById('tab-admin-panel').classList.add('hidden');
-                        document.getElementById('tab-admin-panel').classList.remove('flex');
-                    }
-
-                    window.closeLoginModal();
-
-                    // Init & Load Data from Cloud
-                    await initializeOrLoadUserCloudData(email, userName);
-                    
-                    window.showMessage("Đăng nhập thành công", `Chào mừng ${userName}! Hệ thống đang đồng bộ dữ liệu của bạn từ đám mây.`);
-                    
-                    window.openDashboard();
-                    startStudyTimer();
-                } else {
-                    // Thất bại
-                    window.showMessage("Từ chối truy cập", "Email chưa được đăng ký hoặc sai mật khẩu. Hệ thống này chỉ dành cho tài khoản được cấp phép.");
-                }
-            }, 800); // Simulate network delay
+                // Nếu thành công, sự kiện onAuthStateChanged phía trên sẽ tự động mở Dashboard
+            } catch (error) {
+                btn.innerHTML = `ĐĂNG NHẬP NGAY <i class="fa-solid fa-arrow-right"></i>`;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                console.error("Lỗi đăng nhập:", error);
+                window.showMessage("Từ chối truy cập", "Email chưa được đăng ký trên hệ thống Firebase Authentication hoặc bạn nhập sai mật khẩu.");
+            }
         }
 
-        // Nút Đăng xuất
         window.logout = function() {
-            window.showMessage("Xác nhận đăng xuất", "Bạn có chắc chắn muốn thoát khỏi hệ thống học tập?", true, () => {
+            window.showMessage("Xác nhận đăng xuất", "Bạn có chắc chắn muốn thoát khỏi hệ thống?", true, async () => {
+                await signOut(auth);
                 isLoggedIn = false;
                 if(studyInterval) clearInterval(studyInterval);
                 document.getElementById('btn-login').classList.remove('hidden');
                 document.getElementById('user-profile').classList.add('hidden');
                 window.backToHome();
+                
+                // Khôi phục quyền guest
+                const token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                if(token) signInWithCustomToken(auth, token); else signInAnonymously(auth);
             });
         }
 
-        // Quản lý Views
+        // ================= VIEW ROUTER =================
         const views = {
             landing: document.getElementById('landing-view'),
             subject: document.getElementById('subject-view'),
@@ -1201,124 +1096,66 @@
             allFolders: document.getElementById('all-folders-view'),
             pdfViewer: document.getElementById('pdf-viewer-view')
         };
-
-        function hideAllViews() {
-            Object.values(views).forEach(v => v.classList.add('hidden-layout'));
-        }
+        function hideAllViews() { Object.values(views).forEach(v => v.classList.add('hidden-layout')); }
 
         window.openDashboard = function() {
             if(!isLoggedIn) { window.openLoginModal(); return; }
-            hideAllViews();
-            views.dashboard.classList.remove('hidden-layout');
-            
-            // Check chart init
+            hideAllViews(); views.dashboard.classList.remove('hidden-layout');
             if (!chartInitialized && document.getElementById('tab-content-thong-ke').classList.contains('block')) {
-                 initChart();
-                 chartInitialized = true;
+                 initChart(); chartInitialized = true;
             }
         }
-
-        window.backToHome = function() {
-            hideAllViews();
-            views.landing.classList.remove('hidden-layout');
-        }
-
-        window.closeToDashboard = function() {
-            hideAllViews();
-            views.dashboard.classList.remove('hidden-layout');
-        }
-
+        window.backToHome = function() { hideAllViews(); views.landing.classList.remove('hidden-layout'); }
+        window.closeToDashboard = function() { hideAllViews(); views.dashboard.classList.remove('hidden-layout'); }
         window.openSubjectPage = function(subjectName) {
             if(!isLoggedIn) { window.openLoginModal(); return; }
             document.getElementById('subject-title').innerText = subjectName;
-            hideAllViews();
-            views.subject.classList.remove('hidden-layout');
-            window.scrollTo(0,0);
+            hideAllViews(); views.subject.classList.remove('hidden-layout'); window.scrollTo(0,0);
         }
 
-        // Quản lý Tabs trong Dashboard
+        // Tabs
+        let chartInitialized = false;
         window.switchDashboardTab = function(tabId) {
             const tabs = ['tong-quan', 'tai-lieu', 'su-kien', 'thong-ke', 'admin-panel'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
                 const content = document.getElementById(`tab-content-${t}`);
                 if (!btn || !content) return;
-
                 if(t === tabId) {
-                    if (t === 'admin-panel') {
-                        btn.className = "w-full flex items-center gap-3 bg-red-600 text-white font-bold px-4 py-3 rounded-xl shadow-sm transition mt-4";
-                    } else {
-                        btn.className = "w-full flex items-center gap-3 bg-[#facc15] text-[#854d0e] font-bold px-4 py-3 rounded-xl shadow-sm transition";
-                    }
-                    content.classList.remove('hidden-layout');
-                    content.classList.add('block');
+                    btn.className = t === 'admin-panel' 
+                        ? "w-full flex items-center gap-3 bg-red-600 text-white font-bold px-4 py-3 rounded-xl shadow-sm transition mt-4" 
+                        : "w-full flex items-center gap-3 bg-[#facc15] text-[#854d0e] font-bold px-4 py-3 rounded-xl shadow-sm transition";
+                    content.classList.remove('hidden-layout'); content.classList.add('block');
                 } else {
-                    if (t === 'admin-panel') {
-                        btn.className = "w-full flex items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100";
-                    } else {
-                        btn.className = "w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition";
-                    }
-                    content.classList.add('hidden-layout');
-                    content.classList.remove('block');
+                    btn.className = t === 'admin-panel' 
+                        ? "w-full flex items-center gap-3 text-red-600 hover:bg-red-50 font-bold px-4 py-3 rounded-xl transition mt-4 border border-red-100" 
+                        : "w-full flex items-center gap-3 text-gray-600 hover:bg-blue-50 font-semibold px-4 py-3 rounded-xl transition";
+                    content.classList.add('hidden-layout'); content.classList.remove('block');
                 }
             });
-            hideAllViews();
-            views.dashboard.classList.remove('hidden-layout');
-
-            if (tabId === 'tai-lieu') {
-                window.filterDocuments('Tất cả');
-                countDocsForFolders();
-            }
-
-            if (tabId === 'thong-ke' && !chartInitialized) {
-                initChart();
-                chartInitialized = true;
-                if(currentStats) updateStatsUI(currentStats); // Sync fresh data to chart
-            }
-
-            if (tabId === 'admin-panel') {
-                window.renderAdminAccountsList();
-            }
+            hideAllViews(); views.dashboard.classList.remove('hidden-layout');
+            if (tabId === 'tai-lieu') { window.filterDocuments('Tất cả'); countDocsForFolders(); }
+            if (tabId === 'thong-ke' && !chartInitialized) { initChart(); chartInitialized = true; if(currentStats) updateStatsUI(currentStats); }
+            if (tabId === 'admin-panel') { window.loadAdminUsersList(); }
         }
 
-        // ================= LOGIC MỤC TIÊU & NGÀY THI (LƯU LÊN FIREBASE) =================
-        
+        // ================= CHỨC NĂNG BÀI HỌC =================
         window.updateTargetScore = function(val) {
             let num = parseFloat(val);
-            let displayScore = document.getElementById('display-target-score');
-            let plusSign = document.getElementById('target-score-plus');
-            let navScores = document.querySelectorAll('.nav-target-score');
-
-            if (num > 0) {
-                displayScore.innerText = num;
-                plusSign.classList.remove('hidden');
-                navScores.forEach(el => el.innerText = "Mục tiêu: " + num + "+");
-            } else {
-                displayScore.innerText = '?';
-                plusSign.classList.add('hidden');
-                navScores.forEach(el => el.innerText = "Mục tiêu");
-            }
+            document.getElementById('display-target-score').innerText = num > 0 ? num : '?';
+            document.getElementById('target-score-plus').classList.toggle('hidden', num <= 0);
+            document.querySelectorAll('.nav-target-score').forEach(el => el.innerText = num > 0 ? `Mục tiêu: ${num}+` : "Mục tiêu");
         }
-
         window.saveTargetScoreToDB = async function(val) {
-            if(!currentUserUid || !db) return;
-            const num = parseFloat(val);
-            try {
-                await updateDoc(getProfileRef(), { targetScore: num });
-            } catch (e) { console.error("Lỗi lưu điểm mục tiêu:", e); }
+            if(currentUserUid && db) await updateDoc(getProfileRef(), { targetScore: parseFloat(val) }).catch(e=>console.log(e));
         }
-
         window.calculateAndSaveCountdown = async function(dateString, shouldSaveToDB = true) {
             if(!dateString) return;
-            
             const targetDate = new Date(dateString);
-            const today = new Date();
-            const diffTime = targetDate - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            const diffDays = Math.ceil((targetDate - new Date()) / (1000 * 60 * 60 * 24)); 
             
             const displayEl = document.getElementById('countdown-display');
             const navEl = document.getElementById('nav-countdown-days');
-
             if(diffDays > 0) {
                 displayEl.innerHTML = `<div class="text-7xl font-black text-white leading-none">${diffDays}</div><div class="text-lg font-bold text-blue-200 mt-2">Ngày nữa</div>`;
                 navEl.innerText = `Còn ${diffDays} ngày`;
@@ -1329,352 +1166,148 @@
                 displayEl.innerHTML = `<div class="text-3xl font-bold text-gray-300">Đã qua ngày thi</div>`;
                 navEl.innerText = `Đã qua`;
             }
-
-            if(shouldSaveToDB && currentUserUid && db) {
-                try {
-                    await updateDoc(getProfileRef(), { targetDate: dateString });
-                } catch(e) { console.error("Lỗi lưu ngày thi:", e); }
-            }
+            if(shouldSaveToDB && currentUserUid && db) await updateDoc(getProfileRef(), { targetDate: dateString }).catch(e=>console.log(e));
         }
 
-        // ================= THỜI GIAN HỌC & CHUỖI FIREBASE =================
+        // ================= THỜI GIAN & CHART =================
+        let studySeconds = 0;
+        const targetSeconds = 30 * 60; 
+        let studyInterval, streakEarnedToday = false;
+
         function startStudyTimer() {
             if(studyInterval) clearInterval(studyInterval);
-            
             studyInterval = setInterval(async () => {
-                if(streakEarnedToday) return; // Nếu đã đạt 30p thì dừng xử lý streak
-
+                if(streakEarnedToday) return;
                 studySeconds++;
-                let minutes = Math.floor(studySeconds / 60);
-                let seconds = studySeconds % 60;
-                let formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                document.querySelectorAll('.study-timer-display').forEach(el => {
-                    el.innerText = `Hôm nay: ${formattedTime} / 30:00`;
-                });
+                let min = Math.floor(studySeconds / 60), sec = studySeconds % 60;
+                let formatted = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+                document.querySelectorAll('.study-timer-display').forEach(el => el.innerText = `Hôm nay: ${formatted} / 30:00`);
 
                 if (studySeconds >= targetSeconds) {
                     streakEarnedToday = true;
-                    
-                    document.querySelectorAll('.study-timer-display').forEach(el => {
-                        el.innerText = `Đã học đủ 30 phút 🔥`;
-                        el.classList.replace('text-gray-400', 'text-orange-500');
-                    });
+                    document.querySelectorAll('.study-timer-display').forEach(el => { el.innerText = `Đã học đủ 30 phút 🔥`; el.classList.replace('text-gray-400', 'text-orange-500'); });
                     document.querySelectorAll('.nav-fire-icon').forEach(el => el.classList.replace('text-gray-300', 'text-orange-500'));
                     
                     const todayCircle = document.getElementById('today-circle');
-                    if(todayCircle) {
-                        todayCircle.classList.replace('bg-blue-500', 'bg-orange-500');
-                        todayCircle.classList.replace('ring-blue-500/30', 'ring-orange-500/30');
-                    }
+                    if(todayCircle) { todayCircle.classList.replace('bg-blue-500', 'bg-orange-500'); todayCircle.classList.replace('ring-blue-500/30', 'ring-orange-500/30'); }
 
-                    // Lưu việc tăng chuỗi lên Cloud Firestore
                     if(currentUserUid && db && currentStats) {
-                        try {
-                            await updateDoc(getStatsRef(), {
-                                currentStreak: (currentStats.currentStreak || 0) + 1,
-                                totalStudySeconds: (currentStats.totalStudySeconds || 0) + studySeconds
-                            });
-                        } catch(e) { console.error("Lỗi cập nhật streak:", e); }
+                        await updateDoc(getStatsRef(), { currentStreak: (currentStats.currentStreak || 0) + 1, totalStudySeconds: (currentStats.totalStudySeconds || 0) + studySeconds }).catch(e=>console.log(e));
                     }
                 }
             }, 1000); 
         }
 
-
-        // ================= CHART.JS & GIẢ LẬP BỎ THI =================
+        let scoreChartInstance = null;
         function initChart() {
             const ctx = document.getElementById('scoreChart').getContext('2d');
             let gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); 
-            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
             scoreChartInstance = new Chart(ctx, {
                 type: 'line',
-                data: {
-                    labels: [], // Data from Firebase
-                    datasets: [{
-                        label: 'Điểm số',
-                        data: [], // Data from Firebase
-                        borderColor: '#3b82f6', 
-                        backgroundColor: gradient,
-                        borderWidth: 3,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#3b82f6',
-                        pointBorderWidth: 2,
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        fill: true,
-                        tension: 0.3 
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { min: 0, max: 10, grid: { color: '#f1f5f9' }, ticks: { stepSize: 2 } },
-                        x: { grid: { display: false } }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#1e293b',
-                            titleFont: { size: 13 },
-                            bodyFont: { size: 14, weight: 'bold' },
-                            padding: 10,
-                            displayColors: false,
-                            callbacks: {
-                                label: function(context) { return 'Điểm: ' + context.parsed.y; }
-                            }
-                        }
-                    }
-                }
+                data: { labels: [], datasets: [{ label: 'Điểm số', data: [], borderColor: '#3b82f6', backgroundColor: gradient, borderWidth: 3, pointBackgroundColor: '#ffffff', pointBorderColor: '#3b82f6', pointBorderWidth: 2, pointRadius: 5, fill: true, tension: 0.3 }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 10, grid: { color: '#f1f5f9' }, ticks: { stepSize: 2 } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
             });
-            
-            // Nếu data đã tải xong từ Firebase trước đó, update ngay
             if(currentStats) updateStatsUI(currentStats);
         }
 
         window.simulateQuitTest = function() {
-            if(!chartInitialized || !currentStats || !currentUserUid) {
-                window.showMessage("Chưa sẵn sàng", "Biểu đồ chưa tải hoặc bạn chưa đăng nhập hợp lệ.");
-                return;
-            }
-            
-            window.showMessage(
-                "Xác nhận bỏ cuộc", 
-                "Hành động này mô phỏng việc bạn đang làm bài thi nhưng thoát ra giữa chừng. Hệ thống sẽ chấm điểm 1.0 và LƯU TRÊN CLOUD. Chắc chắn bỏ cuộc?", 
-                true, 
-                async () => {
-                    // Update Local data first
-                    let labels = currentStats.testLabels || [];
-                    let scores = currentStats.testScores || [];
-                    let qCount = currentStats.quitCount || 0;
-
-                    let newTestNumber = labels.length + 1;
-                    let quitScore = 1.0; 
-
-                    labels.push('Bài ' + newTestNumber + '\n(Bỏ cuộc)');
-                    scores.push(quitScore);
-                    qCount++;
-
-                    // Đẩy dữ liệu lên Firebase (Lắng nghe snapshot sẽ tự động cập nhật UI)
-                    try {
-                        await updateDoc(getStatsRef(), {
-                            testLabels: labels,
-                            testScores: scores,
-                            quitCount: qCount
-                        });
-                        window.showMessage("Đã lưu kết quả", "Bạn vừa thoát bài thi. Dữ liệu điểm thấp đã được lưu vĩnh viễn trên máy chủ.");
-                    } catch (e) {
-                        console.error("Lỗi lưu điểm bỏ thi:", e);
-                    }
-                }
-            );
-        }
-
-        // ================= XỬ LÝ TÀI LIỆU (UI ONLY) =================
-        function countDocsForFolders() {
-            document.querySelector('.folder-count-de-thi').innerText = docsData.filter(d=>d.folder==='Đề thi thử 2026').length;
-            document.querySelector('.folder-count-huu-co').innerText = docsData.filter(d=>d.folder==='Hóa Hữu Cơ').length;
-            document.querySelector('.folder-count-vo-co').innerText = docsData.filter(d=>d.folder==='Hóa Vô Cơ').length;
-            document.querySelector('.folder-count-trong-tam').innerText = docsData.filter(d=>d.folder==='Trọng Tâm').length;
-        }
-
-        window.filterDocuments = function(className) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('text-blue-600', 'border-blue-600', 'font-bold');
-                btn.classList.add('text-gray-500', 'font-medium', 'border-transparent');
+            if(!chartInitialized || !currentStats || !currentUserUid) return;
+            window.showMessage("Xác nhận bỏ cuộc", "Hệ thống sẽ chấm điểm 1.0 và LƯU TRÊN CLOUD. Chắc chắn bỏ cuộc?", true, async () => {
+                let labels = currentStats.testLabels || [], scores = currentStats.testScores || [], qCount = currentStats.quitCount || 0;
+                labels.push('Bài ' + (labels.length + 1) + '\n(Bỏ cuộc)');
+                scores.push(1.0);
+                qCount++;
+                try {
+                    await updateDoc(getStatsRef(), { testLabels: labels, testScores: scores, quitCount: qCount });
+                    window.showMessage("Đã lưu kết quả", "Bạn vừa thoát bài thi. Dữ liệu đã lưu vĩnh viễn trên máy chủ.");
+                } catch (e) { console.error(e); }
             });
-            let activeBtn = document.getElementById(`btn-filter-${className}`);
-            if(activeBtn) {
-                activeBtn.classList.remove('text-gray-500', 'font-medium', 'border-transparent');
-                activeBtn.classList.add('text-blue-600', 'border-blue-600', 'font-bold');
-            }
+        }
 
-            document.getElementById('doc-section-title').innerText = className === 'Tất cả' ? 'Tất cả tài liệu' : `Tài liệu ${className}`;
-            
-            const container = document.getElementById('document-list-container');
-            container.innerHTML = '';
-            
-            let dataToRender = className === 'Tất cả' ? docsData : docsData.filter(d => d.classInfo === className || d.subject === className);
-            
-            if(dataToRender.length === 0) {
-                container.innerHTML = `<div class="text-center p-10 bg-white rounded-2xl border border-gray-200"><i class="fa-solid fa-magnifying-glass text-4xl text-gray-300 mb-3"></i><p class="text-gray-500 font-semibold">Không tìm thấy tài liệu nào.</p></div>`;
-                return;
-            }
-
+        // ================= DỮ LIỆU TÀI LIỆU =================
+        const docsData = [
+            { id: 1, title: 'Đề thi thử THPT Quốc Gia môn Hóa 2026', subject: 'Hóa Học', classInfo: 'Lớp 12', tag: 'Đề Thi', folder: 'Đề thi thử 2026', views: 3421, date: '14/06/2026' },
+            { id: 2, title: 'Tổng ôn lý thuyết Hóa Vô Cơ', subject: 'Hóa Học', classInfo: 'Hóa Vô Cơ', tag: 'Trọng Tâm', folder: 'Hóa Vô Cơ', views: 8205, date: '12/06/2026' },
+            { id: 3, title: 'Tuyển tập 50 bài tập VDC đồ thị Peptit và Este', subject: 'Hóa Học', classInfo: 'Hóa Hữu Cơ', tag: 'Vận Dụng Cao', folder: 'Hóa Hữu Cơ', views: 1150, date: '10/06/2026' },
+        ];
+        function renderDocumentList(dataToRender) {
+            const container = document.getElementById('document-list-container'); container.innerHTML = '';
+            if(dataToRender.length === 0) { container.innerHTML = `<div class="text-center p-10"><p>Không tìm thấy.</p></div>`; return; }
             dataToRender.forEach(doc => {
-                let html = `
-                <div onclick="window.openPDFViewer(${doc.id}, '${doc.title.replace(/'/g, "\\'")}', '${doc.folder}')" class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
-                    <div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative">
-                        <i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i>
-                        <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">PDF</span>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">${doc.title}</h3>
-                        <div class="flex gap-2 mb-3">
-                            <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">${doc.subject}</span>
-                            <span class="bg-blue-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">${doc.classInfo}</span>
-                            <span class="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-0.5 rounded-full">${doc.tag}</span>
-                        </div>
-                        <div class="flex items-center gap-4 text-xs font-medium text-gray-400">
-                            <span class="flex items-center gap-1"><i class="fa-regular fa-eye"></i> ${doc.views.toLocaleString()}</span>
-                            <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> ${doc.date}</span>
-                        </div>
-                    </div>
-                </div>
-                `;
-                container.insertAdjacentHTML('beforeend', html);
+                container.innerHTML += `<div onclick="window.openPDFViewer(${doc.id}, '${doc.title}', '${doc.folder}')" class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200"><div class="bg-red-50 p-4 rounded-xl relative"><i class="fa-solid fa-file-pdf text-red-500 text-4xl"></i></div><div class="flex-1"><h3 class="font-bold text-gray-800 text-base mb-2">${doc.title}</h3></div></div>`;
             });
         }
-
+        function countDocsForFolders() { /* Mock function as per original */ }
+        window.filterDocuments = function(className) {
+            document.getElementById('doc-section-title').innerText = `Tài liệu ${className}`;
+            renderDocumentList(className === 'Tất cả' ? docsData : docsData.filter(d => d.classInfo === className || d.subject === className));
+        }
         window.selectFolder = function(folderName) {
             document.getElementById('doc-section-title').innerText = folderName;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('text-blue-600', 'border-blue-600', 'font-bold');
-                btn.classList.add('text-gray-500', 'font-medium', 'border-transparent');
-            });
-            const filtered = docsData.filter(d => d.folder === folderName);
-            // Render logic identical to filterDocuments without button highlight
-            const container = document.getElementById('document-list-container');
-            container.innerHTML = '';
-            filtered.forEach(doc => {
-                 let html = `<div onclick="window.openPDFViewer(${doc.id}, '${doc.title.replace(/'/g, "\\'")}', '${doc.folder}')" class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200"><div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative"><i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i></div><div class="flex-1"><h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">${doc.title}</h3></div></div>`;
-                 container.insertAdjacentHTML('beforeend', html);
-            });
+            renderDocumentList(docsData.filter(d => d.folder === folderName));
         }
-
         window.handleGlobalSearch = function(event) {
             let query = event.target.value.toLowerCase();
-            if(document.getElementById('tab-content-tai-lieu').classList.contains('hidden-layout')) {
-                window.switchDashboardTab('tai-lieu');
-            }
-            if(query.trim() === '') {
-                window.filterDocuments('Tất cả');
-                return;
-            }
-            const searched = docsData.filter(d => d.title.toLowerCase().includes(query) || d.tag.toLowerCase().includes(query));
-            document.getElementById('doc-section-title').innerText = `Kết quả: "${query}"`;
-            
-            const container = document.getElementById('document-list-container');
-            container.innerHTML = '';
-            searched.forEach(doc => {
-                 let html = `<div onclick="window.openPDFViewer(${doc.id}, '${doc.title.replace(/'/g, "\\'")}', '${doc.folder}')" class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200"><div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative"><i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i></div><div class="flex-1"><h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">${doc.title}</h3></div></div>`;
-                 container.insertAdjacentHTML('beforeend', html);
-            });
+            if(document.getElementById('tab-content-tai-lieu').classList.contains('hidden-layout')) window.switchDashboardTab('tai-lieu');
+            renderDocumentList(query.trim() === '' ? docsData : docsData.filter(d => d.title.toLowerCase().includes(query)));
         }
-
-        window.openAllFoldersView = function() {
-            hideAllViews();
-            views.allFolders.classList.remove('hidden-layout');
-            const allFoldersData = [{ name: 'Kho đề thi thử 2026', count: 120, tag: 'Lớp 12'}, { name: 'Sổ tay Vô Cơ', count: 18, tag: 'Sổ tay' }];
-            const grid = document.getElementById('all-folders-grid');
-            grid.innerHTML = '';
-            allFoldersData.forEach(folder => {
-                let html = `<div class="bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-lg transition-shadow cursor-pointer flex flex-col justify-between h-48" onclick="window.clickFolderInGrid('${folder.name}')"><h3 class="font-bold text-gray-800 text-sm leading-tight">${folder.name}</h3></div>`;
-                grid.insertAdjacentHTML('beforeend', html);
-            });
-        }
-
-        window.clickFolderInGrid = function(folderName) {
-            window.switchDashboardTab('tai-lieu');
-            window.selectFolder(folderName);
-        }
-
+        window.openAllFoldersView = function() { hideAllViews(); views.allFolders.classList.remove('hidden-layout'); }
         window.openPDFViewer = function(id, title, folder) {
-            hideAllViews();
-            views.pdfViewer.classList.remove('hidden-layout');
+            hideAllViews(); views.pdfViewer.classList.remove('hidden-layout');
             document.getElementById('pdf-breadcrumb-folder').innerText = folder;
             document.getElementById('pdf-header-title').innerText = title;
-            document.getElementById('pdf-page-title').innerText = title; 
+            document.getElementById('pdf-page-title').innerText = title;
         }
 
-        // ================= LOGIC QUẢN TRỊ VIÊN (ADMIN PANEL) =================
-        window.adminCreateAccount = async function() {
-            const name = document.getElementById('admin-new-name').value.trim();
+        // ================= ADMIN PANEL LOGIC (CHỈ DÀNH CHO ADMIN CẬP NHẬT TÊN HIỂN THỊ) =================
+        window.adminUpdateUserProfile = async function() {
             const email = document.getElementById('admin-new-email').value.trim().toLowerCase();
-            const pass = document.getElementById('admin-new-pass').value.trim();
-
-            if(!name || !email || !pass) {
-                window.showMessage("Thiếu thông tin", "Vui lòng nhập đầy đủ Tên, Email và Mật khẩu.");
-                return;
-            }
-
-            if(allowedAccountsFromDB[email]) {
-                window.showMessage("Đã tồn tại", "Email này đã được cấp tài khoản rồi!");
-                return;
-            }
+            const name = document.getElementById('admin-new-name').value.trim();
+            if(!email || !name) { window.showMessage("Lỗi", "Vui lòng nhập Email và Tên hiển thị."); return; }
 
             try {
-                // Sửa đường dẫn lưu trữ
-                const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', 'list');
-                await setDoc(accountsRef, { [email]: { name: name, pass: pass, role: 'student' } }, { merge: true });
-                
-                window.showMessage("Thành công", `Đã cấp tài khoản cho ${name}. Dữ liệu đã lưu lên Cloud.`);
-                document.getElementById('admin-new-name').value = '';
-                document.getElementById('admin-new-email').value = '';
+                // Lưu metadata cấu hình (Mô phỏng gán metadata cho Email)
+                const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', email);
+                await setDoc(accountsRef, { email: email, name: name, role: 'student' });
+                window.showMessage("Thành công", `Đã lưu hồ sơ của ${name} (${email}).`);
+                window.loadAdminUsersList(); // Reload list
             } catch(e) {
-                console.error("Lỗi tạo tài khoản:", e);
-                window.showMessage("Lỗi hệ thống", "Không thể ghi dữ liệu lên Firebase. (Chi tiết trong Console)");
+                console.error(e);
+                window.showMessage("Lỗi hệ thống", "Không thể cập nhật hồ sơ Firebase.");
             }
         }
 
-        window.renderAdminAccountsList = function() {
+        window.loadAdminUsersList = async function() {
             const container = document.getElementById('admin-accounts-list');
-            const totalCount = document.getElementById('admin-total-users');
-            if(!container) return;
-            
-            container.innerHTML = '';
-            let count = 0;
-            
-            for(const [email, info] of Object.entries(allowedAccountsFromDB)) {
-                count++;
-                let roleBadge = info.role === 'admin' 
-                    ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2 shadow-sm">ADMIN</span>` 
-                    : `<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2 border border-blue-100">HỌC SINH</span>`;
-                
-                let avatarLetter = info.name.charAt(0).toUpperCase();
+            try {
+                // Lấy toàn bộ document trong collection mô phỏng admin_accounts
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'admin_accounts');
+                onSnapshot(colRef, (querySnapshot) => {
+                    container.innerHTML = '';
+                    querySnapshot.forEach((docSnap) => {
+                        const info = docSnap.data();
+                        let roleBadge = info.role === 'admin' ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">ADMIN</span>` : `<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">HỌC SINH</span>`;
+                        let avatarLetter = info.name ? info.name.charAt(0).toUpperCase() : 'U';
 
-                container.innerHTML += `
-                    <div class="bg-white border border-gray-100 hover:border-blue-200 hover:shadow-md p-3 rounded-2xl flex justify-between items-center transition-all group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 text-blue-700 font-bold flex items-center justify-center text-sm shadow-inner">${avatarLetter}</div>
-                            <div>
-                                <div class="font-bold text-gray-800 text-sm flex items-center">${info.name} ${roleBadge}</div>
-                                <div class="text-xs text-gray-500 mt-0.5 flex items-center gap-2">
-                                    <span><i class="fa-regular fa-envelope"></i> ${email}</span>
-                                    <span class="text-gray-300">|</span>
-                                    <span><i class="fa-solid fa-key"></i> Pass: <span class="font-mono bg-gray-100 px-1 rounded text-gray-600">${info.pass}</span></span>
+                        container.innerHTML += `
+                            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center">${avatarLetter}</div>
+                                    <div>
+                                        <div class="font-bold text-gray-800 text-sm flex items-center">${info.name || 'Chưa cập nhật tên'} ${roleBadge}</div>
+                                        <div class="text-xs text-gray-500 mt-0.5">${info.email}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <button onclick="window.adminDeleteAccount('${email}')" class="text-gray-300 hover:text-red-500 bg-gray-50 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100" title="Thu hồi tài khoản">
-                            <i class="fa-solid fa-trash-can text-sm"></i>
-                        </button>
-                    </div>
-                `;
-            }
-            if(totalCount) totalCount.innerText = `${count} User`;
+                        `;
+                    });
+                    if(container.innerHTML === '') container.innerHTML = '<div class="text-center py-5 text-gray-500">Chưa có hồ sơ nào được lưu trữ metadata.</div>';
+                });
+            } catch(e) { console.error(e); }
         }
 
-        window.adminDeleteAccount = async function(email) {
-            if(allowedAccountsFromDB[email].role === 'admin') {
-                window.showMessage("Bảo vệ cấp cao", "Không thể xóa tài khoản Quản trị viên của hệ thống!");
-                return;
-            }
-            
-            window.showMessage("Xác nhận thu hồi", `Bạn có chắc chắn muốn thu hồi vĩnh viễn tài khoản ${email}? Học sinh sẽ không thể đăng nhập nữa.`, true, async () => {
-                try {
-                    // Sửa đường dẫn lưu trữ
-                    const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', 'list');
-                    await updateDoc(accountsRef, { [email]: deleteField() });
-                    window.showMessage("Đã thu hồi", "Tài khoản đã bị xóa khỏi hệ thống.");
-                } catch(e) { 
-                    console.error("Lỗi xóa tài khoản", e); 
-                }
-            });
-        }
     </script>
 </body>
 </html>
