@@ -188,19 +188,41 @@
     </div>
 
 
-    <!-- ================= VIEW 2: TRANG NỘI DUNG TRẮNG ================= -->
-    <div id="subject-view" class="hidden-layout bg-white min-h-screen">
-        <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
-            <button onclick="switchDashboardTab('tong-quan')" class="text-gray-600 hover:text-blue-600 font-bold flex items-center gap-2">
+    <!-- ================= VIEW 2: TRANG NỘI DUNG MÔN HỌC (LIÊN KẾT GLOBAL NAV) ================= -->
+    <div id="subject-view" class="hidden-layout bg-white min-h-screen font-inter flex flex-col">
+        <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
+            <!-- Nút Back -->
+            <button onclick="switchDashboardTab('tong-quan')" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition w-[200px]">
                 <i class="fa-solid fa-arrow-left"></i> Về Dashboard
             </button>
-            <h1 id="subject-title" class="text-xl font-bold text-blue-900 font-logo">Tên Môn Học</h1>
-            <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-bold border border-blue-200">Chế độ học tập</div>
+            
+            <!-- Center Title -->
+            <div class="flex-1 flex justify-center items-center gap-3">
+                <h1 id="subject-title" class="text-xl font-bold text-blue-900 font-logo">Tên Môn Học</h1>
+                <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-[11px] font-bold border border-blue-200">Chế độ học tập</div>
+            </div>
+
+            <!-- Right Nav (Đồng bộ với Dashboard) -->
+            <div class="flex items-center justify-end gap-3 md:gap-4 w-[300px]">
+                <div class="flex flex-col items-end mr-2">
+                    <span class="study-timer-display text-[10px] font-bold text-gray-400">Hôm nay: 00:00 / 30:00</span>
+                </div>
+                <div class="bg-white border border-gray-200 px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm" title="Học đủ 30 phút để tăng chuỗi">
+                    <i class="nav-fire-icon fa-solid fa-fire text-gray-300 transition-colors duration-500"></i> 
+                    <span class="nav-streak-count font-bold text-gray-700 text-sm">0</span>
+                </div>
+                <div class="hidden lg:flex items-center gap-3 border-l border-gray-200 pl-4">
+                    <div class="flex items-center gap-1 text-sm font-semibold text-blue-800 bg-blue-50 px-2 py-1 rounded">
+                        <i class="fa-solid fa-crosshairs text-blue-500"></i> <span class="nav-target-score">Mục tiêu</span>
+                    </div>
+                </div>
+            </div>
         </nav>
-        <div class="container mx-auto px-6 py-12 text-center">
+        
+        <div class="container mx-auto px-6 py-12 text-center flex-grow flex flex-col items-center justify-center">
             <div class="inline-flex justify-center items-center w-24 h-24 bg-blue-50 text-blue-300 rounded-full text-4xl mb-6"><i class="fa-solid fa-pencil"></i></div>
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Trang nội dung học tập</h2>
-            <p class="text-gray-500 max-w-lg mx-auto">Admin sẽ đăng tải các đề học tập tại đây.</p>
+            <p class="text-gray-500 max-w-lg mx-auto">Nơi hiển thị bài giảng, bài tập trắc nghiệm và kiến thức thuộc chuyên đề bạn vừa chọn. Thời gian học tại đây vẫn đang được tính vào Chuỗi ngày học của bạn.</p>
         </div>
     </div>
 
@@ -210,7 +232,7 @@
         
         <!-- Sidebar Trái -->
         <aside class="w-64 bg-white border-r border-blue-100 hidden md:flex flex-col h-screen sticky top-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-50">
-            <div class="p-6 flex items-center gap-3 border-b border-blue-50 cursor-pointer select-none" ondblclick="promptAdminLogin()">
+            <div class="p-6 flex items-center gap-3 border-b border-blue-50 select-none">
                 <div class="w-10 h-10 bg-[#facc15] text-[#854d0e] flex items-center justify-center font-black rounded-xl text-xl shadow-inner"><i class="fa-solid fa-book-journal-whills"></i></div>
                 <div>
                     <span class="font-black text-lg font-logo text-gray-900 leading-none block">TX. Hóa Học</span>
@@ -258,20 +280,20 @@
                     <input type="text" placeholder="Tìm tài liệu, sự kiện..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
                 </div>
 
-                <!-- Info Nav -->
+                <!-- Info Nav (Dùng Class thay vì ID để đồng bộ nhiều nơi) -->
                 <div class="flex items-center gap-3 md:gap-4 ml-auto">
                     <div class="flex flex-col items-end mr-2">
-                        <span id="study-timer-display" class="text-[10px] font-bold text-gray-400">Hôm nay: 00:00 / 30:00</span>
+                        <span class="study-timer-display text-[10px] font-bold text-gray-400">Hôm nay: 00:00 / 30:00</span>
                     </div>
 
                     <div class="bg-white border border-gray-200 px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm" title="Học đủ 30 phút để tăng chuỗi">
-                        <i id="nav-fire-icon" class="fa-solid fa-fire text-gray-300 transition-colors duration-500"></i> 
-                        <span id="nav-streak-count" class="font-bold text-gray-700 text-sm">0</span>
+                        <i class="nav-fire-icon fa-solid fa-fire text-gray-300 transition-colors duration-500"></i> 
+                        <span class="nav-streak-count font-bold text-gray-700 text-sm">0</span>
                     </div>
 
                     <div class="hidden lg:flex items-center gap-3 border-l border-r border-gray-200 px-4">
                         <div class="flex items-center gap-1 text-sm font-semibold text-blue-800 bg-blue-50 px-2 py-1 rounded">
-                            <i class="fa-solid fa-crosshairs text-blue-500"></i> <span id="nav-target-score">Mục tiêu</span>
+                            <i class="fa-solid fa-crosshairs text-blue-500"></i> <span class="nav-target-score">Mục tiêu</span>
                         </div>
                         <div class="flex items-center gap-1 text-sm font-semibold text-purple-800 bg-purple-50 px-2 py-1 rounded">
                             <i class="fa-regular fa-clock text-purple-500"></i> <span id="nav-countdown-days">Ngày thi</span>
@@ -310,13 +332,13 @@
 
                             <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase mb-2 z-10">Manifest Điểm</h3>
                             
-                            <!-- Khu vực hiển thị điểm (Cập nhật) -->
+                            <!-- Khu vực hiển thị điểm -->
                             <div class="flex items-end gap-2 z-10 mb-2 mt-2">
                                 <span id="display-target-score" class="text-7xl font-black text-white leading-none tracking-tighter">?</span>
                                 <span id="target-score-plus" class="text-2xl font-bold text-[#facc15] mb-2 hidden">+</span>
                             </div>
 
-                            <!-- Thanh trượt điểm (Mới) -->
+                            <!-- Thanh trượt điểm -->
                             <div class="w-full z-10 relative mt-4 mb-2 pr-8">
                                 <input type="range" id="score-slider" min="0" max="10" step="0.25" value="0" class="w-full h-2.5 bg-[#0f172a]/80 rounded-lg appearance-none cursor-pointer accent-[#facc15] shadow-inner" oninput="updateTargetScore(this.value)">
                                 <div class="flex justify-between text-[10px] font-bold text-blue-200 mt-2">
@@ -385,9 +407,10 @@
                         <div class="lg:col-span-12 starry-card rounded-3xl p-6 text-white shadow-xl relative min-h-[150px]">
                             <div class="flex justify-between items-start mb-2 relative z-10">
                                 <h3 class="text-xs font-bold tracking-widest text-blue-200 uppercase">Đếm ngược kỳ thi THPT</h3>
-                                <div class="bg-[#facc15] text-[#854d0e] text-xs font-bold px-3 py-1.5 rounded-lg cursor-pointer hover:bg-yellow-300 flex items-center gap-2 transition" onclick="document.getElementById('exam-date-input').click()">
+                                <!-- Fix lỗi Date Picker: Overlay thẻ input lên toàn bộ nút -->
+                                <div class="relative bg-[#facc15] text-[#854d0e] text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-yellow-300 flex items-center gap-2 transition overflow-hidden shadow-md">
                                     <i class="fa-regular fa-calendar"></i> Đặt ngày thi
-                                    <input type="date" id="exam-date-input" class="absolute w-0 h-0 opacity-0" onchange="calculateCountdown(this.value)">
+                                    <input type="date" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="calculateCountdown(this.value)">
                                 </div>
                             </div>
                             <div class="flex flex-col items-center justify-center mt-2 relative z-10">
@@ -397,16 +420,13 @@
                     </div>
                 </div>
 
-                <!-- ================= TAB 2: TÀI LIỆU TỔNG HỢP (THIẾT KẾ MỚI) ================= -->
+                <!-- ================= TAB 2: TÀI LIỆU TỔNG HỢP ================= -->
                 <div id="tab-content-tai-lieu" class="hidden-layout">
                     <h2 class="text-[11px] text-blue-600 font-bold uppercase tracking-widest mb-1">THƯ VIỆN TÀI LIỆU</h2>
                     <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Kho đề thi và kiến thức trọng tâm</h1>
                     
                     <div class="flex flex-col lg:flex-row gap-8">
-                        
-                        <!-- CỘT TRÁI: DANH SÁCH TÀI LIỆU (MỚI NHẤT LÊN ĐẦU) -->
                         <div class="flex-1 space-y-4">
-                            <!-- Bộ lọc nhanh trên cùng -->
                             <div class="flex gap-2 mb-6 border-b border-gray-200 pb-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
                                 <button class="px-4 py-1.5 text-sm font-bold text-blue-600 border-b-2 border-blue-600">Tất cả</button>
                                 <button class="px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800">Lớp 12</button>
@@ -415,7 +435,6 @@
                                 <button class="px-4 py-1.5 text-sm font-medium text-gray-500 hover:text-gray-800">ĐGNL</button>
                             </div>
 
-                            <!-- Item Tài liệu 1 -->
                             <div class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
                                 <div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative">
                                     <i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i>
@@ -434,68 +453,8 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Item Tài liệu 2 -->
-                            <div class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
-                                <div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative">
-                                    <i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i>
-                                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">PDF</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">Tổng ôn lý thuyết Hóa Vô Cơ - Đếm mệnh đề chống liệt</h3>
-                                    <div class="flex gap-2 mb-3">
-                                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Hóa Học</span>
-                                        <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Hóa Vô Cơ</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 text-xs font-medium text-gray-400">
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-eye"></i> 8,205</span>
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 12/06/2026</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Item Tài liệu 3 -->
-                            <div class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
-                                <div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative">
-                                    <i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i>
-                                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">PDF</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">Tuyển tập 50 bài tập VDC đồ thị Peptit và Este (Giải chi tiết)</h3>
-                                    <div class="flex gap-2 mb-3">
-                                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Hóa Học</span>
-                                        <span class="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Hóa Hữu Cơ</span>
-                                        <span class="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Vận Dụng Cao</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 text-xs font-medium text-gray-400">
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-eye"></i> 1,150</span>
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 10/06/2026</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Item Tài liệu 4 -->
-                            <div class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
-                                <div class="bg-red-50 p-4 rounded-xl flex-shrink-0 relative">
-                                    <i class="fa-solid fa-file-pdf text-red-500 text-4xl drop-shadow-sm"></i>
-                                    <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">PDF</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-bold text-gray-800 text-base mb-2 leading-tight">Sổ tay phương trình Hóa Học THPT (Trọn bộ Lớp 10-11-12)</h3>
-                                    <div class="flex gap-2 mb-3">
-                                        <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Hóa Học</span>
-                                        <span class="bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Trọng Tâm</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 text-xs font-medium text-gray-400">
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-eye"></i> 15,420</span>
-                                        <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 05/06/2026</span>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
-                        <!-- CỘT PHẢI: KHO TÀI LIỆU (CỐ ĐỊNH STICKY) -->
                         <div class="w-full lg:w-80 flex-shrink-0">
                             <div class="sticky top-24">
                                 <div class="flex justify-between items-center mb-4">
@@ -504,7 +463,6 @@
                                 </div>
                                 
                                 <div class="space-y-3">
-                                    <!-- Thư mục 1 -->
                                     <div class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
                                         <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
                                         <div>
@@ -512,37 +470,9 @@
                                             <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> 120 tài liệu</p>
                                         </div>
                                     </div>
-                                    
-                                    <!-- Thư mục 2 -->
-                                    <div class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
-                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
-                                        <div>
-                                            <h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Hữu Cơ</h4>
-                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> 45 tài liệu</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Thư mục 3 -->
-                                    <div class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
-                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
-                                        <div>
-                                            <h4 class="font-bold text-sm text-gray-800">Chuyên đề Hóa Vô Cơ</h4>
-                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> 52 tài liệu</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Thư mục 4 -->
-                                    <div class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
-                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl"><i class="fa-solid fa-folder"></i></div>
-                                        <div>
-                                            <h4 class="font-bold text-sm text-gray-800">Kiến thức trọng tâm</h4>
-                                            <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-file-lines"></i> 18 tài liệu</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -570,21 +500,18 @@
                     </div>
                 </div>
 
-                <!-- ================= TAB 4: THỐNG KÊ (THIẾT KẾ MỚI) ================= -->
+                <!-- ================= TAB 4: THỐNG KÊ ================= -->
                 <div id="tab-content-thong-ke" class="hidden-layout">
                     <div class="flex justify-between items-end mb-6">
                         <div>
                             <h2 class="text-[11px] text-blue-600 font-bold uppercase tracking-widest mb-1">THỐNG KÊ · ĐÁNH GIÁ NỖ LỰC</h2>
                             <h1 class="text-3xl font-extrabold text-gray-900 font-logo">Hành trình điểm số của bạn</h1>
                         </div>
-                        
-                        <!-- Nút giả lập bỏ cuộc -->
                         <button onclick="simulateQuitTest()" class="bg-red-100 text-red-600 border border-red-200 hover:bg-red-200 font-bold px-4 py-2 rounded-xl text-sm shadow-sm transition flex items-center gap-2">
                             <i class="fa-solid fa-person-running"></i> Giả lập: Bỏ thi giữa chừng
                         </button>
                     </div>
 
-                    <!-- Thẻ chỉ số tổng quan (Giống thiết kế Dark theme) -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                         <div class="starry-card rounded-2xl p-5 text-white flex flex-col justify-between">
                             <div class="flex items-center gap-3 mb-3">
@@ -619,7 +546,6 @@
                         </div>
                     </div>
 
-                    <!-- Khu vực Biểu đồ -->
                     <div class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm relative">
                         <div class="flex justify-between items-start mb-6 border-b border-gray-100 pb-4">
                             <div>
@@ -632,8 +558,6 @@
                                 <span class="flex items-center gap-2"><div class="w-3 h-3 bg-blue-500 rounded-full"></div> Điểm thi</span>
                             </div>
                         </div>
-                        
-                        <!-- Canvas chứa Chart.js -->
                         <div class="w-full h-[400px]">
                             <canvas id="scoreChart"></canvas>
                         </div>
@@ -644,52 +568,43 @@
         </main>
     </div>
 
-    <!-- ================= VIEW 4: ADMIN HIDDEN ================= -->
-    <div id="admin-view" class="hidden-layout bg-gray-900 min-h-screen text-white flex items-center justify-center">
-        <div class="text-center">
-            <i class="fa-solid fa-user-shield text-6xl text-green-500 mb-6"></i>
-            <h1 class="text-3xl font-bold mb-4">Khu vực Admin: Đăng tải tài liệu</h1>
-            <p class="text-gray-400 mb-8 max-w-md">Chúc mừng bạn đã vượt qua 4 lớp bảo mật. Bạn có toàn quyền thêm đề thi, tài liệu và sự kiện tại đây.</p>
-            <button onclick="backToHome()" class="bg-gray-700 hover:bg-gray-600 px-6 py-2 rounded-lg font-bold">Thoát Admin</button>
-        </div>
-    </div>
-
-
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         // Các biến View
         const landingView = document.getElementById('landing-view');
         const subjectView = document.getElementById('subject-view');
         const dashboardView = document.getElementById('dashboard-view');
-        const adminView = document.getElementById('admin-view');
         
+        let isLoggedIn = false;
+
         // Giả lập Login Google
         function loginGoogle() {
             document.getElementById('btn-login').classList.add('hidden');
             document.getElementById('user-profile').classList.remove('hidden');
-            alert("Đăng nhập Google thành công! Bấm vào Tên của bạn để vào Dashboard.");
+            isLoggedIn = true;
+            alert("Đăng nhập Google thành công! Thời gian học tập của bạn bắt đầu được tính.");
+            
+            // Bắt đầu đếm giờ học ngay khi đăng nhập
+            startStudyTimer();
         }
 
         // Chuyển trang Dashboard chính
         function openDashboard() {
+            if(!isLoggedIn) { alert("Vui lòng đăng nhập trước!"); return; }
             landingView.classList.add('hidden-layout');
             subjectView.classList.add('hidden-layout');
-            adminView.classList.add('hidden-layout');
             dashboardView.classList.remove('hidden-layout');
-            
-            // Bắt đầu đếm giờ học khi mở dashboard
-            startStudyTimer();
         }
 
+        // Về trang chủ Landing (Giữ nguyên timer chạy ngầm)
         function backToHome() {
             subjectView.classList.add('hidden-layout');
             dashboardView.classList.add('hidden-layout');
-            adminView.classList.add('hidden-layout');
             landingView.classList.remove('hidden-layout');
-            clearInterval(studyInterval);
         }
 
         function openSubjectPage(subjectName) {
+            if(!isLoggedIn) { alert("Vui lòng đăng nhập để vào chế độ luyện tập cá nhân hóa!"); return; }
             document.getElementById('subject-title').innerText = subjectName;
             landingView.classList.add('hidden-layout');
             dashboardView.classList.add('hidden-layout');
@@ -724,21 +639,23 @@
             }
         }
 
-        // ---- LOGIC MỤC TIÊU ĐIỂM (CẬP NHẬT THANH TRƯỢT) ----
+        // ---- LOGIC MỤC TIÊU ĐIỂM ĐỒNG BỘ GLOBAL ----
         function updateTargetScore(val) {
             let num = parseFloat(val);
             let displayScore = document.getElementById('display-target-score');
             let plusSign = document.getElementById('target-score-plus');
-            let navScore = document.getElementById('nav-target-score');
+            
+            // Cập nhật tất cả các thanh điều hướng chứa class nav-target-score
+            let navScores = document.querySelectorAll('.nav-target-score');
 
             if (num > 0) {
                 displayScore.innerText = num;
                 plusSign.classList.remove('hidden');
-                navScore.innerText = "Mục tiêu: " + num + "+";
+                navScores.forEach(el => el.innerText = "Mục tiêu: " + num + "+");
             } else {
                 displayScore.innerText = '?';
                 plusSign.classList.add('hidden');
-                navScore.innerText = "Mục tiêu";
+                navScores.forEach(el => el.innerText = "Mục tiêu");
             }
         }
 
@@ -768,7 +685,7 @@
             }
         }
 
-        // ---- LOGIC CHUỖI HỌC TẬP (TIMER 30 PHÚT) ----
+        // ---- LOGIC CHUỖI HỌC TẬP GLOBAL (TIMER 30 PHÚT) ----
         let studySeconds = 0;
         const targetSeconds = 30 * 60; // 30 phút
         let studyInterval;
@@ -777,9 +694,6 @@
 
         function startStudyTimer() {
             if(studyInterval) clearInterval(studyInterval);
-            const displayEl = document.getElementById('study-timer-display');
-            const navFireIcon = document.getElementById('nav-fire-icon');
-            const todayCircle = document.getElementById('today-circle');
             
             studyInterval = setInterval(() => {
                 if(streakEarnedToday) return; 
@@ -789,29 +703,37 @@
                 let seconds = studySeconds % 60;
                 let formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                displayEl.innerText = `Hôm nay: ${formattedTime} / 30:00`;
+                // Cập nhật tất cả các bộ đếm trên mọi giao diện (Dashboard, Subject View)
+                document.querySelectorAll('.study-timer-display').forEach(el => {
+                    el.innerText = `Hôm nay: ${formattedTime} / 30:00`;
+                });
 
                 if (studySeconds >= targetSeconds) {
                     streakEarnedToday = true;
                     currentStreak++; 
                     
-                    displayEl.innerText = `Tuyệt vời! Đã học đủ 30 phút hôm nay 🔥`;
-                    displayEl.classList.replace('text-gray-400', 'text-orange-500');
-                    navFireIcon.classList.replace('text-gray-300', 'text-orange-500');
-                    document.getElementById('nav-streak-count').innerText = currentStreak;
+                    document.querySelectorAll('.study-timer-display').forEach(el => {
+                        el.innerText = `Tuyệt vời! Đã học đủ 30 phút hôm nay 🔥`;
+                        el.classList.replace('text-gray-400', 'text-orange-500');
+                    });
+                    
+                    document.querySelectorAll('.nav-fire-icon').forEach(el => el.classList.replace('text-gray-300', 'text-orange-500'));
+                    document.querySelectorAll('.nav-streak-count').forEach(el => el.innerText = currentStreak);
                     
                     if(document.getElementById('main-streak-count')) {
                         document.getElementById('main-streak-count').innerText = currentStreak;
                     }
-                    document.getElementById('sidebar-streak').innerText = currentStreak + " ngày";
+                    if(document.getElementById('sidebar-streak')) {
+                        document.getElementById('sidebar-streak').innerText = currentStreak + " ngày";
+                    }
                     
+                    const todayCircle = document.getElementById('today-circle');
                     if(todayCircle) {
                         todayCircle.classList.replace('bg-blue-500', 'bg-orange-500');
                         todayCircle.classList.replace('ring-blue-500/30', 'ring-orange-500/30');
                     }
                     
                     alert("Chúc mừng! Bạn đã hoàn thành 30 phút học tập hôm nay. Chuỗi của bạn đã được tăng thêm 1 ngày!");
-                    clearInterval(studyInterval);
                 }
             }, 1000); 
         }
@@ -819,15 +741,13 @@
         // ---- LOGIC CHART.JS (THỐNG KÊ ĐIỂM SỐ) ----
         let scoreChartInstance = null;
         let testLabels = ['Bài 1', 'Bài 2', 'Bài 3', 'Bài 4', 'Bài 5'];
-        let testScores = [7.5, 8.5, 9.0, 8.5, 9.5]; // Mock data ban đầu
+        let testScores = [7.5, 8.5, 9.0, 8.5, 9.5]; 
         let quitCount = 0;
 
         function initChart() {
             const ctx = document.getElementById('scoreChart').getContext('2d');
-            
-            // Gradient fill cho line chart
             let gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); // Blue-500
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); 
             gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
             scoreChartInstance = new Chart(ctx, {
@@ -837,7 +757,7 @@
                     datasets: [{
                         label: 'Điểm số',
                         data: testScores,
-                        borderColor: '#3b82f6', // Nét xanh
+                        borderColor: '#3b82f6', 
                         backgroundColor: gradient,
                         borderWidth: 3,
                         pointBackgroundColor: '#ffffff',
@@ -846,7 +766,7 @@
                         pointRadius: 5,
                         pointHoverRadius: 7,
                         fill: true,
-                        tension: 0.3 // Làm cong đường nối
+                        tension: 0.3 
                     }]
                 },
                 options: {
@@ -856,18 +776,10 @@
                         y: {
                             min: 0,
                             max: 10,
-                            grid: {
-                                color: '#f1f5f9', // Lưới mờ nhạt
-                            },
-                            ticks: {
-                                stepSize: 2
-                            }
+                            grid: { color: '#f1f5f9' },
+                            ticks: { stepSize: 2 }
                         },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
+                        x: { grid: { display: false } }
                     },
                     plugins: {
                         legend: { display: false },
@@ -878,9 +790,7 @@
                             padding: 10,
                             displayColors: false,
                             callbacks: {
-                                label: function(context) {
-                                    return 'Điểm: ' + context.parsed.y;
-                                }
+                                label: function(context) { return 'Điểm: ' + context.parsed.y; }
                             }
                         }
                     }
@@ -899,23 +809,18 @@
             document.getElementById('stat-quit-count').innerText = quitCount;
         }
 
-        // Nút giả lập bỏ thi
         function simulateQuitTest() {
             if(!chartInitialized) return;
-
-            // Hỏi xác nhận
-            let confirmQuit = confirm("Hành động này mô phỏng việc bạn đang làm bài thi nhưng thoát ra giữa chừng. Hệ thống sẽ tự động chấm điểm dựa trên số câu đã chọn (Ví dụ: 2.5 điểm) và LƯU VĨNH VIỄN vào biểu đồ. Bạn có chắc chắn muốn bỏ cuộc?");
+            let confirmQuit = confirm("Hành động này mô phỏng việc bạn đang làm bài thi nhưng thoát ra giữa chừng. Hệ thống sẽ tự động chấm điểm thấp và LƯU VĨNH VIỄN vào biểu đồ. Chắc chắn bỏ cuộc?");
             
             if (confirmQuit) {
                 quitCount++;
                 let newTestNumber = testScores.length + 1;
-                let quitScore = (Math.random() * 2 + 1).toFixed(1); // Random điểm liệt từ 1 - 3
+                let quitScore = (Math.random() * 2 + 1).toFixed(1); 
 
-                // Thêm data vào chart
                 testLabels.push('Bài ' + newTestNumber + '\n(Bỏ cuộc)');
                 testScores.push(parseFloat(quitScore));
 
-                // Thay đổi màu điểm này thành Đỏ để nhấn mạnh sự tụt dốc
                 let pointColors = scoreChartInstance.data.datasets[0].pointBackgroundColor;
                 let borderColors = scoreChartInstance.data.datasets[0].pointBorderColor;
                 
@@ -924,35 +829,15 @@
                     borderColors = new Array(testScores.length - 1).fill('#3b82f6');
                 }
                 
-                pointColors.push('#ef4444'); // Đỏ
-                borderColors.push('#b91c1c'); // Đỏ sậm
+                pointColors.push('#ef4444'); 
+                borderColors.push('#b91c1c'); 
 
                 scoreChartInstance.data.datasets[0].pointBackgroundColor = pointColors;
                 scoreChartInstance.data.datasets[0].pointBorderColor = borderColors;
 
-                // Cập nhật biểu đồ
                 scoreChartInstance.update();
                 updateStats();
             }
-        }
-
-        // ---- LOGIC BẢO MẬT ADMIN 4 LỚP ----
-        function promptAdminLogin() {
-            let p1 = prompt("[Admin Layer 1] Nhập Password 1:");
-            if(p1 !== '13122008') { alert("Sai mật khẩu lớp 1!"); return; }
-            
-            let p2 = prompt("[Admin Layer 2] Nhập Password 2:");
-            if(p2 !== '01052008') { alert("Sai mật khẩu lớp 2!"); return; }
-            
-            let p3 = prompt("[Admin Layer 3] Nhập Password 3:");
-            if(p3 !== '131313') { alert("Sai mật khẩu lớp 3!"); return; }
-            
-            let p4 = prompt("[Admin Layer 4] Nhập Password cuối:");
-            if(p4 !== '12A4') { alert("Sai mật khẩu lớp cuối!"); return; }
-
-            alert("Xác thực Admin thành công!");
-            dashboardView.classList.add('hidden-layout');
-            adminView.classList.remove('hidden-layout');
         }
 
     </script>
