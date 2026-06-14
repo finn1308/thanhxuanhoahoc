@@ -1124,6 +1124,235 @@
 
         const defaultDocsData = []; 
 
+        // ================= CÁC HÀM XỬ LÝ GIAO DIỆN CÒN THIẾU =================
+        // Định nghĩa các khối giao diện (Views)
+        const views = {
+            landing: document.getElementById('landing-view'),
+            mockExams: document.getElementById('mock-exams-view'),
+            examTaking: document.getElementById('exam-taking-view'),
+            eventDiscovery: document.getElementById('event-discovery-view'),
+            subject: document.getElementById('subject-view'),
+            documentLibrary: document.getElementById('document-library-view'),
+            dashboard: document.getElementById('dashboard-view'),
+            eventRoom: document.getElementById('event-room-view'),
+            allFolders: document.getElementById('all-folders-view'),
+            pdfViewer: document.getElementById('pdf-viewer-view')
+        };
+
+        // Hàm ẩn tất cả giao diện
+        window.hideAllViews = function() {
+            for (let key in views) {
+                if (views[key]) views[key].classList.add('hidden-layout');
+            }
+            // Dừng iframe PDF nếu đang mở
+            const pdfContainer = document.getElementById('pdf-content-area');
+            if(pdfContainer) pdfContainer.innerHTML = '';
+        }
+
+        // Quay lại trang chủ
+        window.backToHome = function() {
+            window.hideAllViews();
+            if(views.landing) views.landing.classList.remove('hidden-layout');
+        }
+
+        // Mở màn hình Dashboard
+        window.openDashboard = function() {
+            if(!isLoggedIn) { window.openLoginModal(); return; }
+            window.hideAllViews();
+            if(views.dashboard) views.dashboard.classList.remove('hidden-layout');
+            window.switchDashboardTab('tong-quan'); // Mặc định mở tab tổng quan
+            initChart(); // Khởi tạo đồ thị nỗ lực học tập
+        }
+
+        // Chuyển đổi các tab trong Dashboard
+        window.switchDashboardTab = function(tabId) {
+            // Ẩn tất cả nội dung tab
+            ['tong-quan', 'su-kien', 'thong-ke', 'admin-panel'].forEach(id => {
+                const el = document.getElementById(`tab-content-${id}`);
+                if(el) {
+                    el.classList.add('hidden-layout');
+                    el.classList.remove('block');
+                }
+            });
+
+            // Xóa highlight tất cả các nút
+            ['tong-quan', 'su-kien', 'thong-ke', 'admin-panel'].forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                if(btn) {
+                    btn.className = btn.className.replace('bg-[#facc15] text-[#854d0e] shadow-sm', 'text-gray-600 hover:bg-blue-50');
+                    if(id === 'admin-panel' && isAdmin()) {
+                       btn.className = btn.className.replace('text-gray-600 hover:bg-blue-50', 'text-red-600 hover:bg-red-50 border border-red-100');
+                    }
+                }
+            });
+
+            // Hiện tab được chọn
+            const selectedEl = document.getElementById(`tab-content-${tabId}`);
+            if(selectedEl) {
+                selectedEl.classList.remove('hidden-layout');
+                selectedEl.classList.add('block');
+            }
+
+            // Highlight nút được chọn (trừ admin panel để giữ màu đỏ)
+            const selectedBtn = document.getElementById(`tab-${tabId}`);
+            if(selectedBtn && tabId !== 'admin-panel') {
+                selectedBtn.className = selectedBtn.className.replace('text-gray-600 hover:bg-blue-50', 'bg-[#facc15] text-[#854d0e] shadow-sm');
+            }
+        }
+
+        // Mở thư viện tài liệu
+        window.openDocumentLibrary = function() {
+            window.hideAllViews();
+            if(views.documentLibrary) views.documentLibrary.classList.remove('hidden-layout');
+            window.filterDocuments('Tất cả');
+        }
+
+        // Mở trang môn học
+        window.openSubjectPage = function(subjectName) {
+            window.hideAllViews();
+            if(views.subject) views.subject.classList.remove('hidden-layout');
+            const title = document.getElementById('subject-title');
+            if(title) title.innerText = subjectName;
+        }
+
+        // Xem tất cả thư mục
+        window.openAllFoldersView = function() {
+            window.hideAllViews();
+            if(views.allFolders) views.allFolders.classList.remove('hidden-layout');
+        }
+
+        // Đóng về dashboard
+        window.closeToDashboard = function() {
+            window.openDashboard();
+        }
+
+        // Cập nhật điểm mục tiêu (slider UI)
+        window.updateTargetScore = function(val) {
+            const display = document.getElementById('display-target-score');
+            if(display) display.innerText = val > 0 ? val : '?';
+            const plus = document.getElementById('target-score-plus');
+            if(plus) plus.classList.toggle('hidden', val <= 0);
+        }
+
+        // Lưu điểm mục tiêu lên Firebase
+        window.saveTargetScoreToDB = async function(val) {
+            if(!isLoggedIn || !currentUserUid) return;
+            try {
+                 await updateDoc(doc(db, 'artifacts', appId, 'users', currentUserUid, 'profile', 'info'), { targetScore: parseFloat(val) });
+            } catch(e) { console.error(e); }
+        }
+
+        // Tính ngày đếm ngược và lưu
+        window.calculateAndSaveCountdown = async function(dateStr, saveToDb = true) {
+            if(!dateStr) return;
+            const targetDate = new Date(dateStr);
+            const today = new Date();
+            const diffTime = targetDate - today;
+            let displayHTML = '';
+            let navText = '';
+
+            if (diffTime < 0) {
+                displayHTML = `<span class="text-xl font-bold text-red-300">Kỳ thi đã qua</span>`;
+                navText = `Đã thi`;
+            } else {
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                displayHTML = `<span class="text-6xl font-black text-[#facc15]">${diffDays}</span> <span class="text-lg text-blue-200">ngày</span>`;
+                navText = `${diffDays} ngày`;
+            }
+            
+            const display = document.getElementById('countdown-display');
+            if(display) display.innerHTML = displayHTML;
+            
+            const navCountdown = document.getElementById('nav-countdown-days');
+            if(navCountdown) navCountdown.innerText = navText;
+
+            if(saveToDb && isLoggedIn && currentUserUid) {
+                try {
+                    await updateDoc(doc(db, 'artifacts', appId, 'users', currentUserUid, 'profile', 'info'), { targetDate: dateStr });
+                } catch(e) { console.error(e); }
+            }
+        }
+
+        // Khởi tạo đồ thị điểm (Chart.js)
+        let scoreChartInstance = null;
+        function initChart() {
+            if(scoreChartInstance) return; // Chỉ tạo 1 lần
+            const ctx = document.getElementById('scoreChart');
+            if(!ctx) return;
+            scoreChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Điểm số',
+                        data: [],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#3b82f6',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 10 }
+                    }
+                }
+            });
+            // Cập nhật nếu đã có data
+            if(currentStats) updateStatsUI(currentStats);
+        }
+
+        // Giả lập chức năng Bỏ thi
+        window.simulateQuitTest = async function() {
+            if(!isLoggedIn || !currentUserUid || !currentStats) {
+                window.showMessage("Lỗi", "Vui lòng đăng nhập để sử dụng tính năng này.");
+                return;
+            }
+            window.showMessage("Giả lập", "Ghi nhận 1 lần bỏ cuộc vào hệ thống (Điểm = 0)?", true, async () => {
+                let labels = currentStats.testLabels || [];
+                let scores = currentStats.testScores || [];
+                let quitCount = (currentStats.quitCount || 0) + 1;
+                
+                labels.push('Bỏ cuộc');
+                scores.push(0);
+                
+                try {
+                    await updateDoc(doc(db, 'artifacts', appId, 'users', currentUserUid, 'stats', 'data'), { 
+                        testLabels: labels, 
+                        testScores: scores,
+                        quitCount: quitCount
+                    });
+                    window.showMessage("Thành công", "Đã ghi nhận dữ liệu bỏ cuộc lên Firebase.");
+                } catch (e) { console.error(e); }
+            });
+        }
+
+        // Đồng hồ đếm thời gian học giả lập
+        let studyInterval;
+        function startStudyTimer() {
+            let minutes = 0;
+            if(studyInterval) clearInterval(studyInterval);
+            studyInterval = setInterval(() => {
+                minutes++;
+                const displays = document.querySelectorAll('.study-timer-display');
+                displays.forEach(el => el.innerText = `Hôm nay: ${minutes.toString().padStart(2, '0')}:00 / 30:00`);
+                // Nếu học đủ 30p, thắp sáng ngọn lửa streak
+                if(minutes >= 30) {
+                     document.querySelectorAll('.nav-fire-icon').forEach(icon => icon.classList.add('text-orange-500'));
+                     document.querySelectorAll('.nav-fire-icon').forEach(icon => icon.classList.remove('text-gray-300'));
+                }
+            }, 60000); // Tăng mỗi phút
+        }
+
+        // ================= KẾT THÚC CÁC HÀM BỔ SUNG =================
+
         async function initFirebase() {
             try {
                 const isUsingPersonalFirebase = myFirebaseConfig.apiKey && myFirebaseConfig.apiKey.length > 0;
@@ -1306,7 +1535,7 @@
         const cardColors = ['bg-[#5a8c2f]', 'bg-[#eab308]', 'bg-[#0ea5e9]', 'bg-[#ef4444]', 'bg-[#8b5cf6]', 'bg-[#f97316]', 'bg-[#06b6d4]'];
         
         window.openEventDiscovery = function() {
-            hideAllViews();
+            window.hideAllViews();
             const el = document.getElementById('event-discovery-view');
             if(el) {
                 el.classList.remove('hidden-layout');
@@ -1489,7 +1718,7 @@
         }
 
         window.openEventRoom = function(eventTitle) {
-            hideAllViews(); 
+            window.hideAllViews(); 
             const roomView = document.getElementById('event-room-view');
             if(roomView) roomView.classList.remove('hidden-layout');
             
@@ -1755,14 +1984,14 @@
             let query = event.target.value.toLowerCase();
             const libView = document.getElementById('document-library-view');
             if(libView && libView.classList.contains('hidden-layout')) {
-                hideAllViews(); libView.classList.remove('hidden-layout');
+                window.hideAllViews(); libView.classList.remove('hidden-layout');
             }
             renderDocumentList(query.trim() === '' ? allDocs : allDocs.filter(d => d.title.toLowerCase().includes(query)));
         }
 
         window.openPDFViewer = function(encodedObj) {
             const docObj = JSON.parse(decodeURIComponent(encodedObj));
-            hideAllViews(); 
+            window.hideAllViews(); 
             const pdfView = document.getElementById('pdf-viewer-view');
             if(pdfView) pdfView.classList.remove('hidden-layout');
             
@@ -1832,12 +2061,12 @@
 
         window.openMockExams = function() {
             if(!isLoggedIn) { window.openLoginModal(); return; }
-            hideAllViews();
+            window.hideAllViews();
             if(views.mockExams) views.mockExams.classList.remove('hidden-layout');
         }
 
         window.enterExamRoom = function(title, code) {
-            hideAllViews();
+            window.hideAllViews();
             if(views.examTaking) views.examTaking.classList.remove('hidden-layout');
             
             const titleEl = document.getElementById('exam-header-title');
