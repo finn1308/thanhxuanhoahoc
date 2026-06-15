@@ -95,24 +95,17 @@
         .admin-only.show-admin { display: flex !important; }
 
         /* Custom Checkbox/Radio cho Đề Thi */
-        .exam-radio:checked + div {
-            background-color: #eff6ff;
-            border-color: #3b82f6;
-            color: #1e3a8a;
-            font-weight: bold;
-        }
-        .exam-radio:checked + div .letter-circle {
+        .bubble-radio:checked + div {
             background-color: #3b82f6;
             color: white;
             border-color: #3b82f6;
         }
-        .tf-radio:checked + div {
-            background-color: #3b82f6;
-            border-color: #3b82f6;
+        .bubble-radio-tf:checked + div.bg-tf-d { background-color: #10b981; color: white; border-color: #10b981; }
+        .bubble-radio-tf:checked + div.bg-tf-s { background-color: #ef4444; color: white; border-color: #ef4444; }
+
+        .no-select {
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
         }
-        .tf-radio:checked + div i { display: block; }
-        .part-tab-active { color: #ef4444; border-color: #ef4444; }
-        .page-pill-active { background-color: #3b82f6; color: white; border-color: #3b82f6; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -202,7 +195,6 @@
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Bài tập tính toán từ cơ bản đến nâng cao (VDC).</p>
                 </div>
                 
-                <!-- Sửa Nút Luyện Đề Thi Thử để link sang màn hình Chọn Đề -->
                 <div onclick="window.openMockExams()" class="bg-[#8b5cf6] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
                     <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-file-signature"></i></div>
                     <h3 class="font-bold text-lg mb-2 leading-tight">Luyện Đề<br>Thi Thử</h3>
@@ -353,7 +345,6 @@
         </nav>
 
         <div class="container mx-auto px-6 py-8 flex-grow flex gap-6 items-start">
-            <!-- Sidebar Lọc -->
             <div class="w-64 bg-white border border-gray-200 rounded-2xl p-5 flex-shrink-0 sticky top-24 hidden lg:block">
                 <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
                     <h3 class="font-bold text-gray-700 flex items-center gap-2"><i class="fa-solid fa-sliders text-gray-400"></i> Bộ lọc</h3>
@@ -846,37 +837,31 @@
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-cyan-500">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                 <div class="w-10 h-10 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-file-pdf"></i></div>
-                                <div><h3 class="font-bold text-gray-800">Đăng Tài Liệu / Phòng Thi Mới</h3></div>
+                                <div><h3 class="font-bold text-gray-800">Đăng Tài Liệu Học Tập Mới</h3></div>
                             </div>
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tên Tài Liệu</label>
-                                    <input type="text" id="admin-doc-title" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition font-medium text-sm">
+                                    <input type="text" id="admin-doc-title" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none transition text-sm">
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Phân Loại (Lớp/Khối)</label>
-                                        <select id="admin-doc-class" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
+                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Phân Loại</label>
+                                        <select id="admin-doc-class" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none text-sm">
                                             <option value="Lớp 12">Lớp 12</option>
                                             <option value="Lớp 11">Lớp 11</option>
                                             <option value="Lớp 10">Lớp 10</option>
-                                            <option value="ĐGNL">ĐGNL</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Thư Mục / Sự Kiện</label>
-                                        <input type="text" list="folder-list" id="admin-doc-folder" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
-                                        <datalist id="folder-list">
-                                            <option value="Kho đề thi thử 2026">
-                                            <option value="Chuyên đề Hóa Hữu Cơ">
-                                            <option value="Chuyên đề Hóa Vô Cơ">
-                                            <option value="Kiến thức trọng tâm">
-                                        </datalist>
+                                        <input type="text" list="folder-list" id="admin-doc-folder" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none text-sm">
+                                        <datalist id="folder-list"><option value="Chuyên đề Hóa Hữu Cơ"><option value="Chuyên đề Hóa Vô Cơ"></datalist>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Link PDF (Nếu có)</label>
-                                    <input type="url" id="admin-doc-url" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
+                                    <input type="url" id="admin-doc-url" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none text-sm">
                                 </div>
                                 <button onclick="window.adminCreateDocument()" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
                                     <i class="fa-solid fa-upload"></i> Đăng Tài Liệu
@@ -895,7 +880,7 @@
                         </div>
                     </div>
 
-                    <!-- Quản lý Đề Thi Trắc Nghiệm (CẬP NHẬT: FILE UPLOAD VÀ BAREM 28 DÒNG) -->
+                    <!-- Quản lý Đề Thi Trắc Nghiệm (Split Screen) -->
                     <div class="grid grid-cols-1 gap-8 mb-8">
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-purple-500">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
@@ -910,16 +895,16 @@
                                     </div>
                                     <div>
                                         <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Nguồn Đề Thi (PDF)</label>
-                                        <!-- Tùy chọn 2 phương thức -->
+                                        <!-- Tùy chọn 2 phương thức tải tài liệu -->
                                         <div class="flex gap-4 mb-2">
                                             <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-700 font-medium">
-                                                <input type="radio" name="pdfSource" value="link" checked onchange="window.togglePdfSource()" class="accent-purple-600 w-4 h-4"> Dùng Link (URL)
+                                                <input type="radio" name="pdfSource" value="link" checked onchange="window.togglePdfSource()" class="accent-purple-600 w-4 h-4"> Dùng Link Google Drive
                                             </label>
                                             <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-700 font-medium">
-                                                <input type="radio" name="pdfSource" value="upload" onchange="window.togglePdfSource()" class="accent-purple-600 w-4 h-4"> Tải file PDF lên
+                                                <input type="radio" name="pdfSource" value="upload" onchange="window.togglePdfSource()" class="accent-purple-600 w-4 h-4"> Tải tệp PDF từ máy
                                             </label>
                                         </div>
-                                        <input type="url" id="admin-exam-url" placeholder="Nhập link Google Drive (Hệ thống tự động fix link bị lỗi)..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-purple-500 outline-none transition text-sm">
+                                        <input type="url" id="admin-exam-url" placeholder="Nhập link Google Drive tại đây..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-purple-500 outline-none transition text-sm">
                                         <input type="file" id="admin-exam-file" accept="application/pdf" class="hidden w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-1.5 focus:ring-2 focus:ring-purple-500 outline-none transition text-sm">
                                     </div>
                                 </div>
@@ -933,13 +918,12 @@
                                     <textarea id="admin-exam-keys" rows="8" placeholder="A&#10;B&#10;C&#10;...&#10;ĐĐSĐ&#10;SĐSĐ&#10;...&#10;15.5&#10;..." class="w-full bg-white border border-blue-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-mono leading-relaxed"></textarea>
                                 </div>
 
-                                <button onclick="window.adminCreateExam()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
+                                <button id="btn-submit-exam-admin" onclick="window.adminCreateExam()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
                                     <i class="fa-solid fa-cloud-arrow-up"></i> Đăng Đề Thi Lên Hệ Thống
                                 </button>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -1119,7 +1103,6 @@
 
         const defaultDocsData = []; 
 
-        // ================= CÁC HÀM XỬ LÝ GIAO DIỆN CÒN THIẾU =================
         const views = {
             landing: document.getElementById('landing-view'),
             mockExams: document.getElementById('mock-exams-view'),
@@ -2017,7 +2000,7 @@
         }
 
         // ================= CẬP NHẬT GIAO DIỆN & LOGIC CHO PHẦN TẠO ĐỀ THI =================
-        window.uploadedPdfBase64 = null; // Lưu trữ file dạng base64 nếu tải từ máy
+        window.uploadedPdfBase64 = null; 
 
         // Nút toggle chọn Link / Tải file
         window.togglePdfSource = function() {
@@ -2033,61 +2016,54 @@
             }
         }
 
-        // Fix lỗi link Google Drive không hiển thị iframe được
-        function fixGoogleDriveLink(url) {
-            if (!url) return url;
-            // Thay link .../view?usp=sharing thành .../preview
-            let match = url.match(/\/d\/(.+?)\//);
-            if (match && match[1] && url.includes('drive.google.com/file/d/')) {
-                return `https://drive.google.com/file/d/${match[1]}/preview`;
-            }
-            return url;
-        }
-
-        // Cập nhật lại Logic Tạo Đề Thi Trắc Nghiệm - BAREM 28 DÒNG
+        // Cập nhật lại Logic Tạo Đề Thi Trắc Nghiệm - FIX LỖI FIREBASE NESTED ARRAY
         window.adminCreateExam = async function() {
             if(!isAdmin()) { window.showMessage("Lỗi", "Bạn không có quyền."); return; }
             
-            const btnUpload = document.querySelector('#tab-content-admin-panel button');
+            const btnUpload = document.getElementById('btn-submit-exam-admin');
             const title = document.getElementById('admin-exam-title').value.trim();
             const keysText = document.getElementById('admin-exam-keys').value.trim();
 
-            // Xác định nguồn PDF
             let finalUrl = '';
             const source = document.querySelector('input[name="pdfSource"]:checked').value;
             if(source === 'link') {
                 const rawUrl = document.getElementById('admin-exam-url').value.trim();
                 if(!rawUrl) { window.showMessage("Lỗi", "Vui lòng nhập Link PDF."); return; }
-                finalUrl = fixGoogleDriveLink(rawUrl);
+                // Tự động chuyển đổi link drive/view thành drive/preview để nhúng iframe không bị lỗi
+                let match = rawUrl.match(/\/d\/(.+?)\//);
+                if (match && match[1] && rawUrl.includes('drive.google.com/file/d/')) {
+                    finalUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
+                } else {
+                    finalUrl = rawUrl;
+                }
             } else {
-                if(!window.uploadedPdfBase64) { window.showMessage("Lỗi", "Vui lòng tải lên file PDF."); return; }
+                if(!window.uploadedPdfBase64) { window.showMessage("Lỗi", "Vui lòng chọn tệp PDF tải lên."); return; }
                 finalUrl = window.uploadedPdfBase64;
             }
 
             if(!title || !keysText) { window.showMessage("Lỗi", "Vui lòng nhập đủ Tên Đề Thi và Khóa đáp án."); return; }
 
-            // Bắt đầu xử lý 28 dòng
             const lines = keysText.split('\n').map(l => l.trim().toUpperCase()).filter(l => l !== '');
             if(lines.length < 28) {
                 window.showMessage("Lỗi dữ liệu", `Dữ liệu dán vào chỉ có ${lines.length} dòng. Yêu cầu đúng 28 dòng (18 dòng Phần 1, 4 dòng Phần 2, 6 dòng Phần 3).`);
                 return;
             }
 
-            // Phần 1: Dòng 1-18 (Index 0-17) - Chỉ lấy ký tự đầu tiên
+            // Phần 1: Dòng 1-18 (Index 0-17)
             const p1Keys = lines.slice(0, 18).map(ans => ans.charAt(0)); 
             
-            // Phần 2: Dòng 19-22 (Index 18-21) - 4 câu, mỗi câu 4 ý (VD: DDSD)
+            // Phần 2: Dòng 19-22 (Index 18-21) 
+            // QUAN TRỌNG: Firebase không cho phép lưu mảng lồng mảng (VD: [['Đ','S'],...]). 
+            // Cần chuyển thành danh sách các chuỗi (VD: ['ĐĐSĐ', 'SSSS', ...]) để không bị lỗi catch.
             const p2Keys = [];
             for(let i = 0; i < 4; i++) {
-                let str = lines[18 + i].replace(/D/g, 'Đ'); // Đảm bảo D thành Đ
-                // Lấy 4 ký tự liền nhau (S hoặc Đ)
-                let group = [
-                    str.charAt(0) === 'S' ? 'S' : 'Đ',
-                    str.charAt(1) === 'S' ? 'S' : 'Đ',
-                    str.charAt(2) === 'S' ? 'S' : 'Đ',
-                    str.charAt(3) === 'S' ? 'S' : 'Đ'
-                ];
-                p2Keys.push(group);
+                let str = lines[18 + i].replace(/D/g, 'Đ'); 
+                // Đảm bảo lấy đúng 4 ký tự Đ/S, tránh lỗi undefined nếu người dùng copy thiếu
+                let s0 = (str.charAt(0) === 'S') ? 'S' : 'Đ';
+                let s1 = (str.charAt(1) === 'S') ? 'S' : 'Đ';
+                let s2 = (str.charAt(2) === 'S') ? 'S' : 'Đ';
+                let s3 = (str.charAt(3) === 'S') ? 'S' : 'Đ';
+                p2Keys.push(s0 + s1 + s2 + s3); // Đẩy chuỗi vào mảng
             }
 
             // Phần 3: Dòng 23-28 (Index 22-27)
@@ -2095,7 +2071,7 @@
 
             const parsedKeys = {
                 p1: p1Keys,
-                p2: p2Keys,
+                p2: p2Keys, // Đã fix thành mảng chuỗi
                 p3: p3Keys
             };
 
@@ -2113,7 +2089,6 @@
                 
                 window.showMessage("Thành công", `Đã tạo đề thi "${title}" lên hệ thống kèm barem chấm điểm.`);
                 
-                // Reset Form
                 document.getElementById('admin-exam-title').value = ''; 
                 document.getElementById('admin-exam-keys').value = '';
                 document.getElementById('admin-exam-url').value = '';
@@ -2156,15 +2131,7 @@
                     `;
                 });
                 const container = document.getElementById('public-exams-grid');
-                if(container) {
-                    if (html === '') {
-                        container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500">Chưa có đề thi nào trên hệ thống. (Vào trang Quản trị viên để thêm đề)</div>';
-                    } else {
-                        // Nối thêm các đề thi cứng có sẵn vào đầu
-                        const existingStaticHtml = container.innerHTML.includes('Đề thi thử môn Hóa Lớp 12') ? container.innerHTML : '';
-                        container.innerHTML = html; 
-                    }
-                }
+                if(container) container.innerHTML = html === '' ? '<div class="col-span-full text-center py-10 text-gray-500">Chưa có đề thi nào trên hệ thống.</div>' : html;
             });
         }
 
@@ -2185,7 +2152,7 @@
             if(titleEl) titleEl.innerText = currentExamConfig.title;
             
             const pdfIframe = document.getElementById('exam-pdf-iframe');
-            if(pdfIframe) pdfIframe.src = currentExamConfig.pdfUrl; // Nếu là file upload thì là base64 (sẽ hơi mất t/g load), nếu là link Google Drive thì đã được fix sẵn
+            if(pdfIframe) pdfIframe.src = currentExamConfig.pdfUrl; 
             
             renderAnswerSheet();
 
@@ -2275,16 +2242,18 @@
                 let score = 0;
                 const keys = currentExamConfig.keys;
 
-                // Tính Phần 1 (0.25đ / câu)
+                // Tính Phần 1
                 for(let i=0; i<18; i++) { 
                     if(userAnswers.p1[i] === keys.p1[i]) score += 0.25; 
                 }
                 
-                // Tính Phần 2 (Tối đa 1đ / câu)
+                // Tính Phần 2 
                 for(let i=0; i<4; i++) {
                     let correctCount = 0;
+                    const p2RealAnsStr = keys.p2[i]; // Lấy ra chuỗi 4 ký tự lưu trên DB (VD: 'ĐĐSĐ')
+                    
                     for(let j=0; j<4; j++) { 
-                        if(userAnswers.p2[i][j] === keys.p2[i][j]) correctCount++; 
+                        if(userAnswers.p2[i][j] === p2RealAnsStr.charAt(j)) correctCount++; 
                     }
                     if(correctCount === 4) score += 1.0; 
                     else if(correctCount === 3) score += 0.5; 
@@ -2292,10 +2261,10 @@
                     else if(correctCount === 1) score += 0.1;
                 }
                 
-                // Tính Phần 3 (0.25đ / câu) - KHÔNG PHÂN BIỆT HOA THƯỜNG
+                // Tính Phần 3 
                 for(let i=0; i<6; i++) {
-                    const uAns = userAnswers.p3[i].toLowerCase();
-                    const kAns = (keys.p3[i] || '').toLowerCase();
+                    const uAns = (userAnswers.p3[i] || '').toString().toLowerCase();
+                    const kAns = (keys.p3[i] || '').toString().toLowerCase();
                     if(uAns !== '' && uAns === kAns) score += 0.25;
                 }
 
@@ -2312,7 +2281,6 @@
                     } catch (e) { console.error(e); }
                 }
                 
-                // Tự động đóng phòng thi sau 3 giây
                 setTimeout(() => {
                     const pdfIframe = document.getElementById('exam-pdf-iframe');
                     if(pdfIframe) pdfIframe.src = ''; 
