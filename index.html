@@ -84,16 +84,12 @@
             transform: translateY(-2px);
         }
 
-        .pdf-toolbar-btn {
-            @apply text-gray-500 hover:text-blue-600 hover:bg-blue-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer;
-        }
-        
         .folder-list-scroll::-webkit-scrollbar { height: 4px; }
         
         .admin-only { display: none !important; }
         .admin-only.show-admin { display: flex !important; }
 
-        /* Custom Checkbox/Radio cho Đề Thi */
+        /* Custom Checkbox/Radio */
         .bubble-radio:checked + div {
             background-color: #3b82f6;
             color: white;
@@ -165,12 +161,12 @@
                         <span class="text-xs font-semibold">Oxygen</span>
                         <span class="text-[10px]">15.999</span>
                     </div>
-                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chemistry-flask-5380681-4497615.png" alt="Sticker Hóa học" class="w-64 h-64 object-contain z-10 animate-[bounce_4s_infinite]">
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chemistry-flask-5380681-4497615.png" alt="Sticker Hóa học" class="w-64 h-64 object-contain z-10 animate-[bounce_4s_infinite]" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2QxZDVkYiIvPjwvc3ZnPg=='">
                 </div>
             </div>
         </section>
 
-        <!-- Danh mục lưới mới -->
+        <!-- Danh mục lưới -->
         <section class="container mx-auto px-4 -mt-10 relative z-20">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center">
                 <div onclick="window.openSubjectPage('Hóa Hữu Cơ')" class="bg-[#3b82f6] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
@@ -244,7 +240,7 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 3: TRANG NỘI DUNG MÔN HỌC ================= -->
+    <!-- ================= VIEW 3: TRANG NỘI DUNG MÔN HỌC (DEMO) ================= -->
     <div id="subject-view" class="hidden-layout bg-white min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
             <button onclick="window.backToHome()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition w-[200px]">
@@ -300,7 +296,6 @@
                     <div class="sticky top-24">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="font-bold text-gray-800 text-lg">Kho thư mục</h3>
-                            <button onclick="window.openAllFoldersView()" class="text-xs font-bold text-blue-600 hover:underline">Xem tất cả <i class="fa-solid fa-angles-right text-[10px]"></i></button>
                         </div>
                         <div class="space-y-3">
                             <div onclick="window.selectFolder('Kho đề thi thử 2026')" class="bg-white border border-gray-200 p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-blue-50 transition shadow-sm">
@@ -338,7 +333,6 @@
             <div class="flex items-center justify-end gap-3 w-[200px]">
                 <div class="relative w-full">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                    <!-- Thanh tìm kiếm đã tích hợp OnKeyUp -->
                     <input type="text" id="exam-search-input" onkeyup="window.renderFilteredExams()" placeholder="Tìm kiếm bài tập..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition border border-transparent focus:border-blue-300">
                 </div>
             </div>
@@ -391,7 +385,7 @@
         </div>
     </div>
 
-    <!-- ================= VIEW: GIAO DIỆN LÀM BÀI THI MỚI (SPLIT SCREEN PDF & BUBBLE SHEET) ================= -->
+    <!-- ================= VIEW: GIAO DIỆN LÀM BÀI THI MỚI (SPLIT SCREEN) ================= -->
     <div id="exam-taking-view" class="hidden-layout bg-[#f8fafc] h-screen font-inter flex flex-col overflow-hidden">
         <!-- Top Bar -->
         <nav class="bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center z-40 shadow-sm flex-shrink-0">
@@ -430,40 +424,9 @@
                 <div class="bg-blue-50 text-xs font-bold text-blue-800 px-4 py-1 text-center border-b border-blue-200 uppercase tracking-widest sticky top-0 z-10 shadow-sm">
                     Phiếu Trả Lời
                 </div>
-                
-                <div class="p-5 pb-20 space-y-8">
-                    <!-- Phần 1 -->
-                    <div>
-                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
-                            <h3 class="font-bold text-gray-800 text-lg">Phần 1: Trắc nghiệm (18 câu)</h3>
-                            <span class="text-[10px] text-gray-400 font-medium">0.25đ / câu</span>
-                        </div>
-                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-3" id="answer-sheet-p1">
-                            <!-- JS Render P1 -->
-                        </div>
-                    </div>
-
-                    <!-- Phần 2 -->
-                    <div>
-                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
-                            <h3 class="font-bold text-gray-800 text-lg">Phần 2: Đúng / Sai (4 câu)</h3>
-                            <span class="text-[10px] text-gray-400 font-medium">Tối đa 1.0đ / câu</span>
-                        </div>
-                        <div class="space-y-5" id="answer-sheet-p2">
-                            <!-- JS Render P2 -->
-                        </div>
-                    </div>
-
-                    <!-- Phần 3 -->
-                    <div>
-                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
-                            <h3 class="font-bold text-gray-800 text-lg">Phần 3: Trả lời ngắn (6 câu)</h3>
-                            <span class="text-[10px] text-gray-400 font-medium">0.25đ / câu</span>
-                        </div>
-                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-3" id="answer-sheet-p3">
-                            <!-- JS Render P3 -->
-                        </div>
-                    </div>
+                <!-- Container chứa các câu hỏi sẽ được sinh động bằng JS -->
+                <div class="p-5 pb-20 space-y-8" id="answer-sheet-container">
+                    <!-- JS Render -->
                 </div>
             </div>
         </main>
@@ -492,7 +455,7 @@
             </div>
         </div>
 
-        <!-- Nháp Modal (Floating) -->
+        <!-- Nháp Modal -->
         <div id="scratchpad-overlay" class="hidden absolute top-20 left-10 z-50 bg-white border border-gray-200 rounded-2xl shadow-2xl w-[400px] h-[500px] flex flex-col overflow-hidden transform scale-95 transition-all opacity-0">
             <div class="flex justify-between items-center px-4 py-2 border-b border-gray-100 bg-gray-50 cursor-move" id="scratch-header">
                 <div class="flex items-center gap-3">
@@ -687,7 +650,7 @@
                         <div>
                             <h2 class="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">HOẠT ĐỘNG CÁ NHÂN</h2>
                             <h1 class="text-3xl font-extrabold text-gray-900 font-logo">Sự kiện đã tham gia</h1>
-                            <p class="text-sm text-gray-500 mt-2">Bấm vào thẻ để mở phòng thi tương ứng.</p>
+                            <p class="text-sm text-gray-500 mt-2">Bấm vào thẻ để mở phòng thi sự kiện.</p>
                         </div>
                         <button onclick="window.openEventDiscovery()" class="bg-[#f97316] hover:bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-sm">
                             <i class="fa-solid fa-plus"></i> Khám phá thêm
@@ -797,111 +760,63 @@
                         </div>
                     </div>
 
-                    <!-- Dòng 2: Quản lý Sự kiện -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-orange-500">
-                            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                                <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-calendar-plus"></i></div>
-                                <div><h3 class="font-bold text-gray-800">Tạo Sự Kiện Public</h3></div>
-                            </div>
-                            <div class="space-y-4">
+                    <!-- Dòng 2: Quản lý Sự kiện (Cập nhật mới) -->
+                    <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-orange-500 mb-8">
+                        <div class="flex flex-col lg:flex-row gap-8">
+                            <!-- Cột trái tạo sự kiện -->
+                            <div class="flex-1 space-y-4">
+                                <div class="flex items-center gap-3 mb-4 border-b border-gray-100 pb-4">
+                                    <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-calendar-plus"></i></div>
+                                    <div><h3 class="font-bold text-gray-800">Tạo Sự Kiện Public (Có thi đấu)</h3></div>
+                                </div>
+                                
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tên Sự Kiện</label>
                                     <input type="text" id="admin-event-title" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition font-medium text-sm">
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
-                                    <div><label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Bắt đầu</label><input type="date" id="admin-event-start" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm"></div>
-                                    <div><label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Kết thúc</label><input type="date" id="admin-event-end" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm"></div>
+                                    <div><label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Bắt đầu</label><input type="date" id="admin-event-start" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none text-sm"></div>
+                                    <div><label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Kết thúc</label><input type="date" id="admin-event-end" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none text-sm"></div>
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Nội dung</label>
-                                    <textarea id="admin-event-desc" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none transition text-sm h-16 resize-none"></textarea>
+                                    <textarea id="admin-event-desc" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none text-sm h-16 resize-none"></textarea>
                                 </div>
-                                <button onclick="window.adminCreateEvent()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
-                                    <i class="fa-solid fa-paper-plane"></i> Đăng Sự Kiện
+
+                                <!-- THÊM PHẦN THI ĐỘNG (1 ĐẾN 10) -->
+                                <div class="mt-6 pt-4 border-t border-dashed border-gray-200">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h4 class="font-bold text-sm text-gray-800"><i class="fa-solid fa-layer-group text-orange-500"></i> Các vòng thi trong sự kiện</h4>
+                                        <button onclick="window.addEventSubExamBlock()" class="text-xs bg-orange-100 text-orange-600 font-bold px-3 py-1.5 rounded-lg hover:bg-orange-200 transition">+ Thêm vòng thi (Tối đa 10)</button>
+                                    </div>
+                                    
+                                    <div id="event-subexams-container" class="space-y-4">
+                                        <!-- Khối vòng thi sinh bằng JS sẽ chèn vào đây -->
+                                    </div>
+                                </div>
+
+                                <button onclick="window.adminCreateEvent()" id="btn-submit-event" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-4">
+                                    <i class="fa-solid fa-paper-plane"></i> Đăng Sự Kiện & Các Bài Thi
                                 </button>
                             </div>
-                        </div>
-                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex flex-col">
-                            <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
-                                <div class="flex items-center gap-3">
+
+                            <!-- Cột phải danh sách sự kiện -->
+                            <div class="w-full lg:w-1/3 flex flex-col border-t lg:border-t-0 lg:border-l border-gray-100 pt-6 lg:pt-0 lg:pl-6">
+                                <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                     <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-list-check"></i></div>
                                     <div><h3 class="font-bold text-gray-800">Danh sách Sự Kiện</h3></div>
                                 </div>
+                                <div id="admin-events-list" class="space-y-3 flex-1 overflow-y-auto max-h-[500px] pr-2 folder-list-scroll"></div>
                             </div>
-                            <div id="admin-events-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll"></div>
                         </div>
                     </div>
 
-                    <!-- Dòng 3: Quản lý Tài liệu -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-cyan-500">
-                            <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                                <div class="w-10 h-10 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-file-pdf"></i></div>
-                                <div><h3 class="font-bold text-gray-800">Đăng Tài Liệu / Thư Viện</h3></div>
-                            </div>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tên Tài Liệu</label>
-                                    <input type="text" id="admin-doc-title" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition font-medium text-sm">
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Phân Loại (Lớp/Khối)</label>
-                                        <select id="admin-doc-class" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
-                                            <option value="Lớp 12">Lớp 12</option>
-                                            <option value="Lớp 11">Lớp 11</option>
-                                            <option value="Lớp 10">Lớp 10</option>
-                                            <option value="ĐGNL">ĐGNL</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Thư Mục / Sự Kiện</label>
-                                        <input type="text" list="folder-list" id="admin-doc-folder" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
-                                        <datalist id="folder-list">
-                                            <option value="Kho đề thi thử 2026">
-                                            <option value="Chuyên đề Hóa Hữu Cơ">
-                                            <option value="Chuyên đề Hóa Vô Cơ">
-                                            <option value="Kiến thức trọng tâm">
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Nguồn Tài Liệu (PDF)</label>
-                                    <div class="flex gap-4 mb-2">
-                                        <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-700 font-medium">
-                                            <input type="radio" name="pdfDocSource" value="link" checked onchange="window.togglePdfDocSource()" class="accent-cyan-600 w-4 h-4"> Link Drive
-                                        </label>
-                                        <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-700 font-medium">
-                                            <input type="radio" name="pdfDocSource" value="upload" onchange="window.togglePdfDocSource()" class="accent-cyan-600 w-4 h-4"> Tải File lên
-                                        </label>
-                                    </div>
-                                    <input type="url" id="admin-doc-url" placeholder="Nhập link Google Drive..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
-                                    <input type="file" id="admin-doc-file" accept="application/pdf" class="hidden w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-1.5 focus:ring-2 focus:ring-cyan-500 outline-none transition text-sm">
-                                </div>
-                                <button id="btn-submit-doc-admin" onclick="window.adminCreateDocument()" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
-                                    <i class="fa-solid fa-upload"></i> Đăng Tài Liệu
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm flex flex-col">
-                            <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-folder-open"></i></div>
-                                    <div><h3 class="font-bold text-gray-800">Kho Tài Liệu Public</h3></div>
-                                </div>
-                            </div>
-                            <div id="admin-docs-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll"></div>
-                        </div>
-                    </div>
-
-                    <!-- Dòng 4: Quản lý Đề Thi Trắc Nghiệm -->
+                    <!-- Dòng 3: Quản lý Đề Thi Thử (Giữ nguyên form cũ) -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-purple-500">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                 <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-file-circle-plus"></i></div>
-                                <div><h3 class="font-bold text-gray-800">Tạo Đề Thi Trắc Nghiệm (Tự Chấm)</h3></div>
+                                <div><h3 class="font-bold text-gray-800">Tạo Đề Thi Thử (Chuẩn cấu trúc)</h3></div>
                             </div>
                             <div class="space-y-4">
                                 <div>
@@ -909,7 +824,6 @@
                                     <input type="text" id="admin-exam-title" placeholder="VD: Đề thi thử số 1..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-purple-500 outline-none transition text-sm">
                                 </div>
 
-                                <!-- THÊM TAG BỘ LỌC VÀO ĐÂY ĐỂ HOẠT ĐỘNG CHUẨN VỚI FRONT-END -->
                                 <div class="grid grid-cols-3 gap-2">
                                     <div>
                                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Chương trình</label>
@@ -950,19 +864,15 @@
                                     <input type="file" id="admin-exam-file" accept="application/pdf" class="hidden w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-1.5 focus:ring-2 focus:ring-purple-500 outline-none transition text-sm">
                                 </div>
 
-                                <!-- THÊM LINK ĐÁP ÁN -->
                                 <div>
                                     <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Link Đáp án chi tiết (PDF hoặc Web)</label>
                                     <input type="url" id="admin-exam-solution-url" placeholder="https://..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-purple-500 outline-none transition text-sm">
                                 </div>
                                 
                                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4">
-                                    <label class="block text-sm font-bold text-blue-800 mb-2"><i class="fa-solid fa-key"></i> Dán cột đáp án từ Excel vào đây</label>
-                                    <p class="text-[11px] text-blue-600 mb-2 leading-relaxed">Hệ thống sẽ tự động đọc đúng <b>28 dòng</b> liên tiếp từ cột Excel:<br>
-                                    - <b>Dòng 1 đến 18:</b> Đáp án Phần 1 (A, B, C hoặc D)<br>
-                                    - <b>Dòng 19 đến 22:</b> Đáp án Phần 2. Nhập 4 ký tự (VD: <b>ĐĐSĐ</b> hoặc <b>DDSD</b>). Mỗi dòng là 1 câu.<br>
-                                    - <b>Dòng 23 đến 28:</b> Đáp án Phần 3 (Chữ hoặc số).</p>
-                                    <textarea id="admin-exam-keys" rows="6" placeholder="A&#10;B&#10;...&#10;ĐĐSĐ&#10;...&#10;15.5" class="w-full bg-white border border-blue-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-mono leading-relaxed"></textarea>
+                                    <label class="block text-sm font-bold text-blue-800 mb-2"><i class="fa-solid fa-key"></i> Dán cột đáp án từ Excel (28 dòng)</label>
+                                    <p class="text-[11px] text-blue-600 mb-2 leading-relaxed">Dòng 1-18: Trắc nghiệm | 19-22: Đúng Sai | 23-28: Ngắn</p>
+                                    <textarea id="admin-exam-keys" rows="4" placeholder="A&#10;B&#10;...&#10;ĐĐSĐ&#10;...&#10;15.5" class="w-full bg-white border border-blue-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-mono leading-relaxed"></textarea>
                                 </div>
 
                                 <button id="btn-submit-exam-admin" onclick="window.adminCreateExam()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
@@ -978,9 +888,7 @@
                                     <div><h3 class="font-bold text-gray-800">Danh sách Đề Thi</h3></div>
                                 </div>
                             </div>
-                            <div id="admin-exams-list" class="space-y-3 flex-1 overflow-y-auto max-h-[350px] pr-2 folder-list-scroll">
-                                <!-- Render JS -->
-                            </div>
+                            <div id="admin-exams-list" class="space-y-3 flex-1 overflow-y-auto max-h-[500px] pr-2 folder-list-scroll"></div>
                         </div>
                     </div>
                 </div>
@@ -989,8 +897,7 @@
         </main>
     </div>
 
-    <!-- CÁC MODAL, JS GIỮ NGUYÊN HOẶC ĐƯỢC CẬP NHẬT Ở PHẦN SCRIPT BÊN DƯỚI -->
-    <!-- ================= VIEW 6: PHÒNG THI SỰ KIỆN ================= -->
+    <!-- ================= VIEW 6: PHÒNG THI SỰ KIỆN (EVENT ROOM) ================= -->
     <div id="event-room-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col">
         <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm w-full">
             <button onclick="window.closeToDashboard()" class="text-orange-600 font-bold flex items-center gap-2 hover:text-orange-700 transition w-[200px]">
@@ -1006,49 +913,12 @@
         <div class="container mx-auto px-6 py-12 flex-grow">
             <div class="text-center mb-10">
                 <h1 id="event-room-title" class="text-4xl font-black text-gray-900 font-logo mb-3">Phòng Thi Sự Kiện</h1>
-                <p class="text-gray-500 max-w-lg mx-auto">Chọn các bài thi hoặc tài liệu thuộc sự kiện này bên dưới để bắt đầu.</p>
+                <p class="text-gray-500 max-w-lg mx-auto">Vượt qua các vòng thi dưới đây để tích lũy điểm sự kiện nhé!</p>
             </div>
             <div class="max-w-4xl mx-auto"><div id="event-room-docs-container" class="space-y-4"></div></div>
         </div>
     </div>
 
-    <!-- ================= VIEW 7: XEM TẤT CẢ THƯ MỤC ================= -->
-    <div id="all-folders-view" class="hidden-layout bg-gray-50 min-h-screen font-inter flex flex-col">
-        <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
-            <button onclick="window.openDocumentLibrary()" class="text-[#1e3a8a] font-bold flex items-center gap-2 hover:text-blue-500 transition">
-                <i class="fa-solid fa-arrow-left"></i> Trở về Thư viện
-            </button>
-            <div class="flex items-center gap-4 w-96 relative">
-                 <i class="fa-solid fa-magnifying-glass absolute left-3 text-gray-400 text-sm"></i>
-                 <input type="text" placeholder="Tìm kiếm thư mục..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-        </nav>
-        <div class="container mx-auto px-6 py-10">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Tổng hợp kho tài liệu</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="all-folders-grid"></div>
-        </div>
-    </div>
-
-    <!-- ================= VIEW 8: TRÌNH XEM PDF ================= -->
-    <div id="pdf-viewer-view" class="hidden-layout bg-[#f8fafc] min-h-screen font-inter flex flex-col h-screen overflow-hidden">
-        <nav class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center z-50 shadow-sm flex-shrink-0">
-            <div class="flex items-center gap-3 text-sm font-semibold text-gray-500">
-                <button onclick="window.closeToDashboard()" class="hover:text-blue-600 flex items-center gap-2"><i class="fa-solid fa-house"></i></button>
-                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-                <span id="pdf-breadcrumb-folder" class="cursor-pointer hover:text-blue-600 transition">Thư mục</span>
-                <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
-                <h1 class="text-blue-900 font-bold truncate max-w-lg" id="pdf-header-title">Tên tài liệu</h1>
-            </div>
-            <div class="flex items-center gap-4">
-                <button onclick="window.closeToDashboard()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-1.5 rounded-lg text-sm font-bold transition shadow-sm border border-gray-200">Đóng</button>
-            </div>
-        </nav>
-        <div class="flex flex-1 overflow-hidden">
-            <div class="flex-1 flex flex-col items-center bg-[#f1f5f9] relative overflow-y-auto pt-6 pb-20">
-                <div class="bg-white w-[850px] max-w-[95%] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-200 mb-8 flex flex-col h-full" id="pdf-content-area"></div>
-            </div>
-        </div>
-    </div>
 
     <!-- ================= MODAL SỰ KIỆN ================= -->
     <div id="event-detail-modal" class="fixed inset-0 bg-black/80 z-[150] hidden items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300 font-inter">
@@ -1123,9 +993,8 @@
         let currentProfile = null;
         let currentStats = null;
         let publicEventsList = [];
-        let publicDocsList = []; 
         let publicExamsList = [];
-        let sortOrder = 'desc'; // Mặc định sắp xếp mới nhất
+        let sortOrder = 'desc'; 
         
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'tx-hoa-hoc-demo';
         const ADMIN_EMAIL = 'huyvan1312@gmail.com'; 
@@ -1139,8 +1008,6 @@
             appId: "1:912897950279:web:44020451bfd26ccbc1a762"
         };
 
-        const defaultDocsData = []; 
-
         const views = {
             landing: document.getElementById('landing-view'),
             mockExams: document.getElementById('mock-exams-view'),
@@ -1149,17 +1016,13 @@
             subject: document.getElementById('subject-view'),
             documentLibrary: document.getElementById('document-library-view'),
             dashboard: document.getElementById('dashboard-view'),
-            eventRoom: document.getElementById('event-room-view'),
-            allFolders: document.getElementById('all-folders-view'),
-            pdfViewer: document.getElementById('pdf-viewer-view')
+            eventRoom: document.getElementById('event-room-view')
         };
 
         window.hideAllViews = function() {
             for (let key in views) {
                 if (views[key]) views[key].classList.add('hidden-layout');
             }
-            const pdfContainer = document.getElementById('pdf-content-area');
-            if(pdfContainer) pdfContainer.innerHTML = '';
             const examPdf = document.getElementById('exam-pdf-iframe');
             if(examPdf) examPdf.src = '';
         }
@@ -1199,22 +1062,11 @@
             }
         }
 
-        window.openDocumentLibrary = function() {
-            window.hideAllViews();
-            if(views.documentLibrary) views.documentLibrary.classList.remove('hidden-layout');
-            window.filterDocuments('Tất cả');
-        }
-
         window.openSubjectPage = function(subjectName) {
             window.hideAllViews();
             if(views.subject) views.subject.classList.remove('hidden-layout');
             const title = document.getElementById('subject-title');
             if(title) title.innerText = subjectName;
-        }
-
-        window.openAllFoldersView = function() {
-            window.hideAllViews();
-            if(views.allFolders) views.allFolders.classList.remove('hidden-layout');
         }
 
         window.closeToDashboard = function() { window.openDashboard(); }
@@ -1324,8 +1176,13 @@
                         if(document.getElementById('landing-view').classList.contains('block')) { window.openDashboard(); }
                         startStudyTimer();
                         
-                        if (isAdmin()) { loadAdminEventsList(); loadAdminDocsList(); loadAdminExamsList(); }
-                        // Cập nhật lại UI sau khi login để render tiến độ (Làm lại / Đã làm)
+                        if (isAdmin()) { 
+                            loadAdminEventsList(); 
+                            loadAdminExamsList(); 
+                            window.loadAdminUsersList();
+                            if(subExamCount === 0) window.addEventSubExamBlock(); // Tạo sẵn 1 block cho event admin
+                        }
+                        
                         if(!document.getElementById('mock-exams-view').classList.contains('hidden-layout')) { window.renderFilteredExams(); }
                     } else {
                         isLoggedIn = false; currentUserUid = null; currentProfile = null; currentStats = null;
@@ -1338,7 +1195,6 @@
                     try { if (token && !isUsingPersonalFirebase) await signInWithCustomToken(auth, token); else await signInAnonymously(auth); } catch (err) {}
                 }
 
-                listenToPublicDocuments();
                 listenToPublicExams();
 
                 // Setup listener cho upload file PDF (Cho ĐỀ THI)
@@ -1354,20 +1210,6 @@
                         }
                     });
                 }
-                
-                // Setup listener cho upload file PDF (Cho TÀI LIỆU)
-                const docFileInput = document.getElementById('admin-doc-file');
-                if(docFileInput) {
-                    docFileInput.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if(file) {
-                            if(file.size > 2 * 1024 * 1024) window.showMessage("Cảnh báo", "File PDF này hơi nặng (>2MB). Tốc độ tải có thể chậm đi đôi chút khi lưu DB.");
-                            const reader = new FileReader();
-                            reader.onload = (ev) => { window.uploadedDocBase64 = ev.target.result; };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-                }
 
             } catch (error) { console.error("Lỗi khởi tạo Firebase:", error); }
         }
@@ -1378,7 +1220,6 @@
         function getProfileRef() { return doc(db, 'artifacts', appId, 'users', currentUserUid, 'profile', 'info'); }
         function getStatsRef() { return doc(db, 'artifacts', appId, 'users', currentUserUid, 'stats', 'data'); }
         
-        // HÀM TỰ ĐỘNG SỬA LINK PDF, LINK DRIVE CHO HOẠT ĐỘNG TRONG WEB
         function fixAnyLink(url) {
             if(!url) return url;
             let match = url.match(/\/d\/(.+?)\//);
@@ -1420,7 +1261,6 @@
                         currentStats = docSnap.data();
                         updateStatsUI(currentStats);
                         updateEventsUI(currentStats);
-                        // Khi cập nhật dữ liệu xong, nếu đang ở trang Đề thì render lại để hiển thị nhãn "Đã làm"
                         if(!document.getElementById('mock-exams-view').classList.contains('hidden-layout')) { window.renderFilteredExams(); }
                     }
                 }, (e) => {});
@@ -1484,6 +1324,136 @@
             }
         }
 
+        // ================= ADMIN: TẠO SỰ KIỆN VÀ CÁC PHẦN THI (Lên tới 10 phần) =================
+        let subExamCount = 0;
+        window.eventSubExamFiles = {}; // Lưu file tải lên theo ID
+        
+        window.addEventSubExamBlock = function() {
+            if (subExamCount >= 10) { window.showMessage("Đã đạt giới hạn", "Một sự kiện chỉ có tối đa 10 vòng thi."); return; }
+            subExamCount++;
+            const container = document.getElementById('event-subexams-container');
+            const blockId = `event-subexam-${subExamCount}`;
+            
+            const html = `
+                <div id="${blockId}" class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm relative">
+                    <div class="absolute top-3 right-3 text-gray-400 font-bold text-xs uppercase">Vòng ${subExamCount}</div>
+                    <div class="space-y-3">
+                        <div><input type="text" id="se-title-${subExamCount}" placeholder="Tên vòng thi (VD: Vòng 1: Khởi động)..." class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-orange-400"></div>
+                        
+                        <div>
+                            <div class="flex gap-4 mb-1">
+                                <label class="flex items-center gap-1 text-[11px] cursor-pointer text-gray-700 font-medium">
+                                    <input type="radio" name="se-pdf-src-${subExamCount}" value="link" checked onchange="window.toggleSubExamPdfSource(${subExamCount})" class="accent-orange-500 w-3 h-3"> Link Drive
+                                </label>
+                                <label class="flex items-center gap-1 text-[11px] cursor-pointer text-gray-700 font-medium">
+                                    <input type="radio" name="se-pdf-src-${subExamCount}" value="upload" onchange="window.toggleSubExamPdfSource(${subExamCount})" class="accent-orange-500 w-3 h-3"> Tải File lên
+                                </label>
+                            </div>
+                            <input type="url" id="se-url-${subExamCount}" placeholder="Nhập Link Google Drive đề thi..." class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-orange-400">
+                            <input type="file" id="se-file-${subExamCount}" accept="application/pdf" class="hidden w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-orange-400" onchange="window.handleSubExamFile(${subExamCount}, this)">
+                        </div>
+
+                        <div><input type="url" id="se-solution-${subExamCount}" placeholder="Link Đáp Án Chi Tiết (Tùy chọn)..." class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-orange-400"></div>
+                        
+                        <div>
+                            <textarea id="se-keys-${subExamCount}" rows="3" placeholder="Dán đáp án cột dọc (A,B,C,D). Hệ thống đếm số dòng làm số câu..." class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono outline-none focus:border-orange-400"></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        }
+
+        window.toggleSubExamPdfSource = function(idx) {
+            const source = document.querySelector(`input[name="se-pdf-src-${idx}"]:checked`).value;
+            if(source === 'link') {
+                document.getElementById(`se-url-${idx}`).classList.remove('hidden');
+                document.getElementById(`se-file-${idx}`).classList.add('hidden');
+            } else {
+                document.getElementById(`se-url-${idx}`).classList.add('hidden');
+                document.getElementById(`se-file-${idx}`).classList.remove('hidden');
+            }
+        }
+
+        window.handleSubExamFile = function(idx, input) {
+            const file = input.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => { window.eventSubExamFiles[idx] = ev.target.result; };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        window.adminCreateEvent = async function() {
+            if(!isAdmin()) return;
+            const title = document.getElementById('admin-event-title').value.trim();
+            const start = document.getElementById('admin-event-start').value;
+            const end = document.getElementById('admin-event-end').value;
+            const desc = document.getElementById('admin-event-desc').value.trim();
+
+            if(!title || !desc) { window.showMessage("Lỗi", "Vui lòng nhập Tên Sự kiện và Nội dung."); return; }
+
+            const btn = document.getElementById('btn-submit-event');
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý & Tải lên...`; btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            try {
+                let subExamsArray = [];
+                // Thu thập dữ liệu từ các block (có thể không điền hết, ta lọc bỏ những block trống)
+                for (let i = 1; i <= subExamCount; i++) {
+                    const seTitle = document.getElementById(`se-title-${i}`)?.value.trim();
+                    const seKeysStr = document.getElementById(`se-keys-${i}`)?.value.trim();
+                    
+                    if (seTitle && seKeysStr) {
+                        const source = document.querySelector(`input[name="se-pdf-src-${i}"]:checked`).value;
+                        let pdfUrl = '';
+                        if(source === 'link') {
+                            pdfUrl = fixAnyLink(document.getElementById(`se-url-${i}`).value.trim());
+                        } else {
+                            pdfUrl = window.eventSubExamFiles[i] || '';
+                        }
+                        
+                        const solutionUrl = fixAnyLink(document.getElementById(`se-solution-${i}`).value.trim());
+                        // Parse keys to array of A,B,C,D
+                        const keysArr = seKeysStr.split('\n').map(l => l.trim().toUpperCase().charAt(0)).filter(l => l !== '');
+                        
+                        subExamsArray.push({
+                            id: `stage_${i}_${Date.now()}`,
+                            title: seTitle,
+                            pdfUrl: pdfUrl,
+                            solutionUrl: solutionUrl,
+                            keys: keysArr
+                        });
+                    }
+                }
+
+                // Tính Max Điểm (Mỗi vòng 10 điểm)
+                const maxScore = subExamsArray.length * 10;
+
+                const eventRef = collection(db, 'artifacts', appId, 'public', 'data', 'events');
+                await addDoc(eventRef, { 
+                    title: title, start: start, end: end, desc: desc, max: maxScore > 0 ? maxScore : 100, 
+                    subExams: subExamsArray,
+                    createdAt: new Date().toISOString() 
+                });
+                
+                window.showMessage("Thành công", `Đã tạo sự kiện "${title}" với ${subExamsArray.length} vòng thi.`);
+                
+                // Reset form
+                document.getElementById('admin-event-title').value = ''; document.getElementById('admin-event-desc').value = '';
+                document.getElementById('event-subexams-container').innerHTML = '';
+                subExamCount = 0; window.eventSubExamFiles = {};
+                window.addEventSubExamBlock(); // Tạo lại 1 block rỗng
+
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Đăng Sự Kiện & Các Bài Thi`;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+
+            } catch(e) { 
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Đăng Sự Kiện & Các Bài Thi`;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                window.showMessage("Lỗi", "Không thể lưu sự kiện lên Firebase."); 
+            }
+        }
+
         // ================= SỰ KIỆN: KHÁM PHÁ & THAM GIA =================
         const cardColors = ['bg-[#5a8c2f]', 'bg-[#eab308]', 'bg-[#0ea5e9]', 'bg-[#ef4444]', 'bg-[#8b5cf6]', 'bg-[#f97316]', 'bg-[#06b6d4]'];
         
@@ -1517,7 +1487,7 @@
             publicEventsList.forEach((evt, index) => {
                 const bgColor = cardColors[index % cardColors.length];
                 const safeObj = encodeURIComponent(JSON.stringify(evt));
-                const hasJoined = currentStats && currentStats.participatedEvents && currentStats.participatedEvents.some(e => e.title === evt.title);
+                const hasJoined = currentStats && currentStats.participatedEvents && currentStats.participatedEvents.some(e => e.id === evt.id);
                 const actionBadge = hasJoined 
                     ? `<span class="text-[10px] font-bold uppercase tracking-wider bg-white/30 px-2 py-1 rounded-full"><i class="fa-solid fa-check"></i> Đã tham gia</span>` 
                     : `<span class="text-[10px] font-bold uppercase tracking-wider bg-black/20 px-2 py-1 rounded-full">Sự kiện</span>`;
@@ -1532,6 +1502,7 @@
                         <div class="relative z-10">
                             <h3 class="text-xl font-black mb-2 leading-tight">${evt.title}</h3>
                             <p class="text-xs text-white/80 line-clamp-2">${evt.desc}</p>
+                            <p class="text-[10px] text-white/60 mt-2"><i class="fa-solid fa-layer-group"></i> ${evt.subExams ? evt.subExams.length : 0} vòng thi</p>
                         </div>
                     </div>
                 `;
@@ -1556,9 +1527,9 @@
 
             const actionContainer = document.getElementById('modal-event-actions');
             if (hasJoined) {
-                actionContainer.innerHTML = `<div class="bg-gray-100 text-gray-500 font-bold rounded-2xl py-4 mb-2"><i class="fa-solid fa-check-circle"></i> BẠN ĐÃ THAM GIA SỰ KIỆN NÀY</div><button onclick="window.closeEventDetailModal(); window.openDashboard(); window.switchDashboardTab('su-kien');" class="text-sm font-bold text-blue-600 hover:underline">Đi tới trang cá nhân để học ngay</button>`;
+                actionContainer.innerHTML = `<div class="bg-gray-100 text-gray-500 font-bold rounded-2xl py-4 mb-2"><i class="fa-solid fa-check-circle"></i> BẠN ĐÃ THAM GIA SỰ KIỆN NÀY</div><button onclick="window.closeEventDetailModal(); window.openDashboard(); window.switchDashboardTab('su-kien');" class="text-sm font-bold text-blue-600 hover:underline">Đi tới trang cá nhân để thi ngay</button>`;
             } else {
-                actionContainer.innerHTML = `<p class="text-xs text-gray-400 mb-3"><i class="fa-solid fa-circle-info"></i> Lưu ý: Khi chấp nhận tham gia, sự kiện sẽ được lưu vĩnh viễn vào hồ sơ.</p><button onclick="window.confirmJoinEvent()" class="w-full bg-[#111] hover:bg-black text-white font-bold rounded-2xl py-4 transition-all shadow-md flex items-center justify-center gap-2">CHẤP NHẬN SỰ KIỆN <i class="fa-solid fa-arrow-right"></i></button>`;
+                actionContainer.innerHTML = `<p class="text-xs text-gray-400 mb-3"><i class="fa-solid fa-circle-info"></i> Lưu ý: Khi chấp nhận tham gia, sự kiện sẽ được lưu vĩnh viễn vào hồ sơ.</p><button onclick="window.confirmJoinEvent()" class="w-full bg-[#111] hover:bg-black text-white font-bold rounded-2xl py-4 transition-all shadow-md flex items-center justify-center gap-2">CHẤP NHẬN THAM GIA <i class="fa-solid fa-arrow-right"></i></button>`;
             }
 
             const modal = document.getElementById('event-detail-modal');
@@ -1577,13 +1548,22 @@
             if(!currentStats || !currentUserUid || !currentSelectedEvent) return;
 
             const events = currentStats.participatedEvents || [];
-            events.push({ id: currentSelectedEvent.id, title: currentSelectedEvent.title, progress: 0, max: currentSelectedEvent.max || 100, joinedAt: new Date().toISOString() });
+            // Không push trùng
+            if (!events.some(e => e.id === currentSelectedEvent.id)) {
+                events.push({ 
+                    id: currentSelectedEvent.id, 
+                    title: currentSelectedEvent.title, 
+                    progress: 0, 
+                    max: currentSelectedEvent.max || 100, 
+                    joinedAt: new Date().toISOString() 
+                });
 
-            updateDoc(getStatsRef(), { participatedEvents: events }).then(() => {
-                window.closeEventDetailModal();
-                window.showMessage("Thành công", `Đã chấp nhận sự kiện "${currentSelectedEvent.title}".`);
-                loadPublicEvents(); 
-            }).catch(error => { window.showMessage("Lỗi", "Không thể tham gia sự kiện."); });
+                updateDoc(getStatsRef(), { participatedEvents: events }).then(() => {
+                    window.closeEventDetailModal();
+                    window.showMessage("Thành công", `Đã chấp nhận sự kiện "${currentSelectedEvent.title}".`);
+                    loadPublicEvents(); 
+                }).catch(error => { window.showMessage("Lỗi", "Không thể tham gia sự kiện."); });
+            }
         }
 
         function updateEventsUI(stats) {
@@ -1605,179 +1585,68 @@
                 const progressColor = isDone ? 'bg-green-500' : 'bg-orange-500';
                 
                 htmlContent += `
-                    <div onclick="window.openEventRoom('${evt.title}')" class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col h-56 cursor-pointer hover:-translate-y-1 hover:shadow-md hover:border-orange-200 transition">
+                    <div onclick="window.openEventRoom('${evt.id}')" class="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col h-56 cursor-pointer hover:-translate-y-1 hover:shadow-md hover:border-orange-200 transition">
                         <div class="flex justify-between items-start mb-4 relative z-10">${statusTag}<div class="w-8 h-8 ${isDone ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'} rounded-full flex items-center justify-center shadow-sm"><i class="fa-solid ${isDone ? 'fa-check-double' : 'fa-leaf'}"></i></div></div>
-                        <div class="relative z-10 flex-grow"><h3 class="text-2xl font-black mb-2 text-gray-800 leading-tight">${evt.title}</h3><p class="text-sm text-gray-500 mt-1">Hoàn thành: ${progress}/${max}</p><div class="w-full bg-gray-100 rounded-full h-2 mt-4"><div class="${progressColor} h-2 rounded-full transition-all duration-1000" style="width: ${percent}%"></div></div></div>
+                        <div class="relative z-10 flex-grow"><h3 class="text-2xl font-black mb-2 text-gray-800 leading-tight">${evt.title}</h3><p class="text-sm text-gray-500 mt-1">Điểm: <span class="font-bold text-orange-600">${parseFloat(progress).toFixed(1)}/${max}</span></p><div class="w-full bg-gray-100 rounded-full h-2 mt-4"><div class="${progressColor} h-2 rounded-full transition-all duration-1000" style="width: ${percent}%"></div></div></div>
                     </div>`;
             });
             container.innerHTML = htmlContent;
         }
 
-        window.openEventRoom = function(eventTitle) {
+        window.openEventRoom = async function(eventId) {
             window.hideAllViews(); 
             const roomView = document.getElementById('event-room-view');
             if(roomView) roomView.classList.remove('hidden-layout');
-            const roomTitleEl = document.getElementById('event-room-title');
-            if(roomTitleEl) roomTitleEl.innerText = eventTitle;
             
-            const allDocs = [...defaultDocsData, ...publicDocsList];
-            const eventDocs = allDocs.filter(d => d.folder === eventTitle);
             const container = document.getElementById('event-room-docs-container');
             if(!container) return;
-
-            if (eventDocs.length === 0) {
-                container.innerHTML = `<div class="bg-white p-8 rounded-2xl border border-gray-200 text-center text-gray-500"><i class="fa-solid fa-box-open text-3xl mb-3 text-gray-300"></i><br>Chưa có tài liệu hoặc bài thi nào được mở cho sự kiện này.</div>`;
-                return;
-            }
-
-            let html = '';
-            eventDocs.forEach(doc => {
-                const safeObj = encodeURIComponent(JSON.stringify(doc));
-                html += `
-                    <div onclick="window.openPDFViewer('${safeObj}')" class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer hover:border-orange-300 hover:shadow-md transition-all duration-200">
-                        <div class="bg-orange-50 p-4 rounded-xl relative"><i class="fa-solid fa-file-pdf text-orange-500 text-3xl"></i></div>
-                        <div class="flex-1"><h3 class="font-bold text-gray-800 text-base mb-1">${doc.title}</h3><p class="text-xs text-gray-500"><span class="bg-gray-100 px-2 py-0.5 rounded mr-1">${doc.classInfo}</span></p></div>
-                        <div class="text-orange-500"><i class="fa-solid fa-arrow-right"></i></div>
-                    </div>`;
-            });
-            container.innerHTML = html;
-        }
-
-        // ================= TÀI LIỆU =================
-        function listenToPublicDocuments() {
-            if (!db) return;
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'documents');
-            onSnapshot(colRef, (querySnapshot) => {
-                publicDocsList = [];
-                querySnapshot.forEach((docSnap) => {
-                    let data = docSnap.data();
-                    data.id = docSnap.id;
-                    publicDocsList.push(data);
-                });
-                const libView = document.getElementById('document-library-view');
-                if(libView && !libView.classList.contains('hidden-layout')) { window.filterDocuments('Tất cả'); }
-            });
-        }
-
-        function renderDocumentList(dataToRender) {
-            const container = document.getElementById('document-list-container'); 
-            if(!container) return;
-            let html = '';
-            if(dataToRender.length === 0) { 
-                container.innerHTML = `<div class="text-center p-10 text-gray-500">Chưa có tài liệu nào trong mục này.</div>`; 
-                return; 
-            }
-            dataToRender.forEach(doc => {
-                const safeObj = encodeURIComponent(JSON.stringify(doc));
-                html += `
-                    <div onclick="window.openPDFViewer('${safeObj}')" class="doc-item bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-5 cursor-pointer transition-all duration-200">
-                        <div class="bg-red-50 p-4 rounded-xl relative"><i class="fa-solid fa-file-pdf text-red-500 text-4xl"></i></div>
-                        <div class="flex-1"><h3 class="font-bold text-gray-800 text-base mb-1">${doc.title}</h3><p class="text-xs text-gray-500"><i class="fa-solid fa-folder-open text-blue-400"></i> ${doc.folder}</p></div>
-                    </div>`;
-            });
-            container.innerHTML = html;
-        }
-        
-        window.filterDocuments = function(className) {
-            const allDocs = [...defaultDocsData, ...publicDocsList];
-            if(document.getElementById('doc-section-title')) document.getElementById('doc-section-title').innerText = `Tài liệu ${className}`;
-            renderDocumentList(className === 'Tất cả' ? allDocs : allDocs.filter(d => d.classInfo === className || d.subject === className));
-        }
-        
-        window.selectFolder = function(folderName) {
-            const allDocs = [...defaultDocsData, ...publicDocsList];
-            if(document.getElementById('doc-section-title')) document.getElementById('doc-section-title').innerText = folderName;
-            renderDocumentList(allDocs.filter(d => d.folder === folderName));
-        }
-        
-        window.handleGlobalSearch = function(event) {
-            const allDocs = [...defaultDocsData, ...publicDocsList];
-            let query = event.target.value.toLowerCase();
-            const libView = document.getElementById('document-library-view');
-            if(libView && libView.classList.contains('hidden-layout')) {
-                window.hideAllViews(); libView.classList.remove('hidden-layout');
-            }
-            renderDocumentList(query.trim() === '' ? allDocs : allDocs.filter(d => d.title.toLowerCase().includes(query)));
-        }
-
-        window.openPDFViewer = function(encodedObj) {
-            const docObj = JSON.parse(decodeURIComponent(encodedObj));
-            window.hideAllViews(); 
-            const pdfView = document.getElementById('pdf-viewer-view');
-            if(pdfView) pdfView.classList.remove('hidden-layout');
-            
-            if(document.getElementById('pdf-breadcrumb-folder')) document.getElementById('pdf-breadcrumb-folder').innerText = docObj.folder || 'Chuyên đề';
-            if(document.getElementById('pdf-header-title')) document.getElementById('pdf-header-title').innerText = docObj.title;
-            
-            const pdfContainer = document.getElementById('pdf-content-area');
-            if(!pdfContainer) return;
-            
-            if (docObj.pdfUrl && docObj.pdfUrl.trim() !== '') {
-                pdfContainer.innerHTML = `
-                    <div class="h-2 w-full bg-blue-800 flex-shrink-0"></div>
-                    <iframe src="${docObj.pdfUrl}" class="w-full h-full flex-grow border-0" title="${docObj.title}"></iframe>
-                `;
-            } else {
-                pdfContainer.innerHTML = `<div class="h-2 w-full bg-blue-800"></div><div class="p-16 text-center relative flex-grow"><div class="border-b-2 border-blue-900 pb-6 mb-10"><h2 class="text-3xl font-bold text-blue-900 mb-4 uppercase leading-tight">${docObj.title}</h2><p class="text-gray-600 font-medium">Tài liệu này không có file PDF đính kèm.</p></div></div>`;
-            }
-        }
-
-        // ================= ADMIN PANEL LOGIC (QUẢN LÝ DỮ LIỆU) =================
-        window.adminUpdateUserProfile = async function() {
-            if(!isAdmin()) { window.showMessage("Lỗi", "Bạn không có quyền Admin."); return; }
-            const email = document.getElementById('admin-new-email').value.trim().toLowerCase();
-            const name = document.getElementById('admin-new-name').value.trim();
-            if(!email || !name) { window.showMessage("Lỗi", "Vui lòng nhập Email và Tên hiển thị."); return; }
+            container.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i></div>';
 
             try {
-                const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', email);
-                await setDoc(accountsRef, { email: email, name: name });
-                window.showMessage("Thành công", `Đã lưu hồ sơ của ${name} (${email}).`);
-                window.loadAdminUsersList(); 
-                document.getElementById('admin-new-email').value = ''; document.getElementById('admin-new-name').value = '';
-            } catch(e) { window.showMessage("Lỗi hệ thống", "Không thể cập nhật hồ sơ Firebase."); }
-        }
+                // Fetch event details
+                const docSnap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'events', eventId));
+                if(docSnap.exists()) {
+                    const eventData = docSnap.data();
+                    eventData.id = docSnap.id;
+                    
+                    const roomTitleEl = document.getElementById('event-room-title');
+                    if(roomTitleEl) roomTitleEl.innerText = eventData.title;
 
-        window.loadAdminUsersList = async function() {
-            if(!isAdmin() || !db) return;
-            const container = document.getElementById('admin-accounts-list');
-            if(!container) return;
-            try {
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'admin_accounts');
-                onSnapshot(colRef, (querySnapshot) => {
+                    const subExams = eventData.subExams || [];
+                    if (subExams.length === 0) {
+                        container.innerHTML = `<div class="bg-white p-8 rounded-2xl border border-gray-200 text-center text-gray-500"><i class="fa-solid fa-box-open text-3xl mb-3 text-gray-300"></i><br>Sự kiện này chưa có vòng thi nào.</div>`;
+                        return;
+                    }
+
                     let html = '';
-                    querySnapshot.forEach((docSnap) => {
-                        const info = docSnap.data();
-                        let roleBadge = info.email === ADMIN_EMAIL ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">ADMIN</span>` : `<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">HỌC SINH</span>`;
-                        let avatarLetter = info.name ? info.name.charAt(0).toUpperCase() : 'U';
+                    subExams.forEach((subExam, index) => {
+                        const scoreData = (currentStats && currentStats.completedExams && currentStats.completedExams[subExam.id]) ? currentStats.completedExams[subExam.id] : null;
+                        let actionHtml = `<button onclick="window.enterEventSubExam('${eventData.id}', ${index})" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-5 rounded-xl transition shadow-sm text-sm whitespace-nowrap"><i class="fa-solid fa-play mr-1"></i> Làm bài</button>`;
+                        if(scoreData !== null) {
+                            actionHtml = `<div class="flex flex-col items-end"><span class="text-xs font-bold text-green-600 mb-1">Điểm: ${scoreData}/10</span><button onclick="window.enterEventSubExam('${eventData.id}', ${index})" class="bg-gray-100 text-gray-600 hover:bg-gray-200 font-bold py-1.5 px-4 rounded-xl transition text-xs whitespace-nowrap"><i class="fa-solid fa-rotate-right mr-1"></i> Làm lại</button></div>`;
+                        }
+
                         html += `
-                            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
-                                <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center">${avatarLetter}</div><div><div class="font-bold text-gray-800 text-sm flex items-center">${info.name || 'Chưa cập nhật tên'} ${roleBadge}</div><div class="text-xs text-gray-500 mt-0.5">${info.email}</div></div></div>
-                            </div>
-                        `;
+                            <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex items-center justify-between gap-5 hover:border-orange-300 transition-all duration-200">
+                                <div class="flex items-center gap-4">
+                                    <div class="bg-orange-50 w-12 h-12 flex items-center justify-center rounded-xl relative font-black text-orange-500 text-xl">${index + 1}</div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800 text-lg mb-1">${subExam.title}</h3>
+                                        <p class="text-xs text-gray-500"><i class="fa-solid fa-list-ol"></i> ${subExam.keys ? subExam.keys.length : 0} Câu hỏi (A,B,C,D)</p>
+                                    </div>
+                                </div>
+                                <div>${actionHtml}</div>
+                            </div>`;
                     });
-                    container.innerHTML = html === '' ? '<div class="text-center py-5 text-gray-500">Chưa có hồ sơ nào.</div>' : html;
-                });
-            } catch(e) {}
+                    container.innerHTML = html;
+                }
+            } catch(e) {
+                container.innerHTML = '<div class="text-center text-red-500 py-10">Lỗi khi tải dữ liệu sự kiện.</div>';
+            }
         }
 
-        window.adminCreateEvent = async function() {
-            if(!isAdmin()) { window.showMessage("Lỗi", "Bạn không có quyền Admin."); return; }
-            const title = document.getElementById('admin-event-title').value.trim();
-            const start = document.getElementById('admin-event-start').value;
-            const end = document.getElementById('admin-event-end').value;
-            const desc = document.getElementById('admin-event-desc').value.trim();
 
-            if(!title || !desc) { window.showMessage("Lỗi", "Vui lòng nhập Tên Sự kiện và Nội dung."); return; }
-
-            try {
-                const eventRef = collection(db, 'artifacts', appId, 'public', 'data', 'events');
-                await addDoc(eventRef, { title: title, start: start, end: end, desc: desc, max: 100, createdAt: new Date().toISOString() });
-                window.showMessage("Thành công", `Đã tạo sự kiện "${title}". Tất cả học sinh giờ có thể thấy ở trang Khám Phá.`);
-                document.getElementById('admin-event-title').value = ''; document.getElementById('admin-event-desc').value = '';
-            } catch(e) { window.showMessage("Lỗi", "Không thể lưu sự kiện lên Firebase."); }
-        }
-
+        // Admin: Load danh sách sự kiện để xóa
         function loadAdminEventsList() {
             if(!isAdmin() || !db) return;
             const container = document.getElementById('admin-events-list');
@@ -1790,7 +1659,7 @@
                         const evt = docSnap.data();
                         html += `
                             <div class="bg-gray-50 border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
-                                <div class="flex-1 overflow-hidden"><div class="font-bold text-gray-800 text-sm truncate">${evt.title}</div><div class="text-[10px] text-gray-500 mt-0.5 truncate">${evt.desc}</div></div>
+                                <div class="flex-1 overflow-hidden"><div class="font-bold text-gray-800 text-sm truncate">${evt.title}</div><div class="text-[10px] text-gray-500 mt-0.5 truncate">${evt.subExams ? evt.subExams.length : 0} Vòng thi</div></div>
                                 <button onclick="window.adminDeleteEvent('${docSnap.id}')" class="w-8 h-8 flex-shrink-0 bg-red-100 text-red-600 rounded-lg flex items-center justify-center hover:bg-red-200 transition ml-2"><i class="fa-solid fa-trash-can"></i></button>
                             </div>
                         `;
@@ -1802,87 +1671,13 @@
 
         window.adminDeleteEvent = function(eventId) {
             if(!isAdmin()) return;
-            window.showMessage("Xác nhận xóa", "Sự kiện bị xóa sẽ biến mất khỏi trang Khám phá. Bạn chắc chứ?", true, async () => {
+            window.showMessage("Xác nhận xóa", "Sự kiện bị xóa sẽ biến mất khỏi hệ thống. Bạn chắc chứ?", true, async () => {
                 try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'events', eventId)); window.showMessage("Thành công", "Đã xóa sự kiện."); } catch(e) { }
             });
         }
 
-        window.uploadedDocBase64 = null;
-        window.togglePdfDocSource = function() {
-            const source = document.querySelector('input[name="pdfDocSource"]:checked').value;
-            if(source === 'link') {
-                document.getElementById('admin-doc-url').classList.remove('hidden');
-                document.getElementById('admin-doc-file').classList.add('hidden');
-            } else {
-                document.getElementById('admin-doc-url').classList.add('hidden');
-                document.getElementById('admin-doc-file').classList.remove('hidden');
-            }
-        }
 
-        window.adminCreateDocument = async function() {
-            if(!isAdmin()) return;
-            const title = document.getElementById('admin-doc-title').value.trim();
-            const classInfo = document.getElementById('admin-doc-class').value;
-            const folder = document.getElementById('admin-doc-folder').value.trim();
-            const source = document.querySelector('input[name="pdfDocSource"]:checked').value;
-            let finalUrl = '';
-
-            if(source === 'link') {
-                finalUrl = fixAnyLink(document.getElementById('admin-doc-url').value.trim());
-            } else {
-                if(!window.uploadedDocBase64) { window.showMessage("Lỗi", "Vui lòng chọn File PDF tải lên."); return; }
-                finalUrl = window.uploadedDocBase64;
-            }
-
-            if(!title || !folder) { window.showMessage("Lỗi", "Vui lòng nhập Tên tài liệu và Thư mục."); return; }
-
-            const btnUpload = document.getElementById('btn-submit-doc-admin');
-            try {
-                btnUpload.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang tải lên...`;
-                const docRef = collection(db, 'artifacts', appId, 'public', 'data', 'documents');
-                await addDoc(docRef, { title: title, classInfo: classInfo, folder: folder, pdfUrl: finalUrl, createdAt: new Date().toISOString() });
-                window.showMessage("Thành công", `Đã đăng tài liệu "${title}".`);
-                document.getElementById('admin-doc-title').value = ''; document.getElementById('admin-doc-url').value = '';
-                if(document.getElementById('admin-doc-file')) document.getElementById('admin-doc-file').value = '';
-                window.uploadedDocBase64 = null;
-                btnUpload.innerHTML = `<i class="fa-solid fa-upload"></i> Đăng Tài Liệu`;
-            } catch(e) { 
-                btnUpload.innerHTML = `<i class="fa-solid fa-upload"></i> Đăng Tài Liệu`;
-                window.showMessage("Lỗi", "Không thể đăng tài liệu lên Firebase."); 
-            }
-        }
-
-        function loadAdminDocsList() {
-            if(!isAdmin() || !db) return;
-            const container = document.getElementById('admin-docs-list');
-            if(!container) return;
-            try {
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'documents');
-                onSnapshot(colRef, (querySnapshot) => {
-                    let html = '';
-                    querySnapshot.forEach((docSnap) => {
-                        const d = docSnap.data();
-                        const hasPdf = d.pdfUrl ? '<i class="fa-solid fa-link text-blue-500"></i>' : '';
-                        html += `
-                            <div class="bg-gray-50 border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
-                                <div class="flex-1 overflow-hidden"><div class="font-bold text-gray-800 text-sm truncate flex items-center gap-2">${d.title} ${hasPdf}</div><div class="text-[10px] text-gray-500 mt-0.5"><span class="bg-gray-200 px-1.5 py-0.5 rounded">${d.classInfo}</span> - <span class="font-semibold text-blue-600">${d.folder}</span></div></div>
-                                <button onclick="window.adminDeleteDocument('${docSnap.id}')" class="w-8 h-8 flex-shrink-0 bg-red-100 text-red-600 rounded-lg flex items-center justify-center hover:bg-red-200 transition ml-2"><i class="fa-solid fa-trash-can"></i></button>
-                            </div>
-                        `;
-                    });
-                    container.innerHTML = html === '' ? '<div class="text-center py-5 text-gray-500">Chưa có tài liệu nào.</div>' : html;
-                });
-            } catch(e) {}
-        }
-
-        window.adminDeleteDocument = function(docId) {
-            if(!isAdmin()) return;
-            window.showMessage("Xác nhận xóa", "Bạn có chắc chắn muốn xóa tài liệu này?", true, async () => {
-                try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'documents', docId)); window.showMessage("Thành công", "Đã xóa tài liệu."); } catch(e) { }
-            });
-        }
-
-        // ================= CẬP NHẬT GIAO DIỆN & LOGIC CHO PHẦN TẠO ĐỀ THI =================
+        // ================= CẬP NHẬT GIAO DIỆN & LOGIC CHO PHẦN TẠO ĐỀ THI THỬ =================
         window.uploadedPdfBase64 = null; 
         window.togglePdfSource = function() {
             const source = document.querySelector('input[name="pdfSource"]:checked').value;
@@ -1921,7 +1716,7 @@
 
             const lines = keysText.split('\n').map(l => l.trim().toUpperCase()).filter(l => l !== '');
             if(lines.length < 28) {
-                window.showMessage("Lỗi dữ liệu", `Dữ liệu dán vào chỉ có ${lines.length} dòng. Yêu cầu đúng 28 dòng (18 dòng Phần 1, 4 dòng Phần 2, 6 dòng Phần 3).`); return;
+                window.showMessage("Lỗi dữ liệu", `Dữ liệu dán vào chỉ có ${lines.length} dòng. Yêu cầu đúng 28 dòng.`); return;
             }
 
             const p1Keys = lines.slice(0, 18).map(ans => ans.charAt(0)); 
@@ -1945,7 +1740,7 @@
                     program: program, source: examSource, year: year, createdAt: new Date().toISOString() 
                 });
                 
-                window.showMessage("Thành công", `Đã tạo đề thi "${title}" lên hệ thống kèm barem chấm điểm.`);
+                window.showMessage("Thành công", `Đã tạo đề thi thử "${title}".`);
                 document.getElementById('admin-exam-title').value = ''; document.getElementById('admin-exam-keys').value = '';
                 document.getElementById('admin-exam-url').value = ''; document.getElementById('admin-exam-solution-url').value = '';
                 if(document.getElementById('admin-exam-file')) document.getElementById('admin-exam-file').value = '';
@@ -1963,7 +1758,7 @@
         window.openMockExams = function() {
             window.hideAllViews();
             if(views.mockExams) views.mockExams.classList.remove('hidden-layout');
-            window.renderFilteredExams(); // Render khi mở trang
+            window.renderFilteredExams();
         }
 
         function listenToPublicExams() {
@@ -1976,7 +1771,6 @@
                     data.id = docSnap.id; 
                     publicExamsList.push(data);
                 });
-                // Nếu đang mở trang Đề thì render ngay
                 if(!document.getElementById('mock-exams-view').classList.contains('hidden-layout')) {
                     window.renderFilteredExams();
                 }
@@ -2009,13 +1803,11 @@
             const container = document.getElementById('public-exams-grid');
             if(!container) return;
 
-            // 1. Lấy dữ liệu Filter
             const search = document.getElementById('exam-search-input').value.trim().toLowerCase();
             const activePrograms = Array.from(document.querySelectorAll('.filter-program.filter-active')).map(e => e.dataset.val);
             const activeSources = Array.from(document.querySelectorAll('.filter-source:checked')).map(e => e.value);
             const activeYears = Array.from(document.querySelectorAll('.filter-year:checked')).map(e => e.value);
 
-            // 2. Lọc mảng publicExamsList
             let filtered = publicExamsList.filter(exam => {
                 let matchSearch = search === '' || exam.title.toLowerCase().includes(search);
                 let matchProgram = activePrograms.length === 0 || (exam.program && activePrograms.includes(exam.program));
@@ -2024,39 +1816,34 @@
                 return matchSearch && matchProgram && matchSource && matchYear;
             });
 
-            // 3. Sắp xếp (dựa vào createdAt)
             filtered.sort((a, b) => {
                 let da = new Date(a.createdAt || 0).getTime();
                 let dbDate = new Date(b.createdAt || 0).getTime();
                 return sortOrder === 'desc' ? dbDate - da : da - dbDate;
             });
 
-            // 4. Render HTML
             let html = '';
             if(filtered.length === 0) {
                 html = '<div class="col-span-full text-center py-10 text-gray-500">Chưa tìm thấy đề thi nào phù hợp.</div>';
             } else {
                 filtered.forEach(data => {
                     const safeObj = encodeURIComponent(JSON.stringify(data));
-                    
-                    // KIỂM TRA ĐÃ LÀM CHƯA
                     let examStatusBadge = `<div class="text-xs text-gray-400 font-bold tracking-wider uppercase mb-1">${data.source || 'Đề thi'} · ${data.year || '2025'}</div>`;
-                    let actionBtnHTML = `<button onclick="window.enterExamRoom('${safeObj}')" class="flex-1 bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-play"></i> Làm bài</button>`;
+                    let actionBtnHTML = `<button onclick="window.enterExamRoom('${safeObj}', 'mock')" class="flex-1 bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-play"></i> Làm bài</button>`;
                     
-                    // Lấy điểm từ map completedExams nếu có
                     if (currentStats && currentStats.completedExams && currentStats.completedExams[data.id] !== undefined) {
                         const score = currentStats.completedExams[data.id];
                         examStatusBadge = `<div class="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded inline-block font-bold tracking-wider uppercase mb-1"><i class="fa-solid fa-check"></i> Đã làm: ${score} Điểm</div>`;
-                        actionBtnHTML = `<button onclick="window.enterExamRoom('${safeObj}')" class="flex-1 bg-white border border-orange-400 text-orange-500 hover:bg-orange-50 font-bold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-rotate-right"></i> Làm lại</button>`;
+                        actionBtnHTML = `<button onclick="window.enterExamRoom('${safeObj}', 'mock')" class="flex-1 bg-white border border-orange-400 text-orange-500 hover:bg-orange-50 font-bold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-rotate-right"></i> Làm lại</button>`;
                     }
 
                     html += `
                         <div class="bg-white rounded-3xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow relative group">
-                            <div class="h-48 rounded-xl flex items-center justify-center mb-4 overflow-hidden shadow-inner cursor-pointer bg-gray-100" onclick="window.enterExamRoom('${safeObj}')">
+                            <div class="h-48 rounded-xl flex items-center justify-center mb-4 overflow-hidden shadow-inner cursor-pointer bg-gray-100" onclick="window.enterExamRoom('${safeObj}', 'mock')">
                                 <i class="fa-solid fa-file-pdf text-5xl text-red-500"></i>
                             </div>
                             ${examStatusBadge}
-                            <h3 class="font-bold text-gray-800 text-base leading-tight mb-3 line-clamp-2 h-10 cursor-pointer hover:text-blue-600" onclick="window.enterExamRoom('${safeObj}')">${data.title}</h3>
+                            <h3 class="font-bold text-gray-800 text-base leading-tight mb-3 line-clamp-2 h-10 cursor-pointer hover:text-blue-600" onclick="window.enterExamRoom('${safeObj}', 'mock')">${data.title}</h3>
                             <div class="flex gap-2">
                                 ${actionBtnHTML}
                             </div>
@@ -2095,24 +1882,89 @@
 
         window.adminDeleteExam = function(examId) {
             if(!isAdmin()) return;
-            window.showMessage("Xác nhận xóa", "Bạn có chắc chắn muốn xóa đề thi này không?", true, async () => {
+            window.showMessage("Xác nhận xóa", "Bạn có chắc chắn muốn xóa đề thi thử này không?", true, async () => {
                 try {
                     await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'exams', examId));
                     window.showMessage("Thành công", "Đã xóa đề thi.");
                 } catch(e) {}
             });
         }
+        
+        window.loadAdminUsersList = async function() {
+            if(!isAdmin() || !db) return;
+            const container = document.getElementById('admin-accounts-list');
+            if(!container) return;
+            try {
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'admin_accounts');
+                onSnapshot(colRef, (querySnapshot) => {
+                    let html = '';
+                    querySnapshot.forEach((docSnap) => {
+                        const info = docSnap.data();
+                        let roleBadge = info.email === ADMIN_EMAIL ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">ADMIN</span>` : `<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-bold ml-2">HỌC SINH</span>`;
+                        let avatarLetter = info.name ? info.name.charAt(0).toUpperCase() : 'U';
+                        html += `
+                            <div class="bg-white border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
+                                <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center">${avatarLetter}</div><div><div class="font-bold text-gray-800 text-sm flex items-center">${info.name || 'Chưa cập nhật tên'} ${roleBadge}</div><div class="text-xs text-gray-500 mt-0.5">${info.email}</div></div></div>
+                            </div>
+                        `;
+                    });
+                    container.innerHTML = html === '' ? '<div class="text-center py-5 text-gray-500">Chưa có hồ sơ nào được cập nhật thủ công.</div>' : html;
+                });
+            } catch(e) {}
+        }
 
+        window.adminUpdateUserProfile = async function() {
+            if(!isAdmin()) { window.showMessage("Lỗi", "Bạn không có quyền Admin."); return; }
+            const email = document.getElementById('admin-new-email').value.trim().toLowerCase();
+            const name = document.getElementById('admin-new-name').value.trim();
+            if(!email || !name) { window.showMessage("Lỗi", "Vui lòng nhập Email và Tên hiển thị."); return; }
+
+            try {
+                const accountsRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_accounts', email);
+                await setDoc(accountsRef, { email: email, name: name });
+                window.showMessage("Thành công", `Đã lưu hồ sơ.`);
+                document.getElementById('admin-new-email').value = ''; document.getElementById('admin-new-name').value = '';
+            } catch(e) { window.showMessage("Lỗi hệ thống", "Không thể cập nhật hồ sơ."); }
+        }
+
+        // ================= LOGIC PHÒNG THI CHUNG (THI THỬ & SỰ KIỆN) =================
         let currentExamConfig = null;
-        let userAnswers = { p1: Array(18).fill(null), p2: Array(4).fill(null).map(()=>Array(4).fill(null)), p3: Array(6).fill('') };
+        let examMode = 'mock'; // 'mock' or 'event'
+        let currentEventParentId = null; 
+        
+        let userAnswersMock = { p1: Array(18).fill(null), p2: Array(4).fill(null).map(()=>Array(4).fill(null)), p3: Array(6).fill('') };
+        let userAnswersEvent = []; 
+
         let examTimerInterval; 
         let examSeconds = 0;
 
-        window.enterExamRoom = function(encodedObj) {
+        window.enterEventSubExam = async function(eventId, subExamIndex) {
+            if(!isLoggedIn) { window.openLoginModal(); return; }
+            try {
+                const docSnap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'events', eventId));
+                if(docSnap.exists()) {
+                    const eventData = docSnap.data();
+                    const subExam = eventData.subExams[subExamIndex];
+                    subExam.id = subExam.id; // ensure ID exists
+                    
+                    const safeObj = encodeURIComponent(JSON.stringify(subExam));
+                    currentEventParentId = eventId;
+                    window.enterExamRoom(safeObj, 'event');
+                }
+            } catch(e) {}
+        }
+
+        window.enterExamRoom = function(encodedObj, mode) {
             if(!isLoggedIn) { window.openLoginModal(); return; }
 
+            examMode = mode;
             currentExamConfig = JSON.parse(decodeURIComponent(encodedObj));
-            userAnswers = { p1: Array(18).fill(null), p2: Array(4).fill(null).map(()=>Array(4).fill(null)), p3: Array(6).fill('') };
+            
+            if(examMode === 'mock') {
+                userAnswersMock = { p1: Array(18).fill(null), p2: Array(4).fill(null).map(()=>Array(4).fill(null)), p3: Array(6).fill('') };
+            } else {
+                userAnswersEvent = Array(currentExamConfig.keys.length).fill(null);
+            }
             
             window.hideAllViews();
             const examView = document.getElementById('exam-taking-view');
@@ -2124,7 +1976,7 @@
             const pdfIframe = document.getElementById('exam-pdf-iframe');
             if(pdfIframe) pdfIframe.src = currentExamConfig.pdfUrl; 
             
-            renderAnswerSheet();
+            renderAnswerSheet(examMode);
 
             examSeconds = 0;
             if(examTimerInterval) clearInterval(examTimerInterval);
@@ -2142,103 +1994,209 @@
                 if(examTimerInterval) clearInterval(examTimerInterval);
                 const pdfIframe = document.getElementById('exam-pdf-iframe');
                 if(pdfIframe) pdfIframe.src = ''; 
-                window.openMockExams();
+                
+                if(examMode === 'mock') {
+                    window.openMockExams();
+                } else {
+                    window.openEventRoom(currentEventParentId);
+                }
             });
         }
 
-        function renderAnswerSheet() {
-            let p1Html = '';
-            for(let i=0; i<18; i++) {
-                p1Html += `
-                    <div class="flex items-center justify-between border-b border-gray-100 pb-2 hover:bg-gray-50 p-1 rounded transition">
-                        <span class="w-12 font-bold text-gray-700 text-sm">Câu ${i+1}</span>
-                        <div class="flex gap-3">
-                            ${['A','B','C','D'].map(opt => `
-                                <label class="cursor-pointer relative">
-                                    <input type="radio" name="p1q${i}" value="${opt}" class="bubble-radio absolute opacity-0 w-0 h-0" onchange="window.selectP1(${i}, '${opt}')">
-                                    <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-blue-400 transition-colors">${opt}</div>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>`;
-            }
-            document.getElementById('answer-sheet-p1').innerHTML = p1Html;
+        function renderAnswerSheet(mode) {
+            const container = document.getElementById('answer-sheet-container');
+            if(!container) return;
+            
+            if (mode === 'mock') {
+                let p1Html = '';
+                for(let i=0; i<18; i++) {
+                    p1Html += `
+                        <div class="flex items-center justify-between border-b border-gray-100 pb-2 hover:bg-gray-50 p-1 rounded transition">
+                            <span class="w-12 font-bold text-gray-700 text-sm">Câu ${i+1}</span>
+                            <div class="flex gap-3">
+                                ${['A','B','C','D'].map(opt => `
+                                    <label class="cursor-pointer relative">
+                                        <input type="radio" name="p1q${i}" value="${opt}" class="bubble-radio absolute opacity-0 w-0 h-0" onchange="window.selectP1(${i}, '${opt}')">
+                                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-blue-400 transition-colors">${opt}</div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>`;
+                }
 
-            let p2Html = '';
-            for(let i=0; i<4; i++) {
-                p2Html += `
-                    <div class="border border-gray-200 rounded-xl p-4 bg-gray-50/50 shadow-sm">
-                        <div class="font-bold text-gray-800 mb-3 border-b border-gray-200 pb-2">Câu ${i+1}</div>
-                        <div class="space-y-3">
-                            ${['a','b','c','d'].map((sub, idx) => `
-                                <div class="flex items-center justify-between pl-2">
-                                    <span class="w-6 font-bold text-gray-600 text-sm">${sub}.</span>
-                                    <div class="flex gap-4">
-                                        <label class="cursor-pointer flex items-center gap-1">
-                                            <input type="radio" name="p2q${i}s${idx}" value="Đ" class="bubble-radio-tf absolute opacity-0 w-0 h-0" onchange="window.selectP2(${i}, ${idx}, 'Đ')">
-                                            <div class="bg-tf-d w-8 h-8 rounded border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-green-500 transition-colors shadow-inner">Đ</div>
-                                        </label>
-                                        <label class="cursor-pointer flex items-center gap-1">
-                                            <input type="radio" name="p2q${i}s${idx}" value="S" class="bubble-radio-tf absolute opacity-0 w-0 h-0" onchange="window.selectP2(${i}, ${idx}, 'S')">
-                                            <div class="bg-tf-s w-8 h-8 rounded border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-red-500 transition-colors shadow-inner">S</div>
-                                        </label>
+                let p2Html = '';
+                for(let i=0; i<4; i++) {
+                    p2Html += `
+                        <div class="border border-gray-200 rounded-xl p-4 bg-gray-50/50 shadow-sm">
+                            <div class="font-bold text-gray-800 mb-3 border-b border-gray-200 pb-2">Câu ${i+1}</div>
+                            <div class="space-y-3">
+                                ${['a','b','c','d'].map((sub, idx) => `
+                                    <div class="flex items-center justify-between pl-2">
+                                        <span class="w-6 font-bold text-gray-600 text-sm">${sub}.</span>
+                                        <div class="flex gap-4">
+                                            <label class="cursor-pointer flex items-center gap-1">
+                                                <input type="radio" name="p2q${i}s${idx}" value="Đ" class="bubble-radio-tf absolute opacity-0 w-0 h-0" onchange="window.selectP2(${i}, ${idx}, 'Đ')">
+                                                <div class="bg-tf-d w-8 h-8 rounded border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-green-500 transition-colors shadow-inner">Đ</div>
+                                            </label>
+                                            <label class="cursor-pointer flex items-center gap-1">
+                                                <input type="radio" name="p2q${i}s${idx}" value="S" class="bubble-radio-tf absolute opacity-0 w-0 h-0" onchange="window.selectP2(${i}, ${idx}, 'S')">
+                                                <div class="bg-tf-s w-8 h-8 rounded border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-red-500 transition-colors shadow-inner">S</div>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>`;
-            }
-            document.getElementById('answer-sheet-p2').innerHTML = p2Html;
+                                `).join('')}
+                            </div>
+                        </div>`;
+                }
 
-            let p3Html = '';
-            for(let i=0; i<6; i++) {
-                p3Html += `
-                    <div class="flex items-center gap-4 border-b border-gray-100 pb-2">
-                        <span class="w-16 font-bold text-gray-700 text-sm">Câu ${i+1}</span>
-                        <input type="text" class="flex-1 border-2 border-gray-300 rounded-lg px-4 py-2 font-bold text-gray-800 outline-none focus:border-blue-500 transition" placeholder="Nhập..." oninput="window.inputP3(${i}, this.value)">
-                    </div>`;
+                let p3Html = '';
+                for(let i=0; i<6; i++) {
+                    p3Html += `
+                        <div class="flex items-center gap-4 border-b border-gray-100 pb-2">
+                            <span class="w-16 font-bold text-gray-700 text-sm">Câu ${i+1}</span>
+                            <input type="text" class="flex-1 border-2 border-gray-300 rounded-lg px-4 py-2 font-bold text-gray-800 outline-none focus:border-blue-500 transition" placeholder="Nhập..." oninput="window.inputP3(${i}, this.value)">
+                        </div>`;
+                }
+                
+                container.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">Phần 1: Trắc nghiệm (18 câu)</h3>
+                            <span class="text-[10px] text-gray-400 font-medium">0.25đ / câu</span>
+                        </div>
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-3" id="answer-sheet-p1">${p1Html}</div>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">Phần 2: Đúng / Sai (4 câu)</h3>
+                            <span class="text-[10px] text-gray-400 font-medium">Tối đa 1.0đ / câu</span>
+                        </div>
+                        <div class="space-y-5" id="answer-sheet-p2">${p2Html}</div>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">Phần 3: Trả lời ngắn (6 câu)</h3>
+                            <span class="text-[10px] text-gray-400 font-medium">0.25đ / câu</span>
+                        </div>
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-3" id="answer-sheet-p3">${p3Html}</div>
+                    </div>
+                `;
+            } 
+            else if (mode === 'event') {
+                const totalQuestions = currentExamConfig.keys.length;
+                let html = `
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                        <h3 class="font-bold text-gray-800 text-lg">Phần thi Trắc nghiệm (${totalQuestions} câu)</h3>
+                        <span class="text-[10px] text-gray-400 font-medium bg-gray-100 px-2 py-1 rounded">Chấm điểm hệ 10</span>
+                    </div>
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-3">
+                `;
+                
+                for(let i=0; i<totalQuestions; i++) {
+                    html += `
+                        <div class="flex items-center justify-between border-b border-gray-100 pb-2 hover:bg-gray-50 p-1 rounded transition">
+                            <span class="w-12 font-bold text-gray-700 text-sm">Câu ${i+1}</span>
+                            <div class="flex gap-2">
+                                ${['A','B','C','D'].map(opt => `
+                                    <label class="cursor-pointer relative">
+                                        <input type="radio" name="evt_q${i}" value="${opt}" class="bubble-radio absolute opacity-0 w-0 h-0" onchange="window.selectEventQ(${i}, '${opt}')">
+                                        <div class="w-7 h-7 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-xs text-gray-500 hover:border-orange-400 transition-colors">${opt}</div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>`;
+                }
+                html += `</div>`;
+                container.innerHTML = html;
             }
-            document.getElementById('answer-sheet-p3').innerHTML = p3Html;
         }
 
-        window.selectP1 = function(qIdx, val) { userAnswers.p1[qIdx] = val; }
-        window.selectP2 = function(qIdx, stmtIdx, val) { userAnswers.p2[qIdx][stmtIdx] = val; }
-        window.inputP3 = function(qIdx, val) { userAnswers.p3[qIdx] = val.trim(); }
+        window.selectP1 = function(qIdx, val) { userAnswersMock.p1[qIdx] = val; }
+        window.selectP2 = function(qIdx, stmtIdx, val) { userAnswersMock.p2[qIdx][stmtIdx] = val; }
+        window.inputP3 = function(qIdx, val) { userAnswersMock.p3[qIdx] = val.trim(); }
+        
+        window.selectEventQ = function(qIdx, val) { userAnswersEvent[qIdx] = val; }
 
         window.submitExam = function() {
             window.showMessage("Nộp bài", "Hệ thống sẽ chấm điểm tự động. Bạn chắc chắn nộp?", true, async () => {
                 if(examTimerInterval) clearInterval(examTimerInterval);
                 
                 let score = 0;
-                const keys = currentExamConfig.keys;
-
-                for(let i=0; i<18; i++) { if(userAnswers.p1[i] === keys.p1[i]) score += 0.25; }
-                for(let i=0; i<4; i++) {
-                    let correctCount = 0;
-                    const p2RealAnsStr = keys.p2[i]; 
-                    for(let j=0; j<4; j++) { if(userAnswers.p2[i][j] === p2RealAnsStr.charAt(j)) correctCount++; }
-                    if(correctCount === 4) score += 1.0; 
-                    else if(correctCount === 3) score += 0.5; 
-                    else if(correctCount === 2) score += 0.25; 
-                    else if(correctCount === 1) score += 0.1;
-                }
-                for(let i=0; i<6; i++) {
-                    const uAns = (userAnswers.p3[i] || '').toString().toLowerCase();
-                    const kAns = (keys.p3[i] || '').toString().toLowerCase();
-                    if(uAns !== '' && uAns === kAns) score += 0.25;
-                }
-                score = Math.min(10, score).toFixed(2);
                 
-                // Lưu vào database (testScores và completedExams)
-                if(currentUserUid && currentStats) {
-                    let labels = currentStats.testLabels || [];
-                    let scores = currentStats.testScores || [];
-                    let completed = currentStats.completedExams || {};
-                    labels.push(currentExamConfig.title.substring(0, 15) + '...'); 
-                    scores.push(parseFloat(score));
-                    completed[currentExamConfig.id] = score; // Map lưu trạng thái đề này được bn điểm
+                if (examMode === 'mock') {
+                    const keys = currentExamConfig.keys;
+                    for(let i=0; i<18; i++) { if(userAnswersMock.p1[i] === keys.p1[i]) score += 0.25; }
+                    for(let i=0; i<4; i++) {
+                        let correctCount = 0;
+                        const p2RealAnsStr = keys.p2[i]; 
+                        for(let j=0; j<4; j++) { if(userAnswersMock.p2[i][j] === p2RealAnsStr.charAt(j)) correctCount++; }
+                        if(correctCount === 4) score += 1.0; 
+                        else if(correctCount === 3) score += 0.5; 
+                        else if(correctCount === 2) score += 0.25; 
+                        else if(correctCount === 1) score += 0.1;
+                    }
+                    for(let i=0; i<6; i++) {
+                        const uAns = (userAnswersMock.p3[i] || '').toString().toLowerCase();
+                        const kAns = (keys.p3[i] || '').toString().toLowerCase();
+                        if(uAns !== '' && uAns === kAns) score += 0.25;
+                    }
+                    score = Math.min(10, score).toFixed(2);
                     
-                    try { await updateDoc(getStatsRef(), { testLabels: labels, testScores: scores, completedExams: completed }); } catch (e) {}
+                    if(currentUserUid && currentStats) {
+                        let labels = currentStats.testLabels || [];
+                        let scores = currentStats.testScores || [];
+                        let completed = currentStats.completedExams || {};
+                        labels.push(currentExamConfig.title.substring(0, 15) + '...'); 
+                        scores.push(parseFloat(score));
+                        completed[currentExamConfig.id] = score; 
+                        
+                        try { await updateDoc(getStatsRef(), { testLabels: labels, testScores: scores, completedExams: completed }); } catch (e) {}
+                    }
+                } 
+                else if (examMode === 'event') {
+                    const keys = currentExamConfig.keys;
+                    let correctCount = 0;
+                    const total = keys.length;
+                    
+                    for(let i=0; i<total; i++) {
+                        if(userAnswersEvent[i] === keys[i]) correctCount++;
+                    }
+                    
+                    if (total > 0) {
+                        score = ((correctCount / total) * 10).toFixed(2);
+                    } else {
+                        score = "0.00";
+                    }
+
+                    if(currentUserUid && currentStats) {
+                        // Ghi nhận điểm cho phần thi nhỏ này
+                        let completed = currentStats.completedExams || {};
+                        completed[currentExamConfig.id] = score; 
+                        
+                        // Tính toán tiến độ chung của Sự Kiện Lớn (Dựa vào tổng điểm các bài đã làm của sự kiện)
+                        let events = currentStats.participatedEvents || [];
+                        let eventIdx = events.findIndex(e => e.id === currentEventParentId);
+                        
+                        if(eventIdx !== -1) {
+                            // Lấy thông tin sự kiện gốc để biết có bao nhiêu subExams
+                            const evtDocSnap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'events', currentEventParentId));
+                            if (evtDocSnap.exists()) {
+                                const evtData = evtDocSnap.data();
+                                const subExams = evtData.subExams || [];
+                                let totalProgressScore = 0;
+                                
+                                subExams.forEach(se => {
+                                    if (completed[se.id]) {
+                                        totalProgressScore += parseFloat(completed[se.id]);
+                                    }
+                                });
+                                
+                                events[eventIdx].progress = totalProgressScore;
+                            }
+                        }
+
+                        try { await updateDoc(getStatsRef(), { completedExams: completed, participatedEvents: events }); } catch (e) {}
+                    }
                 }
 
                 // Hiển thị Custom Popup Xem Đáp Án
@@ -2247,14 +2205,21 @@
                 document.getElementById('custom-msg-text').innerText = "Chúc mừng bạn đã hoàn thành bài thi. Bạn có muốn xem đáp án chi tiết không?";
                 
                 const btnContainer = document.getElementById('custom-msg-buttons');
-                let btnsHtml = `<button onclick="window.closeMsgBox(); window.openMockExams();" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-xl transition flex-1">Về DS Đề Thi</button>`;
+                let btnsHtml = '';
+                
+                if (examMode === 'mock') {
+                    btnsHtml += `<button onclick="window.closeMsgBox(); window.openMockExams();" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-xl transition flex-1">Về DS Đề Thi</button>`;
+                } else {
+                    btnsHtml += `<button onclick="window.closeMsgBox(); window.openEventRoom('${currentEventParentId}');" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-xl transition flex-1">Về Sự Kiện</button>`;
+                }
+
                 if (currentExamConfig.solutionUrl) {
-                    btnsHtml += `<a href="${currentExamConfig.solutionUrl}" target="_blank" onclick="window.closeMsgBox(); window.openMockExams();" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl transition flex-1 text-center decoration-none">Xem Đáp Án</a>`;
+                    const closeAction = examMode === 'mock' ? `window.openMockExams()` : `window.openEventRoom('${currentEventParentId}')`;
+                    btnsHtml += `<a href="${currentExamConfig.solutionUrl}" target="_blank" onclick="window.closeMsgBox(); ${closeAction};" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl transition flex-1 text-center decoration-none">Xem Đáp Án</a>`;
                 }
                 btnContainer.innerHTML = btnsHtml;
                 box.classList.remove('hidden'); box.classList.add('flex'); void box.offsetWidth; box.classList.remove('opacity-0'); content.classList.remove('scale-95');
                 
-                // Reset khung PDF cho nhẹ ram
                 const pdfIframe = document.getElementById('exam-pdf-iframe');
                 if(pdfIframe) pdfIframe.src = ''; 
             });
