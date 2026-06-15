@@ -169,13 +169,13 @@
         <!-- Danh mục lưới -->
         <section class="container mx-auto px-4 -mt-10 relative z-20">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-center">
-                <div onclick="window.openSubjectPage('Học lại từ con số 0')" class="bg-[#3b82f6] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
+                <div onclick="window.openSubjectPage('basic')" class="bg-[#3b82f6] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
                     <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-graduation-cap"></i></div>
                     <h3 class="font-bold text-xl mb-2">Học lại từ<br>con số 0</h3>
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Lộ trình học bài bản. Hoàn thành lý thuyết để mở khóa bài tập.</p>
                 </div>
                 
-                <div onclick="window.openSubjectPage('Nâng cao')" class="bg-[#ef4444] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
+                <div onclick="window.openSubjectPage('advanced')" class="bg-[#ef4444] rounded-2xl border-2 border-white shadow-lg p-4 flex flex-col text-white h-64 relative overflow-hidden transition all 0.3s ease cursor-pointer hover:-translate-y-2">
                     <div class="bg-white/20 w-8 h-8 rounded flex items-center justify-center mb-3"><i class="fa-solid fa-fire"></i></div>
                     <h3 class="font-bold text-xl mb-2">Nâng cao</h3>
                     <p class="text-xs opacity-90 leading-tight mb-4 flex-grow">Bài tập tính toán và lý thuyết Vận Dụng Cao (VDC).</p>
@@ -267,56 +267,27 @@
                 <h2 class="text-3xl font-black text-gray-800 font-logo mb-2">Thực hành mô phỏng</h2>
                 <p class="text-gray-500">Nhấn vào thí nghiệm để bắt đầu tương tác trực tiếp.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <!-- Thí nghiệm 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto" id="lab-grid-container">
+                <!-- Thí nghiệm 1 (Built-in) -->
                 <div onclick="window.startLab('pha-loang')" class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm hover:shadow-lg hover:border-emerald-300 transition cursor-pointer group flex flex-col items-center">
                     <div class="h-24 w-full flex justify-center items-center mb-4 bg-emerald-50 rounded-xl group-hover:bg-emerald-100 transition">
                         <i class="fa-solid fa-flask-vial text-5xl text-emerald-500"></i>
                     </div>
                     <h3 class="font-bold text-gray-800 text-lg">Pha loãng dung dịch</h3>
-                    <p class="text-xs text-gray-400 mt-2 text-center">Hoạt động tương tác <i class="fa-solid fa-bolt text-yellow-500 ml-1"></i></p>
+                    <p class="text-xs text-gray-400 mt-2 text-center">Hoạt động tương tác (Mặc định) <i class="fa-solid fa-bolt text-yellow-500 ml-1"></i></p>
                 </div>
-                <!-- Thí nghiệm 2 (Placeholder) -->
-                <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm opacity-60 flex flex-col items-center relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px] flex items-center justify-center z-10">
-                        <span class="bg-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full">Sắp ra mắt</span>
-                    </div>
-                    <div class="h-24 w-full flex justify-center items-center mb-4 bg-blue-50 rounded-xl">
-                        <i class="fa-solid fa-fill-drip text-5xl text-blue-500"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-800 text-lg">Chuẩn độ Axit-Bazơ</h3>
-                </div>
-                <!-- Thí nghiệm 3 (Placeholder) -->
-                <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm opacity-60 flex flex-col items-center relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px] flex items-center justify-center z-10">
-                        <span class="bg-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full">Sắp ra mắt</span>
-                    </div>
-                    <div class="h-24 w-full flex justify-center items-center mb-4 bg-purple-50 rounded-xl">
-                        <i class="fa-solid fa-battery-half text-5xl text-purple-500"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-800 text-lg">Pin Galvanic</h3>
-                </div>
-                <!-- Thí nghiệm 4 (Placeholder) -->
-                <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm opacity-60 flex flex-col items-center relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px] flex items-center justify-center z-10">
-                        <span class="bg-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full">Sắp ra mắt</span>
-                    </div>
-                    <div class="h-24 w-full flex justify-center items-center mb-4 bg-orange-50 rounded-xl">
-                        <i class="fa-solid fa-bolt text-5xl text-orange-500"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-800 text-lg">Điện phân nước</h3>
-                </div>
+                <!-- Các Lab từ Database sẽ load vào đây -->
             </div>
         </div>
     </div>
 
     <!-- MODAL TƯƠNG TÁC PHÒNG LAB -->
     <div id="lab-interactive-modal" class="fixed inset-0 bg-slate-900/95 z-[200] hidden flex-col items-center justify-center backdrop-blur-sm">
-        <button onclick="window.closeLab()" class="absolute top-6 right-6 text-white/50 hover:text-white text-3xl transition"><i class="fa-solid fa-xmark"></i></button>
-        <h2 id="lab-modal-title" class="text-white text-3xl font-black mb-10 font-logo">Phòng Lab</h2>
+        <button onclick="window.closeLab()" class="absolute top-6 right-6 text-white/50 hover:text-white text-3xl transition z-50"><i class="fa-solid fa-xmark"></i></button>
+        <h2 id="lab-modal-title" class="text-white text-3xl font-black mb-6 font-logo z-50">Phòng Lab</h2>
         
-        <!-- Màn hình Pha loãng -->
-        <div id="lab-pha-loang" class="hidden flex-col items-center w-full max-w-md">
+        <!-- Màn hình Pha loãng (Built-in) -->
+        <div id="lab-pha-loang" class="hidden flex-col items-center w-full max-w-md z-50 relative mt-10">
             <!-- Bình chứa nước -->
             <div class="w-48 h-64 border-4 border-white/40 rounded-b-[40px] relative overflow-hidden flex items-end justify-center bg-white/5 mb-8 shadow-[0_0_50px_rgba(255,255,255,0.1)]">
                 <!-- Vạch chia độ -->
@@ -345,6 +316,13 @@
                         <i class="fa-solid fa-rotate-right"></i> Làm lại
                     </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Màn hình Lab Iframe (External) -->
+        <div id="lab-iframe-container" class="hidden w-full h-full max-w-6xl max-h-[80vh] px-6 relative z-40">
+            <div class="w-full h-full bg-white rounded-2xl overflow-hidden shadow-2xl relative">
+                <iframe id="lab-external-iframe" class="w-full h-full border-none"></iframe>
             </div>
         </div>
     </div>
@@ -433,7 +411,6 @@
                     <i class="fa-regular fa-clock"></i> <span id="exam-timer" class="font-bold text-sm">00:00s</span>
                 </div>
                 <button onclick="window.toggleCalculator()" class="flex items-center gap-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 text-sm font-semibold px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-calculator"></i> <span class="hidden sm:inline">Máy tính</span></button>
-                <!-- Đã loại bỏ nút Nháp theo yêu cầu -->
                 <button onclick="window.submitExam()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-xl transition text-sm shadow-md">Nộp Bài</button>
             </div>
         </nav>
@@ -443,9 +420,9 @@
             <!-- Cột Trái: PDF Viewer -->
             <div class="w-full md:w-3/5 lg:w-2/3 h-full bg-gray-300 border-r border-gray-300 flex flex-col relative">
                 <div class="bg-gray-100 text-xs font-bold text-gray-500 px-4 py-1 text-center border-b border-gray-300 uppercase tracking-widest flex-shrink-0">
-                    Đề Thi (PDF)
+                    Nội dung đề bài / Tài liệu
                 </div>
-                <!-- Iframe tải PDF, script sẽ chèn url kèm thuộc tính ẩn toolbar để ẩn tính năng bình luận -->
+                <!-- Iframe tải PDF/Video -->
                 <iframe id="exam-pdf-iframe" class="w-full flex-1 border-none bg-white"></iframe>
             </div>
 
@@ -471,7 +448,6 @@
                     <div class="text-[10px] text-gray-600 flex justify-between uppercase"><span>Math</span><span>D</span></div>
                     <div class="text-right text-xl text-gray-800 tracking-wider overflow-hidden" id="calc-display">0</div>
                 </div>
-                <!-- Bàn phím máy tính mô phỏng cơ bản -->
                 <div class="grid grid-cols-5 gap-2 text-xs font-bold font-mono">
                     <button class="bg-gray-200 p-2 rounded hover:bg-gray-300">SHIFT</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300">ALPHA</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300">MODE</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300 text-blue-600">ON</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300"><i class="fa-solid fa-caret-left"></i></button>
                     <button class="bg-gray-200 p-2 rounded hover:bg-gray-300">x²</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300">^</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300">log</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300">ln</button><button class="bg-gray-200 p-2 rounded hover:bg-gray-300">(-)</button>
@@ -725,6 +701,105 @@
                     <h2 class="text-[11px] text-red-600 font-bold uppercase tracking-widest mb-1">DÀNH RIÊNG CHO QUẢN TRỊ VIÊN</h2>
                     <h1 class="text-3xl font-extrabold text-gray-900 mb-8 font-logo">Quản lý Hệ Thống</h1>
 
+                    <!-- TẠO BÀI HỌC (LỘ TRÌNH/NÂNG CAO) -->
+                    <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-blue-500 mb-8">
+                        <div class="flex flex-col lg:flex-row gap-8">
+                            <div class="flex-1 space-y-4">
+                                <div class="flex items-center gap-3 mb-4 border-b border-gray-100 pb-4">
+                                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-book-open"></i></div>
+                                    <div><h3 class="font-bold text-gray-800">Tạo Bài Học Mới</h3></div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tên Bài Học</label>
+                                        <input type="text" id="admin-lesson-title" placeholder="VD: Bài 1: Cấu tạo nguyên tử..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Chuyên mục</label>
+                                        <select id="admin-lesson-category" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none text-sm">
+                                            <option value="basic">Học lại từ con số 0</option>
+                                            <option value="advanced">Nâng cao</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Link Video / Tài liệu Lý thuyết (Iframe tương thích)</label>
+                                    <input type="url" id="admin-lesson-theory-url" placeholder="VD: Link Video YouTube, Drive PDF..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm">
+                                </div>
+
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Link Tài liệu Bài tập vận dụng (PDF)</label>
+                                    <input type="url" id="admin-lesson-exam-url" placeholder="Nhập Link Google Drive..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm">
+                                </div>
+                                
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-2">Dán Đáp Án Động (Cho phần làm bài tập)</label>
+                                    <p class="text-[11px] text-gray-500 mb-2 leading-relaxed">
+                                        <i class="fa-solid fa-circle-info text-blue-500"></i> Hệ thống tự nhận diện:<br>
+                                        - Ghi 1 chữ <b>A, B, C, D</b> => Tạo câu Trắc nghiệm 4 đáp án.<br>
+                                        - Ghi 4 chữ <b>SSSD, ĐSĐS</b> => Tạo câu Trắc nghiệm Đúng/Sai (4 ý).<br>
+                                        - Ghi Số/Chữ khác (VD: <b>9,1</b> hoặc <b>19</b>) => Tạo ô điền Trả lời ngắn.
+                                    </p>
+                                    <textarea id="admin-lesson-keys" rows="5" placeholder="A&#10;B&#10;SSSD&#10;9,1" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-mono leading-relaxed"></textarea>
+                                </div>
+
+                                <button id="btn-submit-lesson-admin" onclick="window.adminCreateLesson()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Lưu Bài Học
+                                </button>
+                            </div>
+                            
+                            <!-- Danh sách bài học -->
+                            <div class="w-full lg:w-1/3 flex flex-col border-t lg:border-t-0 lg:border-l border-gray-100 pt-6 lg:pt-0 lg:pl-6">
+                                <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-list"></i></div>
+                                    <div><h3 class="font-bold text-gray-800">Danh sách Bài Học</h3></div>
+                                </div>
+                                <div id="admin-lessons-list" class="space-y-3 flex-1 overflow-y-auto max-h-[500px] pr-2 folder-list-scroll"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TẠO LAB MỚI -->
+                    <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-emerald-500 mb-8">
+                        <div class="flex flex-col lg:flex-row gap-8">
+                            <div class="flex-1 space-y-4">
+                                <div class="flex items-center gap-3 mb-4 border-b border-gray-100 pb-4">
+                                    <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-microscope"></i></div>
+                                    <div><h3 class="font-bold text-gray-800">Thêm Thí Nghiệm Phòng Lab</h3></div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Tên Thí Nghiệm</label>
+                                    <input type="text" id="admin-lab-title" placeholder="VD: Chuẩn độ Axit - Bazơ..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm">
+                                </div>
+
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Link Iframe Thí nghiệm (Ví dụ: PhET Simulations, Youtube...)</label>
+                                    <input type="url" id="admin-lab-url" placeholder="https://..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm">
+                                </div>
+
+                                <div>
+                                    <label class="block text-[11px] font-bold text-gray-500 uppercase mb-1">Mô tả ngắn</label>
+                                    <input type="text" id="admin-lab-desc" placeholder="VD: Thí nghiệm mô phỏng qua PhET..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition text-sm">
+                                </div>
+
+                                <button id="btn-submit-lab-admin" onclick="window.adminCreateLab()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl py-3.5 transition shadow-sm flex items-center justify-center gap-2 mt-2">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Lưu Thí Nghiệm
+                                </button>
+                            </div>
+                            
+                            <div class="w-full lg:w-1/3 flex flex-col border-t lg:border-t-0 lg:border-l border-gray-100 pt-6 lg:pt-0 lg:pl-6">
+                                <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                                    <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-vial"></i></div>
+                                    <div><h3 class="font-bold text-gray-800">Danh sách Lab</h3></div>
+                                </div>
+                                <div id="admin-labs-list" class="space-y-3 flex-1 overflow-y-auto max-h-[500px] pr-2 folder-list-scroll"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Quản lý Sự kiện -->
                     <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-orange-500 mb-8">
                         <div class="flex flex-col lg:flex-row gap-8">
@@ -781,7 +856,7 @@
                         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm border-l-4 border-l-purple-500">
                             <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                                 <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-file-circle-plus"></i></div>
-                                <div><h3 class="font-bold text-gray-800">Tạo Đề Thi Thử (Chuẩn cấu trúc)</h3></div>
+                                <div><h3 class="font-bold text-gray-800">Tạo Đề Thi Thử (Cấu trúc chuẩn Bộ GD 2025)</h3></div>
                             </div>
                             <div class="space-y-4">
                                 <div>
@@ -835,7 +910,7 @@
                                 </div>
                                 
                                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4">
-                                    <label class="block text-sm font-bold text-blue-800 mb-2"><i class="fa-solid fa-key"></i> Dán cột đáp án từ Excel (28 dòng)</label>
+                                    <label class="block text-sm font-bold text-blue-800 mb-2"><i class="fa-solid fa-key"></i> Dán cột đáp án từ Excel (đúng 28 dòng)</label>
                                     <p class="text-[11px] text-blue-600 mb-2 leading-relaxed">Dòng 1-18: Trắc nghiệm | 19-22: Đúng Sai | 23-28: Ngắn</p>
                                     <textarea id="admin-exam-keys" rows="4" placeholder="A&#10;B&#10;...&#10;ĐĐSĐ&#10;...&#10;15.5" class="w-full bg-white border border-blue-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm font-mono leading-relaxed"></textarea>
                                 </div>
@@ -957,10 +1032,15 @@
         let isLoggedIn = false;
         let currentProfile = null;
         let currentStats = null;
+        
         let publicEventsList = [];
         let publicExamsList = [];
+        let lessonsList = []; // Danh sách Bài học
+        let labsList = [];    // Danh sách Lab
+        
         let sortOrder = 'desc'; 
-        let learningProgress = {}; // Để theo dõi tiến độ Học lại từ con số 0
+        let learningProgress = {}; 
+        let currentSubjectCategory = 'basic'; // 'basic' hoặc 'advanced'
         
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'tx-hoa-hoc-demo';
         const ADMIN_EMAIL = 'huyvan1312@gmail.com'; 
@@ -1028,71 +1108,70 @@
             }
         }
 
-        /* Logic môn học / Học lại từ con số 0 */
-        window.openSubjectPage = function(subjectName) {
+        /* TÍNH NĂNG QUẢN LÝ BÀI HỌC DYNAMIC */
+        window.openSubjectPage = function(category) {
             window.hideAllViews();
             if(views.subject) views.subject.classList.remove('hidden-layout');
+            currentSubjectCategory = category;
+            
             const title = document.getElementById('subject-title');
-            if(title) title.innerText = subjectName;
+            if(title) title.innerText = category === 'basic' ? 'Học lại từ con số 0' : 'Hóa Học Nâng Cao';
 
-            const contentDiv = document.getElementById('subject-content-area');
-            if (subjectName === 'Học lại từ con số 0') {
-                window.renderLearningPath();
-            } else {
-                contentDiv.innerHTML = `<div class="text-center bg-white rounded-3xl p-10 border border-gray-200"><i class="fa-solid fa-laptop-code text-5xl text-gray-300 mb-4"></i><h2 class="text-2xl font-bold text-gray-700">Nội dung ${subjectName}</h2><p class="text-gray-500 mt-2">Tính năng đang được biên soạn nội dung và sẽ sớm ra mắt.</p></div>`;
-            }
+            window.renderLearningPath();
         }
 
         window.renderLearningPath = function() {
             learningProgress = (currentStats && currentStats.learningProgress) ? currentStats.learningProgress : {};
             
-            // Dữ liệu mô phỏng lộ trình
-            const lessons = [
-                { id: 'bai1', title: 'Bài 1: Cấu tạo nguyên tử & Bảng tuần hoàn' },
-                { id: 'bai2', title: 'Bài 2: Liên kết hóa học cơ bản' },
-                { id: 'bai3', title: 'Bài 3: Phản ứng Oxi hóa - Khử' },
-                { id: 'bai4', title: 'Bài 4: Nhóm Halogen' }
-            ];
+            const filteredLessons = lessonsList.filter(l => l.category === currentSubjectCategory)
+                                               .sort((a,b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
             let html = '<div class="max-w-3xl mx-auto space-y-6">';
-            lessons.forEach((l, idx) => {
-                let prog = learningProgress[l.id] || { theoryDone: false, exDone: false };
-                let isExerciseUnlocked = prog.theoryDone;
-                let exClass = isExerciseUnlocked ? 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 hover:shadow cursor-pointer' : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed opacity-70';
+            
+            if (filteredLessons.length === 0) {
+                html += `<div class="text-center bg-white rounded-3xl p-10 border border-gray-200"><i class="fa-solid fa-laptop-code text-5xl text-gray-300 mb-4"></i><h2 class="text-2xl font-bold text-gray-700">Chưa có bài học nào</h2><p class="text-gray-500 mt-2">Tính năng đang được biên soạn nội dung và sẽ sớm ra mắt.</p></div>`;
+            } else {
+                filteredLessons.forEach((l, idx) => {
+                    let prog = learningProgress[l.id] || { theoryDone: false, exDone: false };
+                    let isExerciseUnlocked = prog.theoryDone;
+                    let exClass = isExerciseUnlocked ? 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 hover:shadow cursor-pointer' : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed opacity-70';
+                    const safeObj = encodeURIComponent(JSON.stringify(l));
 
-                html += `
-                <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-                    <h3 class="font-black text-xl text-gray-800 mb-4">${l.title}</h3>
-                    
-                    <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg"><i class="fa-solid fa-book-open"></i></div>
-                            <div>
-                                <span class="font-bold text-gray-700 block">1. Học Lý Thuyết</span>
-                                <span class="text-[11px] text-gray-500">Đọc tài liệu và xem Video bài giảng</span>
+                    html += `
+                    <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+                        <h3 class="font-black text-xl text-gray-800 mb-4">${l.title}</h3>
+                        
+                        <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-4">
+                            <div class="flex items-center gap-3 flex-1">
+                                <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-book-open"></i></div>
+                                <div>
+                                    <span class="font-bold text-gray-700 block line-clamp-1">1. Học Lý Thuyết</span>
+                                    <a href="${l.theoryUrl}" target="_blank" class="text-[11px] text-blue-500 hover:underline"><i class="fa-solid fa-link"></i> Mở tài liệu / Video bài giảng</a>
+                                </div>
                             </div>
+                            <button onclick="window.markTheoryDone('${l.id}')" class="w-10 h-10 rounded-xl border-2 flex-shrink-0 ml-2 ${prog.theoryDone ? 'border-green-500 bg-green-500 text-white shadow-md' : 'border-gray-300 bg-gray-50 text-gray-300 hover:border-green-400 hover:text-green-500'} flex items-center justify-center transition-all duration-300" title="Đánh dấu hoàn thành lý thuyết">
+                                <i class="fa-solid fa-check text-lg"></i>
+                            </button>
                         </div>
-                        <button onclick="window.markTheoryDone('${l.id}')" class="w-10 h-10 rounded-xl border-2 ${prog.theoryDone ? 'border-green-500 bg-green-500 text-white shadow-md' : 'border-gray-300 bg-gray-50 text-gray-300 hover:border-green-400 hover:text-green-500'} flex items-center justify-center transition-all duration-300" title="Đánh dấu hoàn thành lý thuyết">
-                            <i class="fa-solid fa-check text-lg"></i>
-                        </button>
-                    </div>
 
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl ${isExerciseUnlocked ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400'} flex items-center justify-center text-lg transition-colors"><i class="fa-solid fa-pencil"></i></div>
-                            <div>
-                                <span class="font-bold ${isExerciseUnlocked ? 'text-gray-700' : 'text-gray-400'} block">2. Bài Tập Vận Dụng</span>
-                                <span class="text-[11px] text-gray-500">${isExerciseUnlocked ? 'Áp dụng kiến thức để làm bài' : '<i class="fa-solid fa-lock"></i> Khóa - Hãy hoàn thành lý thuyết trước'}</span>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl ${isExerciseUnlocked ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400'} flex items-center justify-center text-lg transition-colors flex-shrink-0"><i class="fa-solid fa-pencil"></i></div>
+                                <div>
+                                    <span class="font-bold ${isExerciseUnlocked ? 'text-gray-700' : 'text-gray-400'} block">2. Bài Tập Vận Dụng</span>
+                                    <span class="text-[11px] text-gray-500">${isExerciseUnlocked ? 'Áp dụng kiến thức để làm bài' : '<i class="fa-solid fa-lock"></i> Khóa - Hãy hoàn thành lý thuyết trước'}</span>
+                                </div>
                             </div>
+                            <button onclick="window.openLessonExercise('${safeObj}')" class="px-5 py-2 rounded-xl border-2 font-bold text-sm transition-all duration-300 ${exClass} whitespace-nowrap ml-2">
+                                ${prog.exDone ? '<i class="fa-solid fa-check-double text-green-600 mr-1"></i> Làm lại' : (isExerciseUnlocked ? 'Làm bài ngay' : 'Đang Khóa')}
+                            </button>
                         </div>
-                        <button onclick="window.openExercise('${l.id}')" class="px-5 py-2 rounded-xl border-2 font-bold text-sm transition-all duration-300 ${exClass}">
-                            ${prog.exDone ? '<i class="fa-solid fa-check-double text-green-600 mr-1"></i> Đã hoàn thành' : (isExerciseUnlocked ? 'Làm bài ngay' : 'Đang Khóa')}
-                        </button>
-                    </div>
-                </div>`;
-            });
+                    </div>`;
+                });
+            }
             html += '</div>';
-            document.getElementById('subject-content-area').innerHTML = html;
+            const container = document.getElementById('subject-content-area');
+            if (container) container.innerHTML = html;
         }
 
         window.markTheoryDone = async function(lessonId) {
@@ -1105,51 +1184,81 @@
                 currentStats.learningProgress = learningProgress;
                 try {
                     await updateDoc(getStatsRef(), { learningProgress: learningProgress });
-                    // Tăng chuỗi nếu đánh dấu xong lý thuyết (Hành động học tập)
-                    if(learningProgress[lessonId].theoryDone) {
-                        window.increaseStreak(); 
-                    }
+                    if(learningProgress[lessonId].theoryDone) { window.increaseStreak(); }
                 } catch(e) {}
             }
             window.renderLearningPath();
         }
 
-        window.openExercise = function(lessonId) {
+        window.openLessonExercise = function(encodedObj) {
             if(!isLoggedIn) { window.openLoginModal(); return; }
-            let prog = learningProgress[lessonId] || { theoryDone: false, exDone: false };
+            const lesson = JSON.parse(decodeURIComponent(encodedObj));
+            let prog = learningProgress[lesson.id] || { theoryDone: false, exDone: false };
             if(!prog.theoryDone) {
-                window.showMessage("Nội dung bị khóa", "Bạn phải tích xác nhận hoàn thành phần Lý Thuyết (Số 1) thì mới được làm bài tập nhé!");
+                window.showMessage("Nội dung bị khóa", "Bạn phải tích hoàn thành phần Lý Thuyết (Số 1) thì mới được làm bài tập nhé!");
                 return;
             }
-            
-            window.showMessage("Bài Tập", "Hệ thống đang tải bộ câu hỏi bài tập...", false, async () => {
-                // Giả lập làm xong bài tập
-                learningProgress[lessonId].exDone = true;
-                if(currentStats) {
-                    try { await updateDoc(getStatsRef(), { learningProgress: learningProgress }); } catch(e) {}
-                }
-                window.renderLearningPath();
-                window.increaseStreak(); // Có tương tác học tập là tăng chuỗi
-            });
+            // Mở exam room chế độ Dynamic Lesson
+            window.enterExamRoom(encodedObj, 'lesson');
         }
 
         /* Tính năng Phòng Lab */
         window.openLabView = function() {
             window.hideAllViews();
             if(views.lab) views.lab.classList.remove('hidden-layout');
+            window.renderLabs();
+        }
+
+        window.renderLabs = function() {
+            const container = document.getElementById('lab-grid-container');
+            if(!container) return;
+            
+            // Giữ lại Lab mặc định (Pha loãng)
+            let html = `
+                <div onclick="window.startLab('pha-loang')" class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm hover:shadow-lg hover:border-emerald-300 transition cursor-pointer group flex flex-col items-center">
+                    <div class="h-24 w-full flex justify-center items-center mb-4 bg-emerald-50 rounded-xl group-hover:bg-emerald-100 transition">
+                        <i class="fa-solid fa-flask-vial text-5xl text-emerald-500"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg">Pha loãng dung dịch</h3>
+                    <p class="text-xs text-gray-400 mt-2 text-center">Hoạt động tương tác (Built-in) <i class="fa-solid fa-bolt text-yellow-500 ml-1"></i></p>
+                </div>
+            `;
+
+            // Load Labs từ Cloud
+            labsList.forEach(lab => {
+                const safeUrl = encodeURIComponent(lab.url);
+                html += `
+                    <div onclick="window.startLab('iframe', '${safeUrl}', '${lab.title}')" class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm hover:shadow-lg hover:border-emerald-300 transition cursor-pointer group flex flex-col items-center">
+                        <div class="h-24 w-full flex justify-center items-center mb-4 bg-blue-50 rounded-xl group-hover:bg-blue-100 transition">
+                            <i class="fa-solid fa-atom text-5xl text-blue-500"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg text-center leading-tight h-10 line-clamp-2">${lab.title}</h3>
+                        <p class="text-[11px] text-gray-500 mt-2 text-center line-clamp-2">${lab.desc}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
         }
 
         let labLiquidHeight = 20;
         let labLiquidOpacity = 1;
         
-        window.startLab = function(type) {
+        window.startLab = function(type, urlEncoded = '', title = '') {
             const modal = document.getElementById('lab-interactive-modal');
             modal.classList.remove('hidden'); modal.classList.add('flex');
+            document.getElementById('lab-modal-title').innerText = title || 'Phòng Lab';
             
             if(type === 'pha-loang') {
                 document.getElementById('lab-pha-loang').classList.remove('hidden');
                 document.getElementById('lab-pha-loang').classList.add('flex');
+                document.getElementById('lab-iframe-container').classList.add('hidden');
+                document.getElementById('lab-modal-title').innerText = 'Pha loãng dung dịch';
                 window.resetLab();
+            } else if (type === 'iframe') {
+                document.getElementById('lab-pha-loang').classList.add('hidden');
+                document.getElementById('lab-pha-loang').classList.remove('flex');
+                document.getElementById('lab-iframe-container').classList.remove('hidden');
+                document.getElementById('lab-external-iframe').src = decodeURIComponent(urlEncoded);
             }
         }
 
@@ -1158,6 +1267,8 @@
              modal.classList.add('hidden'); modal.classList.remove('flex');
              document.getElementById('lab-pha-loang').classList.add('hidden');
              document.getElementById('lab-pha-loang').classList.remove('flex');
+             document.getElementById('lab-iframe-container').classList.add('hidden');
+             document.getElementById('lab-external-iframe').src = '';
         }
 
         window.addWater = function() {
@@ -1198,10 +1309,8 @@
             try { await updateDoc(doc(db, 'artifacts', appId, 'users', currentUserUid, 'profile', 'info'), { targetScore: parseFloat(val) }); } catch(e) { }
         }
 
-        // Đã sửa lại hàm đếm ngày để loại bỏ sai số do giờ/múi giờ
         window.calculateAndSaveCountdown = async function(dateStr, saveToDb = true) {
             if(!dateStr) return;
-            // Parse cẩn thận để không bị lệch múi giờ
             const targetParts = dateStr.split('-'); 
             if(targetParts.length !== 3) return;
             
@@ -1263,7 +1372,6 @@
         // Logic tăng chuỗi học tập
         window.increaseStreak = async function() {
             if(!isLoggedIn || !currentUserUid || !currentStats) return;
-            // Sử dụng toLocaleDateString để lấy ngày dạng DD/MM/YYYY
             const todayStr = new Date().toLocaleDateString('vi-VN'); 
             
             if (currentStats.lastStudyDate !== todayStr) {
@@ -1326,6 +1434,8 @@
                         if (isAdmin()) { 
                             loadAdminEventsList(); 
                             loadAdminExamsList(); 
+                            loadAdminLessonsList();
+                            loadAdminLabsList();
                             if(subExamCount === 0) window.addEventSubExamBlock(); // Tạo sẵn 1 block cho event admin
                         }
                         
@@ -1341,7 +1451,7 @@
                     try { if (token && !isUsingPersonalFirebase) await signInWithCustomToken(auth, token); else await signInAnonymously(auth); } catch (err) {}
                 }
 
-                listenToPublicExams();
+                listenToPublicCollections();
 
                 const fileInput = document.getElementById('admin-exam-file');
                 if(fileInput) {
@@ -1407,6 +1517,7 @@
                         updateStatsUI(currentStats);
                         updateEventsUI(currentStats);
                         if(!document.getElementById('mock-exams-view').classList.contains('hidden-layout')) { window.renderFilteredExams(); }
+                        if(!document.getElementById('subject-view').classList.contains('hidden-layout')) { window.renderLearningPath(); }
                     }
                 }, (e) => {});
             } catch (error) { }
@@ -1475,6 +1586,139 @@
                 scoreChartInstance.data.datasets[0].pointBorderColor = borderColors;
                 scoreChartInstance.update();
             }
+        }
+
+        // ================= ADMIN DYNAMIC PARSER & CRUD (LESSON & LAB) =================
+
+        // Helper nhận diện dòng key thuộc loại câu hỏi gì
+        function getDynamicQuestionType(keyString) {
+            const k = keyString.trim().toUpperCase().replace(/D/g, 'Đ');
+            if (k.length === 1 && ['A','B','C','Đ'].includes(k)) return 'MCQ';
+            if (k.length === 4 && /^[ĐS]+$/.test(k)) return 'TF';
+            return 'SHORT';
+        }
+
+        window.adminCreateLesson = async function() {
+            if(!isAdmin()) return;
+            const btn = document.getElementById('btn-submit-lesson-admin');
+            const title = document.getElementById('admin-lesson-title').value.trim();
+            const category = document.getElementById('admin-lesson-category').value;
+            const theoryUrl = fixAnyLink(document.getElementById('admin-lesson-theory-url').value.trim());
+            const examUrl = fixAnyLink(document.getElementById('admin-lesson-exam-url').value.trim());
+            const keysText = document.getElementById('admin-lesson-keys').value.trim();
+
+            if(!title || !theoryUrl) { window.showMessage("Lỗi", "Vui lòng nhập Tên Bài Học và Link Lý thuyết."); return; }
+
+            // Parse keys
+            let parsedKeys = [];
+            if (keysText) {
+                const lines = keysText.split('\n').map(l => l.trim()).filter(l => l !== '');
+                lines.forEach((line) => {
+                    parsedKeys.push({
+                        raw: line,
+                        type: getDynamicQuestionType(line)
+                    });
+                });
+            }
+
+            try {
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang tải lên...`; btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'lessons');
+                await addDoc(colRef, { 
+                    title: title, category: category, theoryUrl: theoryUrl, examUrl: examUrl, keys: parsedKeys, 
+                    createdAt: new Date().toISOString() 
+                });
+                
+                window.showMessage("Thành công", `Đã thêm bài học "${title}".`);
+                document.getElementById('admin-lesson-title').value = ''; document.getElementById('admin-lesson-theory-url').value = '';
+                document.getElementById('admin-lesson-exam-url').value = ''; document.getElementById('admin-lesson-keys').value = '';
+            } catch(e) { window.showMessage("Lỗi", "Không thể lưu bài học."); }
+            finally {
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Lưu Bài Học`; btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
+        }
+
+        function loadAdminLessonsList() {
+            if(!isAdmin() || !db) return;
+            const container = document.getElementById('admin-lessons-list');
+            if(!container) return;
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'lessons');
+            onSnapshot(colRef, (snapshot) => {
+                let html = '';
+                snapshot.forEach(docSnap => {
+                    const d = docSnap.data();
+                    html += `
+                        <div class="bg-gray-50 border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
+                            <div class="flex-1 overflow-hidden">
+                                <div class="font-bold text-gray-800 text-sm truncate flex items-center gap-2">${d.title}</div>
+                                <div class="text-[10px] text-gray-500 mt-0.5">${d.category === 'basic' ? 'Học lại từ 0' : 'Nâng cao'} · ${d.keys ? d.keys.length : 0} Câu hỏi bài tập</div>
+                            </div>
+                            <button onclick="window.adminDeleteLesson('${docSnap.id}')" class="w-8 h-8 flex-shrink-0 bg-red-100 text-red-600 rounded-lg flex items-center justify-center hover:bg-red-200 transition ml-2"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html === '' ? '<div class="text-center py-5 text-gray-500">Chưa có bài học nào.</div>' : html;
+            });
+        }
+
+        window.adminDeleteLesson = function(id) {
+            if(!isAdmin()) return;
+            window.showMessage("Xóa bài học", "Bạn chắc chắn xóa bài học này?", true, async () => {
+                try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'lessons', id)); window.showMessage("Thành công", "Đã xóa."); } catch(e){}
+            });
+        }
+
+        window.adminCreateLab = async function() {
+            if(!isAdmin()) return;
+            const btn = document.getElementById('btn-submit-lab-admin');
+            const title = document.getElementById('admin-lab-title').value.trim();
+            const url = document.getElementById('admin-lab-url').value.trim();
+            const desc = document.getElementById('admin-lab-desc').value.trim();
+
+            if(!title || !url) { window.showMessage("Lỗi", "Vui lòng nhập Tên Lab và Link Iframe."); return; }
+
+            try {
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu...`; btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'labs');
+                await addDoc(colRef, { title: title, url: url, desc: desc, createdAt: new Date().toISOString() });
+                
+                window.showMessage("Thành công", "Đã thêm thí nghiệm.");
+                document.getElementById('admin-lab-title').value = ''; document.getElementById('admin-lab-url').value = ''; document.getElementById('admin-lab-desc').value = '';
+            } catch(e) { window.showMessage("Lỗi", "Không thể lưu Lab."); }
+            finally {
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Lưu Thí Nghiệm`; btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
+        }
+
+        function loadAdminLabsList() {
+            if(!isAdmin() || !db) return;
+            const container = document.getElementById('admin-labs-list');
+            if(!container) return;
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'labs');
+            onSnapshot(colRef, (snapshot) => {
+                let html = '';
+                snapshot.forEach(docSnap => {
+                    const d = docSnap.data();
+                    html += `
+                        <div class="bg-gray-50 border border-gray-100 p-3 rounded-2xl flex justify-between items-center mb-2">
+                            <div class="flex-1 overflow-hidden">
+                                <div class="font-bold text-gray-800 text-sm truncate flex items-center gap-2">${d.title}</div>
+                            </div>
+                            <button onclick="window.adminDeleteLab('${docSnap.id}')" class="w-8 h-8 flex-shrink-0 bg-red-100 text-red-600 rounded-lg flex items-center justify-center hover:bg-red-200 transition ml-2"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html === '' ? '<div class="text-center py-5 text-gray-500">Chưa có Thí nghiệm nào ngoài mặc định.</div>' : html;
+            });
+        }
+
+        window.adminDeleteLab = function(id) {
+            if(!isAdmin()) return;
+            window.showMessage("Xóa Lab", "Bạn chắc chắn xóa?", true, async () => {
+                try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'labs', id)); window.showMessage("Thành công", "Đã xóa."); } catch(e){}
+            });
         }
 
         // ================= ADMIN: TẠO SỰ KIỆN VÀ CÁC PHẦN THI (Lên tới 10 phần) =================
@@ -1900,26 +2144,34 @@
             }
         }
 
-        // ================= HIỂN THỊ VÀ LỌC ĐỀ THI =================
+        // ================= HIỂN THỊ VÀ LỌC ĐỀ THI VÀ PUBLIC DATA =================
         window.openMockExams = function() {
             window.hideAllViews();
             if(views.mockExams) views.mockExams.classList.remove('hidden-layout');
             window.renderFilteredExams();
         }
 
-        function listenToPublicExams() {
+        function listenToPublicCollections() {
             if (!db) return;
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'exams');
-            onSnapshot(colRef, (querySnapshot) => {
+            // Listen to Exams
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'exams'), (snapshot) => {
                 publicExamsList = [];
-                querySnapshot.forEach((docSnap) => {
-                    let data = docSnap.data(); 
-                    data.id = docSnap.id; 
-                    publicExamsList.push(data);
-                });
-                if(!document.getElementById('mock-exams-view').classList.contains('hidden-layout')) {
-                    window.renderFilteredExams();
-                }
+                snapshot.forEach((docSnap) => { let data = docSnap.data(); data.id = docSnap.id; publicExamsList.push(data); });
+                if(!document.getElementById('mock-exams-view').classList.contains('hidden-layout')) { window.renderFilteredExams(); }
+            });
+
+            // Listen to Lessons
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'lessons'), (snapshot) => {
+                lessonsList = [];
+                snapshot.forEach((docSnap) => { let data = docSnap.data(); data.id = docSnap.id; lessonsList.push(data); });
+                if(!document.getElementById('subject-view').classList.contains('hidden-layout')) { window.renderLearningPath(); }
+            });
+
+            // Listen to Labs
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'labs'), (snapshot) => {
+                labsList = [];
+                snapshot.forEach((docSnap) => { let data = docSnap.data(); data.id = docSnap.id; labsList.push(data); });
+                if(!document.getElementById('lab-view').classList.contains('hidden-layout')) { window.renderLabs(); }
             });
         }
 
@@ -2036,13 +2288,14 @@
             });
         }
         
-        // ================= LOGIC PHÒNG THI CHUNG (THI THỬ & SỰ KIỆN) =================
+        // ================= LOGIC PHÒNG THI CHUNG (THI THỬ, SỰ KIỆN, BÀI HỌC ĐỘNG) =================
         let currentExamConfig = null;
-        let examMode = 'mock'; // 'mock' or 'event'
+        let examMode = 'mock'; // 'mock', 'event', 'lesson'
         let currentEventParentId = null; 
         
         let userAnswersMock = { p1: Array(18).fill(null), p2: Array(4).fill(null).map(()=>Array(4).fill(null)), p3: Array(6).fill('') };
         let userAnswersEvent = []; 
+        let userAnswersLesson = []; // Array lưu trữ câu trả lời linh động theo index của lesson
 
         let examTimerInterval; 
         let examSeconds = 0;
@@ -2071,8 +2324,17 @@
             
             if(examMode === 'mock') {
                 userAnswersMock = { p1: Array(18).fill(null), p2: Array(4).fill(null).map(()=>Array(4).fill(null)), p3: Array(6).fill('') };
-            } else {
+            } else if(examMode === 'event') {
                 userAnswersEvent = Array(currentExamConfig.keys.length).fill(null);
+            } else if(examMode === 'lesson') {
+                // Khởi tạo userAnswersLesson dựa trên type của keys
+                userAnswersLesson = [];
+                if(currentExamConfig.keys) {
+                    currentExamConfig.keys.forEach(k => {
+                        if(k.type === 'MCQ' || k.type === 'SHORT') userAnswersLesson.push(null);
+                        else if(k.type === 'TF') userAnswersLesson.push([null, null, null, null]);
+                    });
+                }
             }
             
             window.hideAllViews();
@@ -2084,15 +2346,15 @@
             
             const pdfIframe = document.getElementById('exam-pdf-iframe');
             if(pdfIframe) {
-                // Thêm tham số ẩn thanh công cụ của Google Drive (để ẩn nút Bình Luận)
-                let finalUrl = currentExamConfig.pdfUrl;
-                if(finalUrl.includes('drive.google.com')) {
+                // Nếu là bài học, sử dụng examUrl, nếu mock/event sử dụng pdfUrl
+                let finalUrl = currentExamConfig.examUrl || currentExamConfig.pdfUrl;
+                if(finalUrl && finalUrl.includes('drive.google.com')) {
                     finalUrl = finalUrl.replace(/\/view\?usp=share_link/, '/preview');
                     finalUrl = finalUrl.includes('?') ? finalUrl + '&rm=minimal' : finalUrl + '?rm=minimal';
-                } else {
+                } else if(finalUrl) {
                     finalUrl = finalUrl.split('#')[0] + '#toolbar=0';
                 }
-                pdfIframe.src = finalUrl; 
+                pdfIframe.src = finalUrl || ''; 
             }
             
             renderAnswerSheet(examMode);
@@ -2116,8 +2378,10 @@
                 
                 if(examMode === 'mock') {
                     window.openMockExams();
-                } else {
+                } else if(examMode === 'event') {
                     window.openEventRoom(currentEventParentId);
+                } else if(examMode === 'lesson') {
+                    window.openSubjectPage(currentSubjectCategory);
                 }
             });
         }
@@ -2227,14 +2491,84 @@
                 }
                 html += `</div>`;
                 container.innerHTML = html;
+            } 
+            else if (mode === 'lesson') {
+                const keys = currentExamConfig.keys || [];
+                let html = `
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                        <h3 class="font-bold text-gray-800 text-lg">Bài Tập Vận Dụng</h3>
+                        <span class="text-[10px] text-gray-400 font-medium bg-gray-100 px-2 py-1 rounded">Chấm điểm hệ 10</span>
+                    </div>
+                    <div class="flex flex-col gap-y-4">
+                `;
+                
+                keys.forEach((keyObj, i) => {
+                    if (keyObj.type === 'MCQ') {
+                        html += `
+                        <div class="flex items-center justify-between border-b border-gray-100 pb-2 hover:bg-gray-50 p-1 rounded transition">
+                            <span class="w-16 font-bold text-gray-700 text-sm">Câu ${i+1}</span>
+                            <div class="flex gap-3">
+                                ${['A','B','C','D'].map(opt => `
+                                    <label class="cursor-pointer relative">
+                                        <input type="radio" name="ls_q${i}" value="${opt}" class="bubble-radio absolute opacity-0 w-0 h-0" onchange="window.selectLessonQ(${i}, '${opt}', 'MCQ')">
+                                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-blue-400 transition-colors">${opt}</div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>`;
+                    } 
+                    else if (keyObj.type === 'TF') {
+                        html += `
+                        <div class="border border-gray-200 rounded-xl p-4 bg-gray-50/50 shadow-sm mt-2">
+                            <div class="font-bold text-gray-800 mb-3 border-b border-gray-200 pb-2">Câu ${i+1} (Đúng / Sai)</div>
+                            <div class="space-y-3">
+                                ${['a','b','c','d'].map((sub, idx) => `
+                                    <div class="flex items-center justify-between pl-2">
+                                        <span class="w-6 font-bold text-gray-600 text-sm">${sub}.</span>
+                                        <div class="flex gap-4">
+                                            <label class="cursor-pointer flex items-center gap-1">
+                                                <input type="radio" name="ls_q${i}s${idx}" value="Đ" class="bubble-radio-tf absolute opacity-0 w-0 h-0" onchange="window.selectLessonQ(${i}, 'Đ', 'TF', ${idx})">
+                                                <div class="bg-tf-d w-8 h-8 rounded border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-green-500 transition-colors shadow-inner">Đ</div>
+                                            </label>
+                                            <label class="cursor-pointer flex items-center gap-1">
+                                                <input type="radio" name="ls_q${i}s${idx}" value="S" class="bubble-radio-tf absolute opacity-0 w-0 h-0" onchange="window.selectLessonQ(${i}, 'S', 'TF', ${idx})">
+                                                <div class="bg-tf-s w-8 h-8 rounded border-2 border-gray-300 flex items-center justify-center font-bold text-sm text-gray-500 hover:border-red-500 transition-colors shadow-inner">S</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>`;
+                    }
+                    else if (keyObj.type === 'SHORT') {
+                         html += `
+                        <div class="flex items-center gap-4 border-b border-gray-100 pb-2 mt-2">
+                            <span class="w-16 font-bold text-gray-700 text-sm">Câu ${i+1}</span>
+                            <input type="text" class="flex-1 border-2 border-gray-300 rounded-lg px-4 py-2 font-bold text-gray-800 outline-none focus:border-blue-500 transition" placeholder="Trả lời ngắn..." oninput="window.selectLessonQ(${i}, this.value, 'SHORT')">
+                        </div>`;
+                    }
+                });
+                
+                if(keys.length === 0) {
+                     html += `<div class="text-gray-400 text-center py-4">Bài học này chưa có câu hỏi luyện tập.</div>`;
+                }
+                
+                html += `</div>`;
+                container.innerHTML = html;
             }
         }
 
         window.selectP1 = function(qIdx, val) { userAnswersMock.p1[qIdx] = val; }
         window.selectP2 = function(qIdx, stmtIdx, val) { userAnswersMock.p2[qIdx][stmtIdx] = val; }
         window.inputP3 = function(qIdx, val) { userAnswersMock.p3[qIdx] = val.trim(); }
-        
         window.selectEventQ = function(qIdx, val) { userAnswersEvent[qIdx] = val; }
+        window.selectLessonQ = function(qIdx, val, type, subIdx = null) {
+            if(type === 'MCQ' || type === 'SHORT') {
+                userAnswersLesson[qIdx] = val;
+            } else if (type === 'TF' && subIdx !== null) {
+                userAnswersLesson[qIdx][subIdx] = val;
+            }
+        }
 
         window.submitExam = function() {
             window.showMessage("Nộp bài", "Hệ thống sẽ chấm điểm tự động. Bạn chắc chắn nộp?", true, async () => {
@@ -2281,16 +2615,11 @@
                         if(userAnswersEvent[i] === keys[i]) correctCount++;
                     }
                     
-                    if (total > 0) {
-                        score = ((correctCount / total) * 10).toFixed(2);
-                    } else {
-                        score = "0.00";
-                    }
+                    if (total > 0) { score = ((correctCount / total) * 10).toFixed(2); } else { score = "0.00"; }
 
                     if(currentUserUid && currentStats) {
                         let completed = currentStats.completedExams || {};
                         completed[currentExamConfig.id] = score; 
-                        
                         let events = currentStats.participatedEvents || [];
                         let eventIdx = events.findIndex(e => e.id === currentEventParentId);
                         
@@ -2300,36 +2629,70 @@
                                 const evtData = evtDocSnap.data();
                                 const subExams = evtData.subExams || [];
                                 let totalProgressScore = 0;
-                                
-                                subExams.forEach(se => {
-                                    if (completed[se.id]) {
-                                        totalProgressScore += parseFloat(completed[se.id]);
-                                    }
-                                });
-                                
+                                subExams.forEach(se => { if (completed[se.id]) { totalProgressScore += parseFloat(completed[se.id]); } });
                                 events[eventIdx].progress = totalProgressScore;
                             }
                         }
-
                         try { await updateDoc(getStatsRef(), { completedExams: completed, participatedEvents: events }); } catch (e) {}
+                    }
+                }
+                else if (examMode === 'lesson') {
+                    const keys = currentExamConfig.keys || [];
+                    let pointsEarned = 0;
+                    let maxPoints = keys.length; // Mỗi câu 1 điểm
+                    
+                    keys.forEach((k, i) => {
+                        if(k.type === 'MCQ') {
+                            if(userAnswersLesson[i] === k.raw.toUpperCase()) pointsEarned += 1;
+                        } else if (k.type === 'SHORT') {
+                            let uAns = (userAnswersLesson[i] || '').toString().toLowerCase().trim();
+                            let kAns = k.raw.toString().toLowerCase().trim();
+                            if(uAns !== '' && uAns === kAns) pointsEarned += 1;
+                        } else if (k.type === 'TF') {
+                            let correctSub = 0;
+                            const realAns = k.raw.toUpperCase().replace(/D/g, 'Đ');
+                            for(let j=0; j<4; j++) {
+                                if(userAnswersLesson[i][j] === realAns.charAt(j)) correctSub++;
+                            }
+                            if(correctSub === 4) pointsEarned += 1;
+                            else if(correctSub === 3) pointsEarned += 0.5;
+                            else if(correctSub === 2) pointsEarned += 0.25;
+                            else if(correctSub === 1) pointsEarned += 0.1;
+                        }
+                    });
+
+                    if(maxPoints > 0) { score = ((pointsEarned / maxPoints) * 10).toFixed(2); } else { score = "10.00"; }
+                    
+                    if(currentUserUid && currentStats) {
+                        let prog = learningProgress[currentExamConfig.id] || { theoryDone: true, exDone: false };
+                        prog.exDone = true;
+                        learningProgress[currentExamConfig.id] = prog;
+                        try { await updateDoc(getStatsRef(), { learningProgress: learningProgress }); } catch(e){}
+                        window.increaseStreak(); 
                     }
                 }
 
                 const box = document.getElementById('custom-msg-box'), content = document.getElementById('custom-msg-content');
                 document.getElementById('custom-msg-title').innerText = `Kết quả: ${score} Điểm`; 
-                document.getElementById('custom-msg-text').innerText = "Chúc mừng bạn đã hoàn thành bài thi. Bạn có muốn xem đáp án chi tiết không?";
+                document.getElementById('custom-msg-text').innerText = "Chúc mừng bạn đã hoàn thành bài thi.";
                 
                 const btnContainer = document.getElementById('custom-msg-buttons');
                 let btnsHtml = '';
                 
                 if (examMode === 'mock') {
                     btnsHtml += `<button onclick="window.closeMsgBox(); window.openMockExams();" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-xl transition flex-1">Về DS Đề Thi</button>`;
-                } else {
+                } else if (examMode === 'event') {
                     btnsHtml += `<button onclick="window.closeMsgBox(); window.openEventRoom('${currentEventParentId}');" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-xl transition flex-1">Về Sự Kiện</button>`;
+                } else if (examMode === 'lesson') {
+                    btnsHtml += `<button onclick="window.closeMsgBox(); window.openSubjectPage('${currentSubjectCategory}');" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-xl transition flex-1">Về Lộ Trình Học</button>`;
                 }
 
                 if (currentExamConfig.solutionUrl) {
-                    const closeAction = examMode === 'mock' ? `window.openMockExams()` : `window.openEventRoom('${currentEventParentId}')`;
+                    let closeAction = '';
+                    if(examMode === 'mock') closeAction = `window.openMockExams()`;
+                    else if(examMode === 'event') closeAction = `window.openEventRoom('${currentEventParentId}')`;
+                    else if(examMode === 'lesson') closeAction = `window.openSubjectPage('${currentSubjectCategory}')`;
+
                     btnsHtml += `<a href="${currentExamConfig.solutionUrl}" target="_blank" onclick="window.closeMsgBox(); ${closeAction};" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl transition flex-1 text-center decoration-none">Xem Đáp Án</a>`;
                 }
                 btnContainer.innerHTML = btnsHtml;
